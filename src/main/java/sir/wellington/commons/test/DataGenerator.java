@@ -41,7 +41,7 @@ import org.apache.commons.math3.random.RandomDataGenerator;
  * </pre>
  *
  * @author SirWellington
- * 
+ *
  * @param <T> The type of the Object to generate.
  */
 @FunctionalInterface
@@ -458,8 +458,8 @@ public interface DataGenerator<T> extends Supplier<T>
      * }
      * </pre>
      *
-     * @param <E> The type of the Enum
-     * @param enumClass   The {@link class} of the Enum.
+     * @param <E>       The type of the Enum
+     * @param enumClass The {@code class} of the Enum.
      *
      * @return A generator that produces values of the supplied enum type.
      */
