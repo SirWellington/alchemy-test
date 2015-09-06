@@ -20,7 +20,7 @@ This project builds with maven. Just run a `mvn clean install` to compile and in
 
 # Download
 
-To use, simply add the following maven depedencncy from artifactory.
+To use, simply add the following maven dependency.
 
 ## Release
 ```xml
@@ -28,6 +28,26 @@ To use, simply add the following maven depedencncy from artifactory.
 	<groupId>sir.wellington.commons</groupId>
 	<artifactId>commons-test</artifactId>
 	<version>1.0.0</version>
+</dependency>
+```
+
+
+## JitPack 
+
+You can also use [JitPack.io](https://jitpack.io/#SirWellington/commons-test/v1.0.0).
+
+```xml
+<repository>
+    <id>jitpack.io</id>
+    <url>https://jitpack.io</url>
+</repository>
+```
+
+```xml
+<dependency>
+    <groupId>com.github.SirWellington</groupId>
+    <artifactId>commons-test</artifactId>
+    <version>v1.0.0</version>
 </dependency>
 ```
 
