@@ -1,7 +1,7 @@
 Commons Library for Unit Testing
 ==============================================
 
-![Build Status](https://travis-ci.org/SirWellington/commons-test.svg)
+[![Build Status](https://travis-ci.org/SirWellington/commons-test.svg)](https://travis-ci.org/SirWellington/commons-test)
 
 # Purpose
 The purpose of this library is to make it easier to test your code by providing unit-test helpers, fake data generators, and mock helpers.
