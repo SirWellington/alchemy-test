@@ -4,7 +4,14 @@
     
     <groupId>sir.wellington.commons</groupId>
     <artifactId>commons-test</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
+    
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>
+        The purpose of this library is to make it easier to test your code 
+        by providing unit-test helpers, fake data generators, and mock helpers.
+    </description>
+    <url>https://github.com/SirWellington/commons-test</url>
     
     <packaging>jar</packaging>
     
@@ -13,9 +20,18 @@
             <name>Juan Wellington Moreno</name>
             <email>jwellington.moreno@gmail.com</email>
             <id>SirWellington</id>
+            <organizationUrl>https://github.com/SirWellington</organizationUrl>
         </developer>
     </developers>
     
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+        
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
