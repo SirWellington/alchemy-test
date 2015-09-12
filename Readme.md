@@ -157,7 +157,11 @@ assertThat(result, is("arg1"));
 
 # Release Notes
 
+## 1.0.1
++ Adding convenience method for alphabeticStrings
+
+
 ## 1.0.0
-* New Throwable Assertions
-* Suite of Mockito Answers
-* Simple Data Generation API
++ New Throwable Assertions
++ Suite of Mockito Answers
++ Simple Data Generation API
