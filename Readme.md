@@ -55,71 +55,10 @@ You can also use [JitPack.io](https://jitpack.io/#SirWellington/commons-test/v1.
 
 ## Snapshot
 
-
-# Examples
-
-## Number Generation
-
->Examples assume static imports`
-
-```java
-//Using static imports
-int someNumber = integers(-50, 50).get();
-
-long somePositiveNumber = positiveLongs().get();
-
-somePositiveNumber = oneOf(positiveLongs());
-
-DataGenerator<Double> doubleGenerator = doubles(0.1, 1999.0);
-for(int i = 0; i < 100; ++i)
-{
-	LOG.info("Received double {}", doubleGenerator.get());
-}
-
-List<Integer> thirtyNumbers = listOf(positiveIntegers(), 30);
-
-```
-## Strings
-```java
-String anyCharacterString = strings(30).get();
-assertThat(anyCharacterString.lenght(), is(30));
-
-String hex = hexadecimalString(32).get();
-String alphabetical = alphabeticString(5).get();
-
-List<String> uuids = Lists.newArrayList();
-for(int i = 0; i < 40; ++i)
-{
-	uuids.add(DataGenerator.uuids.get());
-}
-
-//Shorter way
-uuids = listOf(uuids, 20);
-List<String> strings = listOf(alphabeticString(20), 100);
-
-String stringFromList = stringsFromFixedList("one", "something else", "Java").get();
-```
-
-## Enums
-
-Let's say you have an enum called Fruits defined as:
-```java
-enum Fruit
-{
-	APPLE,
-	ORANGE,
-	BANANA,
-	GUAVA
-}
-```
-and you want to get one of the values at random. All you have to do is
-
-```java
-Fruit fruit = enumValueOf(Fruit.class).get();
-```
-
+==============================================
 
 # JUnit Helpers
+
 ## Throwable Assertions
 Throwable assertions make it easy to assert that certain parts of code throw an exception and of a particualr type.
 
@@ -146,11 +85,89 @@ assertThrows(() -> instance.call("badArg"))
 
 This is possible thanks to the new Java 8 lambdas. It makes it much easier to make excpetion assertions on your code.
 
+
+# Data Generation
+
+Using randomly generated data sets helps improve test quality by assuring that your code can work over a wide range of data, 
+and not just what you hard-code in. This library makes it painless to generate primitive types, 
+and you can even supply your own Data Generators for use in conjunction with this library.
+
+
+>Examples assume static imports`
+
+## Numbers
+
+```java
+//A number in the range [-50, 50]
+int someNumber = integers(-50, 50).get();
+
+//Get any positive long
+long somePositiveNumber = positiveLongs().get();
+
+//alternative way to get a single value
+somePositiveNumber = oneOf(positiveLongs());
+
+//A double in the range [0.1, 1999.0]
+DataGenerator<Double> doubleGenerator = doubles(0.1, 1999.0);
+for(int i = 0; i < 100; ++i)
+{
+	LOG.info("Received double {}", doubleGenerator.get());
+}
+
+//A list of 30 randomly selected positive integers
+List<Integer> thirtyNumbers = listOf(positiveIntegers(), 30);
+
+```
+## Strings
+```java
+//May have unicode characters as well
+String anyCharacterString = strings(30).get();
+assertThat(anyCharacterString.lenght(), is(30));
+
+String hex = hexadecimalString(32).get();
+String alphabetical = alphabeticString(5).get();
+
+List<String> uuids = Lists.newArrayList();
+for(int i = 0; i < 40; ++i)
+{
+	uuids.add(DataGenerator.uuids.get());
+}
+
+//Shorter way
+uuids = listOf(uuids, 20);
+List<String> strings = listOf(alphabeticString(20), 100);
+
+//The generated strings can only be one of the supplied ones.
+String stringFromList = stringsFromFixedList("one", "something else", "Java").get();
+```
+
+## Enums
+
+Let's say you have an enum called Fruits defined as:
+```java
+enum Fruit
+{
+	APPLE,
+	ORANGE,
+	BANANA,
+	GUAVA
+}
+```
+and you want to get one of the values at random. All you have to do is
+
+```java
+Fruit fruit = enumValueOf(Fruit.class).get();
+```
+
 # Mockito Helpers
 ## Answers
 
 ```java
-when(someMock).call(anyString(), anyString(), anyString()).then(Answers.returnFirst());
+// Return the first argument back when the mock is called
+when(someMock).call(anyString(), anyString(), anyString())
+	.then(returnFirst());
+
+//verify it works
 String result = mock.call("arg1", "arg2", "arg3");
 assertThat(result, is("arg1"));
 ```
