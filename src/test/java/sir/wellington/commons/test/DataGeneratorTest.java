@@ -1,5 +1,6 @@
 package sir.wellington.commons.test;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import static sir.wellington.commons.test.junit.ThrowableAssertion.assertThrows;
 import java.util.List;
@@ -23,6 +24,8 @@ import org.junit.runner.RunWith;
 import static org.mockito.Mockito.*;
 import org.mockito.runners.MockitoJUnitRunner;
 import static sir.wellington.commons.test.DataGenerator.alphabeticString;
+import static sir.wellington.commons.test.DataGenerator.integers;
+import static sir.wellington.commons.test.DataGenerator.oneOf;
 import static sir.wellington.commons.test.DataGenerator.positiveIntegers;
 import static sir.wellington.commons.test.DataGenerator.strings;
 import static sir.wellington.commons.test.DataGenerator.uuids;
@@ -105,7 +108,7 @@ public class DataGeneratorTest
             assertThat(value, greaterThanOrEqualTo(lowerBound));
             assertThat(value, lessThan(upperBound));
         }
-        
+
         lowerBound = -5000;
         upperBound = -1;
         instance = DataGenerator.integers(lowerBound, upperBound);
@@ -219,14 +222,14 @@ public class DataGeneratorTest
         double lowerBound = -1343.0;
         double upperBound = 2044532.3;
         DataGenerator<Double> instance = DataGenerator.doubles(lowerBound, upperBound);
-        
+
         for (int i = 0; i < iterations; ++i)
         {
             double value = instance.get();
             assertThat(value, greaterThanOrEqualTo(lowerBound));
             assertThat(value, lessThanOrEqualTo(upperBound));
         }
-        
+
         lowerBound = -492425;
         upperBound = -5945;
         instance = DataGenerator.doubles(lowerBound, upperBound);
@@ -333,15 +336,28 @@ public class DataGeneratorTest
      * Test of alphabeticString method, of class DataGenerator.
      */
     @Test
-    public void testAlphabeticString()
+    public void testAlphabeticString_int()
     {
         System.out.println("testAlphabeticString");
-        int length = 234;
+        int length = oneOf(integers(40, 100));
+        
         DataGenerator<String> instance = DataGenerator.alphabeticString(length);
         for (int i = 0; i < iterations; ++i)
         {
             String value = instance.get();
             assertTrue(value.length() == length);
+        }
+    }
+
+    @Test
+    public void testAlphabeticString()
+    {
+        System.out.println("testAlphabeticString");
+        DataGenerator<String> instance = alphabeticString();
+        for (int i = 0; i < iterations; ++i)
+        {
+            String value = instance.get();
+            assertThat(Strings.isNullOrEmpty(value), is(false));
         }
     }
 
@@ -548,17 +564,16 @@ public class DataGeneratorTest
         System.out.println("binaryGenerator");
         int bytes = positiveIntegers().get();
         DataGenerator<byte[]> instance = DataGenerator.binaryGenerator(bytes);
-        
+
         assertNotNull(instance);
-        
-        for (int i = 0 ; i < iterations ; ++i)
+
+        for (int i = 0; i < iterations; ++i)
         {
             byte[] value = instance.get();
             assertThat(value, notNullValue());
             assertThat(value.length, is(bytes));
         }
     }
-
 
     @Test
     public void testMapOf()
@@ -567,17 +582,17 @@ public class DataGeneratorTest
         String string = strings(50).get();
         DataGenerator<String> valueGenerator = () -> string;
         int size = positiveIntegers().get();
-        
-        Map<String,String> result = DataGenerator.mapOf(uuids, valueGenerator, size);
+
+        Map<String, String> result = DataGenerator.mapOf(uuids, valueGenerator, size);
         assertThat(result, notNullValue());
         assertThat(result.size(), is(size));
-        
-        for(Map.Entry<String,String> entry : result.entrySet())
+
+        for (Map.Entry<String, String> entry : result.entrySet())
         {
             UUID.fromString(entry.getKey());
             assertThat(entry.getValue(), is(string));
         }
-        
+
     }
 
 }

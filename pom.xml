@@ -7,11 +7,11 @@
     <version>1.0.1-SNAPSHOT</version>
     
     <name>${project.groupId}:${project.artifactId}</name>
+    <url>https://github.com/SirWellington/commons-test</url>
     <description>
         The purpose of this library is to make it easier to test your code 
         by providing unit-test helpers, fake data generators, and mock helpers.
     </description>
-    <url>https://github.com/SirWellington/commons-test</url>
     
     <packaging>jar</packaging>
     

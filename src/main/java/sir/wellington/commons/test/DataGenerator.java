@@ -14,7 +14,8 @@ import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.math3.random.RandomDataGenerator;
 
 /**
- * A Data Generator generates a series of Objects for use in testing scenarios. Common generators exist for:
+ * A Data Generator generates a series of Objects for use in testing scenarios. Common generators
+ * exist for:
  * <pre>
  * + Integers
  * + Longs
@@ -283,11 +284,24 @@ public interface DataGenerator<T> extends Supplier<T>
      * @param length The length of the String, must be at least 1.
      *
      * @return
+     * @see #alphabeticString() 
      */
     static DataGenerator<String> alphabeticString(int length)
     {
         Preconditions.checkArgument(length > 0, "Length must be at least 1");
         return () -> RandomStringUtils.randomAlphabetic(length);
+    }
+
+    /**
+     * Generates a random alphabetic string anywhere between {@code 5 - 20} characters. Well suited
+     * for the case when you don't really care for the size of the string returned.
+     *
+     * @return
+     * @see #alphabeticString(int) 
+     */
+    static DataGenerator<String> alphabeticString()
+    {
+        return alphabeticString(oneOf(integers(5, 20)));
     }
 
     /**
