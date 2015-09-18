@@ -121,7 +121,7 @@ public interface DataGenerator<T> extends Supplier<T>
      */
     static DataGenerator<Integer> positiveIntegers()
     {
-        return integers(1, 1000);
+        return integers(1, Integer.MAX_VALUE);
     }
 
     /**
@@ -187,7 +187,7 @@ public interface DataGenerator<T> extends Supplier<T>
      */
     static DataGenerator<Long> positiveLongs()
     {
-        return longs(1L, 1_000_000_000_000L);
+        return longs(1L, Long.MAX_VALUE);
     }
 
     /**
@@ -284,7 +284,7 @@ public interface DataGenerator<T> extends Supplier<T>
      * @param length The length of the String, must be at least 1.
      *
      * @return
-     * @see #alphabeticString() 
+     * @see #alphabeticString()
      */
     static DataGenerator<String> alphabeticString(int length)
     {
@@ -297,7 +297,7 @@ public interface DataGenerator<T> extends Supplier<T>
      * for the case when you don't really care for the size of the string returned.
      *
      * @return
-     * @see #alphabeticString(int) 
+     * @see #alphabeticString(int)
      */
     static DataGenerator<String> alphabeticString()
     {
@@ -405,7 +405,7 @@ public interface DataGenerator<T> extends Supplier<T>
      */
     static <T> List<T> listOf(DataGenerator<T> generator)
     {
-        return listOf(generator, positiveIntegers().get());
+        return listOf(generator, integers(5, 200).get());
     }
 
     /**

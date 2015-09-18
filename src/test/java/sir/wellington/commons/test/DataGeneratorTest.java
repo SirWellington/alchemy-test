@@ -26,7 +26,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import static sir.wellington.commons.test.DataGenerator.alphabeticString;
 import static sir.wellington.commons.test.DataGenerator.integers;
 import static sir.wellington.commons.test.DataGenerator.oneOf;
-import static sir.wellington.commons.test.DataGenerator.positiveIntegers;
 import static sir.wellington.commons.test.DataGenerator.strings;
 import static sir.wellington.commons.test.DataGenerator.uuids;
 
@@ -340,7 +339,7 @@ public class DataGeneratorTest
     {
         System.out.println("testAlphabeticString");
         int length = oneOf(integers(40, 100));
-        
+
         DataGenerator<String> instance = DataGenerator.alphabeticString(length);
         for (int i = 0; i < iterations; ++i)
         {
@@ -513,9 +512,11 @@ public class DataGeneratorTest
     public void testListOf_DataGenerator()
     {
         System.out.println("testListOf_DataGenerator");
+        
         Object value = new Object();
         DataGenerator generator = mock(DataGenerator.class);
         when(generator.get()).thenReturn(value);
+        
         List result = DataGenerator.listOf(generator);
         assertThat(result.isEmpty(), is(false));
         result.forEach(i -> assertThat(i, is(value)));
@@ -528,6 +529,7 @@ public class DataGeneratorTest
     public void testListOf_DataGenerator_int()
     {
         System.out.println("testListOf_DataGenerator_int");
+        
         Object value = new Object();
         int size = 50;
         DataGenerator generator = mock(DataGenerator.class);
@@ -562,7 +564,7 @@ public class DataGeneratorTest
     public void testBinaryGenerator()
     {
         System.out.println("binaryGenerator");
-        int bytes = positiveIntegers().get();
+        int bytes = integers(50, 5000).get();
         DataGenerator<byte[]> instance = DataGenerator.binaryGenerator(bytes);
 
         assertNotNull(instance);
@@ -581,7 +583,7 @@ public class DataGeneratorTest
         System.out.println("mapOf");
         String string = strings(50).get();
         DataGenerator<String> valueGenerator = () -> string;
-        int size = positiveIntegers().get();
+        int size = integers(5, 100).get();
 
         Map<String, String> result = DataGenerator.mapOf(uuids, valueGenerator, size);
         assertThat(result, notNullValue());
