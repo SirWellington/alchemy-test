@@ -115,9 +115,11 @@ public interface DataGenerator<T> extends Supplier<T>
     }
 
     /**
-     * Creates a series of positive integer values from 1 to 1000
+     * Creates a series of positive integer values from 1 to Integer.MAX_VALUE
      *
      * @return
+     * @see #smallPositiveIntegers()
+     * @see #positiveLongs()
      */
     static DataGenerator<Integer> positiveIntegers()
     {
@@ -125,16 +127,27 @@ public interface DataGenerator<T> extends Supplier<T>
     }
 
     /**
-     * Creates a series of negative integer values from -1000 to -1
+     * Creates a series of small positive integers from 1 to 1000.
+     *
+     * @return
+     * @see #positiveIntegers()
+     */
+    static DataGenerator<Integer> smallPositiveIntegers()
+    {
+        return integers(1, 1000);
+    }
+
+    /**
+     * Creates a series of negative integer values from Integer.MIN_VALUE to -1
      *
      * @return
      */
     static DataGenerator<Integer> negativeIntegers()
     {
-        DataGenerator<Integer> delegate = positiveIntegers();
         return () ->
         {
-            return delegate.get() * -1;
+            int value = positiveIntegers().get();
+            return value < 0 ? value : -value;
         };
     }
 
@@ -181,13 +194,28 @@ public interface DataGenerator<T> extends Supplier<T>
     }
 
     /**
-     * Produces a series of positive values from {@code 1} to {@code 10^12}
+     * Produces a series of positive values from {@code 1} to {@code Long.MAX_VALUE}
      *
      * @return
+     * @see #smallPositiveLongs()
+     * @see #positiveIntegers()
      */
     static DataGenerator<Long> positiveLongs()
     {
         return longs(1L, Long.MAX_VALUE);
+    }
+
+    /**
+     * Produces a series of positive values from 1 to 10,000
+     *
+     * @return
+     *
+     * @see #positiveLongs()
+     * @see #positiveLongs()
+     */
+    static DataGenerator<Long> smallPositiveLongs()
+    {
+        return longs(1L, 10_000L);
     }
 
     /**
@@ -232,13 +260,28 @@ public interface DataGenerator<T> extends Supplier<T>
     }
 
     /**
-     * Creates a series of positive double values from 0 to 1000.
+     * Creates a series of positive double values from 0 to Double.MAX_VALUE.
      *
      * @return
+     * @see #smallPositiveDoubles()
+     * @see #positiveIntegers()
      */
     static DataGenerator<Double> positiveDoubles()
     {
-        return doubles(0.1, 1000.0);
+        return doubles(0.1, Double.MAX_VALUE);
+    }
+
+    /**
+     * Creates a series of positive doubles from 0.1 to 1000.0
+     *
+     * @return
+     *
+     * @see #positiveDoubles()
+     * @see #positiveIntegers()
+     */
+    static DataGenerator<Double> smallPositiveDoubles()
+    {
+        return doubles(0.1, 1000);
     }
 
     /**
