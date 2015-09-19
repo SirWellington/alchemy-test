@@ -4,7 +4,7 @@
     
     <groupId>sir.wellington.commons</groupId>
     <artifactId>commons-test</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.2</version>
     
     <name>${project.groupId}:${project.artifactId}</name>
     <url>https://github.com/SirWellington/commons-test</url>
