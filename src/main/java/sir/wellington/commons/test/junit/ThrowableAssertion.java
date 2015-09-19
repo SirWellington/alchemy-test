@@ -1,6 +1,7 @@
 package sir.wellington.commons.test.junit;
 
 import com.google.common.base.Preconditions;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isA;
 import static org.hamcrest.Matchers.notNullValue;
@@ -99,7 +100,7 @@ public final class ThrowableAssertion
      */
     public ThrowableAssertion containsInMessage(String messageString)
     {
-        assertThat(caught.getMessage().contains(messageString), is(true));
+        assertThat(caught.getMessage(), containsString(messageString));
         return this;
     }
 
