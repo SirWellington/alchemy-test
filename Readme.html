@@ -896,7 +896,7 @@ body .markdown-body
 <h2>
 <a id="user-content-release" class="anchor" href="#release" aria-hidden="true"><span class="octicon octicon-link"></span></a>Release</h2>
 
-<div class="highlight highlight-xml"><pre>&lt;<span class="pl-ent">dependency</span>&gt;
+<div class="highlight highlight-text-xml"><pre>&lt;<span class="pl-ent">dependency</span>&gt;
     &lt;<span class="pl-ent">groupId</span>&gt;sir.wellington.commons&lt;/<span class="pl-ent">groupId</span>&gt;
     &lt;<span class="pl-ent">artifactId</span>&gt;commons-test&lt;/<span class="pl-ent">artifactId</span>&gt;
     &lt;<span class="pl-ent">version</span>&gt;1.0.0&lt;/<span class="pl-ent">version</span>&gt;
@@ -907,12 +907,12 @@ body .markdown-body
 
 <p>You can also use <a href="https://jitpack.io/#SirWellington/commons-test/v1.0.0">JitPack.io</a>.</p>
 
-<div class="highlight highlight-xml"><pre>&lt;<span class="pl-ent">repository</span>&gt;
+<div class="highlight highlight-text-xml"><pre>&lt;<span class="pl-ent">repository</span>&gt;
     &lt;<span class="pl-ent">id</span>&gt;jitpack.io&lt;/<span class="pl-ent">id</span>&gt;
     &lt;<span class="pl-ent">url</span>&gt;https://jitpack.io&lt;/<span class="pl-ent">url</span>&gt;
 &lt;/<span class="pl-ent">repository</span>&gt;</pre></div>
 
-<div class="highlight highlight-xml"><pre>&lt;<span class="pl-ent">dependency</span>&gt;
+<div class="highlight highlight-text-xml"><pre>&lt;<span class="pl-ent">dependency</span>&gt;
     &lt;<span class="pl-ent">groupId</span>&gt;com.github.SirWellington&lt;/<span class="pl-ent">groupId</span>&gt;
     &lt;<span class="pl-ent">artifactId</span>&gt;commons-test&lt;/<span class="pl-ent">artifactId</span>&gt;
     &lt;<span class="pl-ent">version</span>&gt;v1.0.0&lt;/<span class="pl-ent">version</span>&gt;
@@ -933,7 +933,7 @@ body .markdown-body
 
 <p>Instead of </p>
 
-<div class="highlight highlight-java"><pre><span class="pl-k">try</span>
+<div class="highlight highlight-source-java"><pre><span class="pl-k">try</span>
 {
     instance<span class="pl-k">.</span>call(<span class="pl-s"><span class="pl-pds">"</span>badArg<span class="pl-pds">"</span></span>);
     fail(<span class="pl-s"><span class="pl-pds">"</span>Expected exception<span class="pl-pds">"</span></span>);
@@ -945,7 +945,7 @@ body .markdown-body
 
 <p>You can now just do: </p>
 
-<div class="highlight highlight-java"><pre>
+<div class="highlight highlight-source-java"><pre>
 assertThrows(() <span class="pl-k">-</span><span class="pl-k">&gt;</span> instance<span class="pl-k">.</span>call(<span class="pl-s"><span class="pl-pds">"</span>badArg<span class="pl-pds">"</span></span>))
 .isInstanceOf(<span class="pl-smi">RuntimeException</span><span class="pl-k">.</span>class); <span class="pl-c">//Optional further assertion</span></pre></div>
 
@@ -965,7 +965,7 @@ and you can even supply your own Data Generators for use in conjunction with thi
 <h2>
 <a id="user-content-numbers" class="anchor" href="#numbers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Numbers</h2>
 
-<div class="highlight highlight-java"><pre><span class="pl-c">//A number in the range [-50, 50]</span>
+<div class="highlight highlight-source-java"><pre><span class="pl-c">//A number in the range [-50, 50]</span>
 <span class="pl-k">int</span> someNumber <span class="pl-k">=</span> integers(<span class="pl-k">-</span><span class="pl-c1">50</span>, <span class="pl-c1">50</span>)<span class="pl-k">.</span>get();
 
 <span class="pl-c">//Get any positive long</span>
@@ -988,7 +988,7 @@ somePositiveNumber <span class="pl-k">=</span> oneOf(positiveLongs());
 <h2>
 <a id="user-content-strings" class="anchor" href="#strings" aria-hidden="true"><span class="octicon octicon-link"></span></a>Strings</h2>
 
-<div class="highlight highlight-java"><pre><span class="pl-c">//May have unicode characters as well</span>
+<div class="highlight highlight-source-java"><pre><span class="pl-c">//May have unicode characters as well</span>
 <span class="pl-smi">String</span> anyCharacterString <span class="pl-k">=</span> strings(<span class="pl-c1">30</span>)<span class="pl-k">.</span>get();
 assertThat(anyCharacterString<span class="pl-k">.</span>lenght(), is(<span class="pl-c1">30</span>));
 
@@ -1013,7 +1013,7 @@ uuids <span class="pl-k">=</span> listOf(uuids, <span class="pl-c1">20</span>);
 
 <p>Let's say you have an enum called Fruits defined as:</p>
 
-<div class="highlight highlight-java"><pre><span class="pl-k">enum</span> <span class="pl-en">Fruit</span>
+<div class="highlight highlight-source-java"><pre><span class="pl-k">enum</span> <span class="pl-en">Fruit</span>
 {
     <span class="pl-c1">APPLE</span>,
     <span class="pl-c1">ORANGE</span>,
@@ -1023,7 +1023,7 @@ uuids <span class="pl-k">=</span> listOf(uuids, <span class="pl-c1">20</span>);
 
 <p>and you want to get one of the values at random. All you have to do is</p>
 
-<div class="highlight highlight-java"><pre><span class="pl-smi">Fruit</span> fruit <span class="pl-k">=</span> enumValueOf(<span class="pl-smi">Fruit</span><span class="pl-k">.</span>class)<span class="pl-k">.</span>get();</pre></div>
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">Fruit</span> fruit <span class="pl-k">=</span> enumValueOf(<span class="pl-smi">Fruit</span><span class="pl-k">.</span>class)<span class="pl-k">.</span>get();</pre></div>
 
 <h1>
 <a id="user-content-mockito-helpers" class="anchor" href="#mockito-helpers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Mockito Helpers</h1>
@@ -1031,7 +1031,7 @@ uuids <span class="pl-k">=</span> listOf(uuids, <span class="pl-c1">20</span>);
 <h2>
 <a id="user-content-answers" class="anchor" href="#answers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Answers</h2>
 
-<div class="highlight highlight-java"><pre><span class="pl-c">// Return the first argument back when the mock is called</span>
+<div class="highlight highlight-source-java"><pre><span class="pl-c">// Return the first argument back when the mock is called</span>
 when(someMock)<span class="pl-k">.</span>call(anyString(), anyString(), anyString())
     .then(returnFirst());
 
@@ -1041,6 +1041,18 @@ assertThat(result, is(<span class="pl-s"><span class="pl-pds">"</span>arg1<span 
 
 <h1>
 <a id="user-content-release-notes" class="anchor" href="#release-notes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Release Notes</h1>
+
+<h2>
+<a id="user-content-103" class="anchor" href="#103" aria-hidden="true"><span class="octicon octicon-link"></span></a>1.0.3</h2>
+
+<h2>
+<a id="user-content-102" class="anchor" href="#102" aria-hidden="true"><span class="octicon octicon-link"></span></a>1.0.2</h2>
+
+<ul>
+<li>Expanding <code>positiveIntegers()</code> and <code>positiveLongs()</code> to include larger ranges from <code>1...Integer/Long.MAX_VALUE</code>
+</li>
+<li>Adding <code>smallPositiveIntegers()</code> to allow explicit creation of "small" positive integer values. This is useful in conjunction with creating arrays, or other types of functions that require a workable size.</li>
+</ul>
 
 <h2>
 <a id="user-content-101" class="anchor" href="#101" aria-hidden="true"><span class="octicon octicon-link"></span></a>1.0.1</h2>

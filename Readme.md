@@ -174,6 +174,12 @@ assertThat(result, is("arg1"));
 
 # Release Notes
 
+## 1.0.3
+
+## 1.0.2
++ Expanding `positiveIntegers()` and `positiveLongs()` to include larger ranges from `1...Integer/Long.MAX_VALUE`
++ Adding `smallPositiveIntegers()` to allow explicit creation of "small" positive integer values. This is useful in conjunction with creating arrays, or other types of functions that require a workable size.
+
 ## 1.0.1
 + Adding convenience method for alphabeticStrings
 
