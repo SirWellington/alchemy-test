@@ -92,14 +92,18 @@ public interface DataGenerator<T> extends Supplier<T>
 
             if (negativeLowerBound && negativeUpperBound)
             {
-                return -RandomUtils.nextInt(-exclusiveUpperBound + 1, -inclusiveLowerBound + 1);
+                int min = -exclusiveUpperBound;
+                int max = inclusiveLowerBound == Integer.MIN_VALUE ? Integer.MAX_VALUE : -inclusiveLowerBound;
+                max = max == Integer.MAX_VALUE ? max : max + 1;
+                return -RandomUtils.nextInt(min + 1, max);
             }
             else if (negativeLowerBound)
             {
                 boolean shouldProduceNegative = booleans().get();
                 if (shouldProduceNegative)
                 {
-                    return -RandomUtils.nextInt(0, -inclusiveLowerBound + 1);
+                    int max = inclusiveLowerBound == Integer.MIN_VALUE ? Integer.MAX_VALUE : -inclusiveLowerBound;
+                    return -RandomUtils.nextInt(0, max);
                 }
                 else
                 {
@@ -172,14 +176,18 @@ public interface DataGenerator<T> extends Supplier<T>
 
             if (negativeLowerBound && negativeUpperBound)
             {
-                return -RandomUtils.nextLong(-exclusiveUpperBound + 1, -inclusiveLowerBound + 1);
+                long min = -exclusiveUpperBound;
+                long max = inclusiveLowerBound == Long.MIN_VALUE ? Long.MAX_VALUE : -inclusiveLowerBound;
+                max = max == Long.MAX_VALUE ? max : max + 1;
+                return -RandomUtils.nextLong(min + 1L, max);
             }
             else if (negativeLowerBound)
             {
                 boolean shouldProduceNegative = booleans().get();
                 if (shouldProduceNegative)
                 {
-                    return -RandomUtils.nextLong(0, -inclusiveLowerBound + 1);
+                    long max = inclusiveLowerBound == Long.MIN_VALUE ? Long.MAX_VALUE : -inclusiveLowerBound;
+                    return -RandomUtils.nextLong(0, max);
                 }
                 else
                 {
