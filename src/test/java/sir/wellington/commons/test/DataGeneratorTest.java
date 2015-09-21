@@ -9,7 +9,6 @@ import java.util.UUID;
 import java.util.function.Supplier;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
-import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matchers;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
