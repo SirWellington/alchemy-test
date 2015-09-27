@@ -22,6 +22,8 @@ This project builds with maven. Just run a `mvn clean install` to compile and in
 
 # Download
 
+> This library is not yet available on Maven Central
+
 To use, simply add the following maven dependency.
 
 ## Release

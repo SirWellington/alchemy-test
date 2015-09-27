@@ -12,6 +12,7 @@ import java.util.function.Supplier;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.math3.random.RandomDataGenerator;
+import static sir.wellington.commons.test.Numbers.safeIncrement;
 
 /**
  * A Data Generator generates a series of Objects for use in testing scenarios. Common generators
@@ -92,14 +93,21 @@ public interface DataGenerator<T> extends Supplier<T>
 
             if (negativeLowerBound && negativeUpperBound)
             {
-                return -RandomUtils.nextInt(-exclusiveUpperBound + 1, -inclusiveLowerBound + 1);
+                int min = (-exclusiveUpperBound);
+                int max = inclusiveLowerBound == Integer.MIN_VALUE ? Integer.MAX_VALUE : -inclusiveLowerBound;
+
+                int dirtyValue = RandomUtils.nextInt(min, max);
+                int valueAdjustedForInclusiveness = safeIncrement(dirtyValue);
+                return -valueAdjustedForInclusiveness;
             }
             else if (negativeLowerBound)
             {
                 boolean shouldProduceNegative = booleans().get();
                 if (shouldProduceNegative)
                 {
-                    return -RandomUtils.nextInt(0, -inclusiveLowerBound + 1);
+                    int dirtyMax = inclusiveLowerBound == Integer.MIN_VALUE ? Integer.MAX_VALUE : -inclusiveLowerBound;
+                    int maxAdjustedForInclusiveness = safeIncrement(dirtyMax);
+                    return -RandomUtils.nextInt(0, maxAdjustedForInclusiveness);
                 }
                 else
                 {
@@ -172,14 +180,23 @@ public interface DataGenerator<T> extends Supplier<T>
 
             if (negativeLowerBound && negativeUpperBound)
             {
-                return -RandomUtils.nextLong(-exclusiveUpperBound + 1, -inclusiveLowerBound + 1);
+                long min = (-exclusiveUpperBound);
+                long max = inclusiveLowerBound == Long.MIN_VALUE ? Long.MAX_VALUE : -inclusiveLowerBound;
+
+                long dirtyValue = RandomUtils.nextLong(min, max);
+                long valueAdjustedForInclusiveness = safeIncrement(dirtyValue);
+                return -valueAdjustedForInclusiveness;
             }
             else if (negativeLowerBound)
             {
                 boolean shouldProduceNegative = booleans().get();
+
                 if (shouldProduceNegative)
                 {
-                    return -RandomUtils.nextLong(0, -inclusiveLowerBound + 1);
+                    long min = 0L;
+                    long dirtyMax = inclusiveLowerBound == Long.MIN_VALUE ? Long.MAX_VALUE : -inclusiveLowerBound;
+                    long maxAdjustedForInclusiveness = safeIncrement(dirtyMax);
+                    return -RandomUtils.nextLong(min, maxAdjustedForInclusiveness);
                 }
                 else
                 {
@@ -532,4 +549,5 @@ public interface DataGenerator<T> extends Supplier<T>
             return constants[index];
         };
     }
+
 }
