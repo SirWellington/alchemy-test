@@ -2,7 +2,6 @@ package sir.wellington.commons.test;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-import static sir.wellington.commons.test.junit.ThrowableAssertion.assertThrows;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -17,17 +16,23 @@ import static org.hamcrest.Matchers.lessThan;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.hamcrest.Matchers.notNullValue;
 import org.junit.After;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.runners.MockitoJUnitRunner;
 import static sir.wellington.commons.test.DataGenerator.alphabeticString;
 import static sir.wellington.commons.test.DataGenerator.integers;
 import static sir.wellington.commons.test.DataGenerator.oneOf;
 import static sir.wellington.commons.test.DataGenerator.strings;
 import static sir.wellington.commons.test.DataGenerator.uuids;
+import static sir.wellington.commons.test.junit.ThrowableAssertion.assertThrows;
 
 /**
  *
@@ -136,6 +141,16 @@ public class DataGeneratorTest
             assertThat(value, greaterThanOrEqualTo(lowerBound));
             assertThat(value, lessThan(upperBound));
         }
+
+        lowerBound = Integer.MIN_VALUE;
+        upperBound = -1;
+        instance = DataGenerator.integers(lowerBound, upperBound);
+        for (int i = 0; i < iterations; ++i)
+        {
+            int value = instance.get();
+            assertThat(value, greaterThanOrEqualTo(lowerBound));
+            assertThat(value, lessThan(upperBound));
+        }
     }
 
     /**
@@ -189,6 +204,16 @@ public class DataGeneratorTest
 
         lowerBound = -493_435_754_432_216_763L;
         upperBound = -500_000;
+        instance = DataGenerator.longs(lowerBound, upperBound);
+        for (int i = 0; i < iterations; ++i)
+        {
+            long value = instance.get();
+            assertThat(value, greaterThanOrEqualTo(lowerBound));
+            assertThat(value, lessThan(upperBound));
+        }
+
+        lowerBound = Long.MIN_VALUE;
+        upperBound = -1L;
         instance = DataGenerator.longs(lowerBound, upperBound);
         for (int i = 0; i < iterations; ++i)
         {
