@@ -31,7 +31,7 @@ To use, simply add the following maven dependency.
 <dependency>
 	<groupId>sir.wellington.commons</groupId>
 	<artifactId>commons-test</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.3</version>
 </dependency>
 ```
 
@@ -51,7 +51,7 @@ You can also use [JitPack.io](https://jitpack.io/#SirWellington/commons-test/v1.
 <dependency>
     <groupId>com.github.SirWellington</groupId>
     <artifactId>commons-test</artifactId>
-    <version>v1.0.0</version>
+    <version>v1.0.3</version>
 </dependency>
 ```
 
@@ -100,7 +100,7 @@ and you can even supply your own Data Generators for use in conjunction with thi
 ## Numbers
 
 ```java
-//A number in the range [-50, 50]
+//A number in the range [-50, 50)
 int someNumber = integers(-50, 50).get();
 
 //Get any positive long
@@ -177,6 +177,7 @@ assertThat(result, is("arg1"));
 # Release Notes
 
 ## 1.0.3
++ Bugfixes to number generation
 
 ## 1.0.2
 + Expanding `positiveIntegers()` and `positiveLongs()` to include larger ranges from `1...Integer/Long.MAX_VALUE`

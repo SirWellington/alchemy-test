@@ -891,6 +891,10 @@ body .markdown-body
 <h1>
 <a id="user-content-download" class="anchor" href="#download" aria-hidden="true"><span class="octicon octicon-link"></span></a>Download</h1>
 
+<blockquote>
+<p>This library is not yet available on Maven Central</p>
+</blockquote>
+
 <p>To use, simply add the following maven dependency.</p>
 
 <h2>
@@ -899,7 +903,7 @@ body .markdown-body
 <div class="highlight highlight-text-xml"><pre>&lt;<span class="pl-ent">dependency</span>&gt;
     &lt;<span class="pl-ent">groupId</span>&gt;sir.wellington.commons&lt;/<span class="pl-ent">groupId</span>&gt;
     &lt;<span class="pl-ent">artifactId</span>&gt;commons-test&lt;/<span class="pl-ent">artifactId</span>&gt;
-    &lt;<span class="pl-ent">version</span>&gt;1.0.0&lt;/<span class="pl-ent">version</span>&gt;
+    &lt;<span class="pl-ent">version</span>&gt;1.0.3&lt;/<span class="pl-ent">version</span>&gt;
 &lt;/<span class="pl-ent">dependency</span>&gt;</pre></div>
 
 <h2>
@@ -915,7 +919,7 @@ body .markdown-body
 <div class="highlight highlight-text-xml"><pre>&lt;<span class="pl-ent">dependency</span>&gt;
     &lt;<span class="pl-ent">groupId</span>&gt;com.github.SirWellington&lt;/<span class="pl-ent">groupId</span>&gt;
     &lt;<span class="pl-ent">artifactId</span>&gt;commons-test&lt;/<span class="pl-ent">artifactId</span>&gt;
-    &lt;<span class="pl-ent">version</span>&gt;v1.0.0&lt;/<span class="pl-ent">version</span>&gt;
+    &lt;<span class="pl-ent">version</span>&gt;v1.0.3&lt;/<span class="pl-ent">version</span>&gt;
 &lt;/<span class="pl-ent">dependency</span>&gt;</pre></div>
 
 <h2>
@@ -965,7 +969,7 @@ and you can even supply your own Data Generators for use in conjunction with thi
 <h2>
 <a id="user-content-numbers" class="anchor" href="#numbers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Numbers</h2>
 
-<div class="highlight highlight-source-java"><pre><span class="pl-c">//A number in the range [-50, 50]</span>
+<div class="highlight highlight-source-java"><pre><span class="pl-c">//A number in the range [-50, 50)</span>
 <span class="pl-k">int</span> someNumber <span class="pl-k">=</span> integers(<span class="pl-k">-</span><span class="pl-c1">50</span>, <span class="pl-c1">50</span>)<span class="pl-k">.</span>get();
 
 <span class="pl-c">//Get any positive long</span>
@@ -1044,6 +1048,10 @@ assertThat(result, is(<span class="pl-s"><span class="pl-pds">"</span>arg1<span 
 
 <h2>
 <a id="user-content-103" class="anchor" href="#103" aria-hidden="true"><span class="octicon octicon-link"></span></a>1.0.3</h2>
+
+<ul>
+<li>Bugfixes to number generation</li>
+</ul>
 
 <h2>
 <a id="user-content-102" class="anchor" href="#102" aria-hidden="true"><span class="octicon octicon-link"></span></a>1.0.2</h2>
