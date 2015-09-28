@@ -4,7 +4,7 @@
     
     <groupId>sir.wellington.commons</groupId>
     <artifactId>commons-test</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4-SNAPSHOT</version>
     
     <name>${project.groupId}:${project.artifactId}</name>
     <url>https://github.com/SirWellington/commons-test</url>
@@ -21,6 +21,10 @@
             <email>jwellington.moreno@gmail.com</email>
             <id>SirWellington</id>
             <organizationUrl>https://github.com/SirWellington</organizationUrl>
+            <roles>
+                <role>owner</role>
+                <role>developer</role>
+            </roles>
         </developer>
     </developers>
     
@@ -31,6 +35,17 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+    
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/SirWellington/commons-test/issues</url>
+    </issueManagement>
+
+    <inceptionYear>2015</inceptionYear>
+
+    <prerequisites>
+        <maven>3.0.3</maven>
+    </prerequisites>
         
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -128,6 +143,22 @@
                         <phase>verify</phase>
                         <goals>
                             <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <!--Code Signing-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
                         </goals>
                     </execution>
                 </executions>
