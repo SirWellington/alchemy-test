@@ -6,7 +6,7 @@
     <artifactId>commons-test</artifactId>
     <version>1.0.4-SNAPSHOT</version>
     
-    <name>${project.groupId}:${project.artifactId}</name>
+    <name>${project.artifactId}</name>
     <url>https://github.com/SirWellington/commons-test</url>
     <description>
         The purpose of this library is to make it easier to test your code 
@@ -51,14 +51,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <!--Skip GPG Signing by default.-->
+        <!--Key-Signing should not be required to pass a build in Open Source Software.-->
+        <gpg.skip>true</gpg.skip>
     </properties>
     
     <distributionManagement>
-        
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
         
     </distributionManagement>
     
@@ -148,22 +146,7 @@
                 </executions>
             </plugin>
             
-            <!--Code Signing-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.6</version>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            
+          
             <!--Code Coverage-->
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -201,6 +184,22 @@
                 </executions>
             </plugin>
             
+            <!--Code Signing-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 </project>
