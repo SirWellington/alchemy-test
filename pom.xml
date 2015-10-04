@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
     
     <groupId>sir.wellington.commons</groupId>
-    <artifactId>commons-test</artifactId>
+    <artifactId>alchemy-test</artifactId>
     <version>1.0.4-SNAPSHOT</version>
     
     <name>${project.artifactId}</name>
-    <url>https://github.com/SirWellington/commons-test</url>
+    <url>https://github.com/SirWellington/alchemy-test</url>
     <description>
         The purpose of this library is to make it easier to test your code 
         by providing unit-test helpers, fake data generators, and mock helpers.
@@ -38,7 +38,7 @@
     
     <issueManagement>
         <system>GitHub Issues</system>
-        <url>https://github.com/SirWellington/commons-test/issues</url>
+        <url>https://github.com/SirWellington/alchemy-test/issues</url>
     </issueManagement>
 
     <inceptionYear>2015</inceptionYear>
