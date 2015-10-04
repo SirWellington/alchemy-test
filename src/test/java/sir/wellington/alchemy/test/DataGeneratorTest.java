@@ -1,4 +1,19 @@
-package sir.wellington.commons.test;
+/*
+ * Copyright 2015 SirWellington.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package sir.wellington.alchemy.test;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
@@ -27,16 +42,16 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.runners.MockitoJUnitRunner;
-import static sir.wellington.commons.test.DataGenerator.alphabeticString;
-import static sir.wellington.commons.test.DataGenerator.integers;
-import static sir.wellington.commons.test.DataGenerator.oneOf;
-import static sir.wellington.commons.test.DataGenerator.strings;
-import static sir.wellington.commons.test.DataGenerator.uuids;
-import static sir.wellington.commons.test.junit.ThrowableAssertion.assertThrows;
+import static sir.wellington.alchemy.test.DataGenerator.alphabeticString;
+import static sir.wellington.alchemy.test.DataGenerator.integers;
+import static sir.wellington.alchemy.test.DataGenerator.oneOf;
+import static sir.wellington.alchemy.test.DataGenerator.strings;
+import static sir.wellington.alchemy.test.DataGenerator.uuids;
+import static sir.wellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
 
 /**
  *
- * @author jmoreno
+ * @author SirWellington
  */
 @RunWith(MockitoJUnitRunner.class)
 public class DataGeneratorTest
@@ -55,9 +70,6 @@ public class DataGeneratorTest
     {
     }
 
-    /**
-     * Test of oneOf method, of class DataGenerator.
-     */
     @Test
     public void testGetOneValueFrom()
     {
@@ -71,9 +83,6 @@ public class DataGeneratorTest
 
     }
 
-    /**
-     * Test of integers method, of class DataGenerator.
-     */
     @Test
     public void testIntegers()
     {
@@ -153,9 +162,6 @@ public class DataGeneratorTest
         }
     }
 
-    /**
-     * Test of integers method, of class DataGenerator.
-     */
     @Test
     public void testIntegersWithBadBounds()
     {
@@ -170,9 +176,6 @@ public class DataGeneratorTest
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-    /**
-     * Test of longs method, of class DataGenerator.
-     */
     @Test
     public void testLongs()
     {
@@ -223,9 +226,6 @@ public class DataGeneratorTest
         }
     }
 
-    /**
-     * Test of integers method, of class DataGenerator.
-     */
     @Test
     public void testLongsWithBadBounds()
     {
@@ -258,9 +258,6 @@ public class DataGeneratorTest
         }
     }
 
-    /**
-     * Test of doubles method, of class DataGenerator.
-     */
     @Test
     public void testDoubles()
     {
@@ -302,9 +299,6 @@ public class DataGeneratorTest
         }
     }
 
-    /**
-     * Test of doubles method, of class DataGenerator.
-     */
     @Test
     public void testDoublesWithBadBounds()
     {
@@ -320,9 +314,6 @@ public class DataGeneratorTest
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-    /**
-     * Test of booleans method, of class DataGenerator.
-     */
     @Test
     public void testBooleans()
     {
@@ -335,9 +326,6 @@ public class DataGeneratorTest
         }
     }
 
-    /**
-     * Test of strings method, of class DataGenerator.
-     */
     @Test
     public void testStrings()
     {
@@ -352,9 +340,6 @@ public class DataGeneratorTest
         }
     }
 
-    /**
-     * Test of strings method, of class DataGenerator.
-     */
     @Test(expected = IllegalArgumentException.class)
     public void testStringsWithBadSize()
     {
@@ -365,9 +350,6 @@ public class DataGeneratorTest
         instance.get();
     }
 
-    /**
-     * Test of hexadecimalString method, of class DataGenerator.
-     */
     @Test
     public void testHexadecimalString()
     {
@@ -381,9 +363,6 @@ public class DataGeneratorTest
         }
     }
 
-    /**
-     * Test of hexadecimalString method, of class DataGenerator.
-     */
     @Test(expected = IllegalArgumentException.class)
     public void testHexadecimalStringWithBadSize()
     {
@@ -393,9 +372,6 @@ public class DataGeneratorTest
         instance.get();
     }
 
-    /**
-     * Test of alphabeticString method, of class DataGenerator.
-     */
     @Test
     public void testAlphabeticString_int()
     {
@@ -422,9 +398,6 @@ public class DataGeneratorTest
         }
     }
 
-    /**
-     * Test of alphabeticString method, of class DataGenerator.
-     */
     @Test(expected = IllegalArgumentException.class)
     public void testAlphabeticStringWithBadSize()
     {
@@ -434,9 +407,6 @@ public class DataGeneratorTest
         instance.get();
     }
 
-    /**
-     * Test of stringsFromFixedList method, of class DataGenerator.
-     */
     @Test
     public void testStringsFromFixedList()
     {
@@ -455,9 +425,6 @@ public class DataGeneratorTest
         }
     }
 
-    /**
-     * Test of integersFromFixedList method, of class DataGenerator.
-     */
     @Test
     public void testIntegersFromFixedList()
     {
@@ -478,9 +445,6 @@ public class DataGeneratorTest
         }
     }
 
-    /**
-     * Test of doublesFromFixedList method, of class DataGenerator.
-     */
     @Test
     public void testDoublesFromFixedList()
     {
@@ -624,9 +588,6 @@ public class DataGeneratorTest
         }
     }
 
-    /**
-     * Test of stringsFromFixedList method, of class DataGenerator.
-     */
     @Test
     public void testStringsFromFixedList_StringArr()
     {
@@ -645,9 +606,6 @@ public class DataGeneratorTest
         }
     }
 
-    /**
-     * Test of listOf method, of class DataGenerator.
-     */
     @Test
     public void testListOf_DataGenerator()
     {
@@ -662,9 +620,6 @@ public class DataGeneratorTest
         result.forEach(i -> assertThat(i, is(value)));
     }
 
-    /**
-     * Test of listOf method, of class DataGenerator.
-     */
     @Test
     public void testListOf_DataGenerator_int()
     {

@@ -9,7 +9,8 @@
     <name>${project.artifactId}</name>
     <url>https://github.com/SirWellington/alchemy-test</url>
     <description>
-        The purpose of this library is to make it easier to test your code 
+        Part of the Alchemy collection.
+        This library makes it easier to test your code
         by providing unit-test helpers, fake data generators, and mock helpers.
     </description>
     
@@ -106,7 +107,11 @@
             <artifactId>commons-math3</artifactId>
             <version>3.5</version>
         </dependency>
-
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>alchemy-annotations</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
     
     
