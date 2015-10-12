@@ -15,8 +15,8 @@
  */
 package sir.wellington.alchemy.test.mockito;
 
-import com.google.common.base.Preconditions;
 import org.mockito.stubbing.Answer;
+import sir.wellington.alchemy.test.Checks;
 
 /**
  * This class contains a variety of useful answers for use in combination with Mockito.
@@ -68,7 +68,7 @@ public class MoreAnswers
      */
     public static <T> Answer<T> returnArgumentAtIndex(int index)
     {
-        Preconditions.checkArgument(index >= 0, "Index is out of bounds.");
+        Checks.checkThat(index >= 0, "Index is out of bounds.");
         return (i) ->
         {
             if (index >= i.getArguments().length)

@@ -15,14 +15,14 @@
  */
 package sir.wellington.alchemy.test;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Supplier;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.hamcrest.Matchers;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
@@ -394,7 +394,7 @@ public class DataGeneratorTest
         for (int i = 0; i < iterations; ++i)
         {
             String value = instance.get();
-            assertThat(Strings.isNullOrEmpty(value), is(false));
+            assertThat(StringUtils.isEmpty(value), is(false));
         }
     }
 
@@ -411,7 +411,7 @@ public class DataGeneratorTest
     public void testStringsFromFixedList()
     {
         System.out.println("testStringsFromFixedList");
-        List<String> values = Lists.newArrayList();
+        List<String> values = new ArrayList<>();
         for (int i = 0; i < iterations; ++i)
         {
             values.add(RandomStringUtils.randomAlphabetic(i + 1));
@@ -429,7 +429,7 @@ public class DataGeneratorTest
     public void testIntegersFromFixedList()
     {
         System.out.println("testIntegersFromFixedList");
-        List<Integer> values = Lists.newArrayList();
+        List<Integer> values = new ArrayList<>();
 
         for (int i = 0; i < iterations; ++i)
         {
@@ -449,7 +449,7 @@ public class DataGeneratorTest
     public void testDoublesFromFixedList()
     {
         System.out.println("testDoublesFromFixedList");
-        List<Double> values = Lists.newArrayList();
+        List<Double> values = new ArrayList<>();
         for (int i = 0; i < iterations; ++i)
         {
             values.add(RandomUtils.nextDouble(4, 365));
@@ -573,7 +573,7 @@ public class DataGeneratorTest
     public void testStringsFromFixedList_List()
     {
         System.out.println("testStringsFromFixedList_List");
-        List<String> values = Lists.newArrayList();
+        List<String> values = new ArrayList<>();
         String one = strings(10).get();
         String two = strings(10).get();
         String three = strings(10).get();

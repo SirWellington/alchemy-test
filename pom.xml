@@ -95,22 +95,10 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.4</version>
         </dependency>
-        
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>18.0</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-math3</artifactId>
-            <version>3.5</version>
-        </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>alchemy-annotations</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>1.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
     
