@@ -45,6 +45,12 @@
         <system>GitHub Issues</system>
         <url>https://github.com/SirWellington/alchemy-test/issues</url>
     </issueManagement>
+    
+    <scm>
+        <connection>scm:git:git@github.com:SirWellington/alchemy-test.git</connection>
+        <developerConnection>scm:git:git@github.com:SirWellington/alchemy-test.git</developerConnection>
+        <url>git@github.com:SirWellington/alchemy-test.git</url>
+    </scm>
 
     <inceptionYear>2015</inceptionYear>
 
@@ -58,10 +64,20 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <!--Skip GPG Signing by default.-->
         <!--Key-Signing should not be required to pass a build in Open Source Software.-->
-        <gpg.skip>true</gpg.skip>
+        <!--<gpg.skip>true</gpg.skip>-->
     </properties>
     
     <distributionManagement>
+        
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
         
     </distributionManagement>
     
@@ -181,22 +197,50 @@
                 </executions>
             </plugin>
             
-            <!--Code Signing-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.6</version>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
 
         </plugins>
     </build>
+    
+    <profiles>
+        <profile>
+            <id>release</id>
+            
+            <build>
+                <plugins>
+<!--                    
+                    Release Plugin
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.6</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>-->
+                    
+                    <!--Code Signing-->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    
+                </plugins>
+            </build>
+            
+        </profile>
+    </profiles>
+
 </project>
