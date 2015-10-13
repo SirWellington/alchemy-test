@@ -1,19 +1,16 @@
-Commons Library for Unit Testing
+Alchemy Test for Unit Testing
 ==============================================
 
-[![Build Status](https://travis-ci.org/SirWellington/commons-test.svg)](https://travis-ci.org/SirWellington/commons-test)
+[![Build Status](https://travis-ci.org/SirWellington/alchemy-test.svg)](https://travis-ci.org/SirWellington/alchemy-test)
 
 # Purpose
-The purpose of this library is to make it easier to test your code by providing unit-test helpers, fake data generators, and mock helpers.
+Part of the Alchemy collection, this library makes it easier to test your code by providing unit-test helpers, fake data generators, and mock helpers.
 
 # Requirements
 
 * JDK 8
 * Maven installation
 
-# License
-
-This Software is licensed under the Apache 2.0 License
 
 
 # Building
@@ -29,8 +26,8 @@ To use, simply add the following maven dependency.
 ## Release
 ```xml
 <dependency>
-	<groupId>sir.wellington.commons</groupId>
-	<artifactId>commons-test</artifactId>
+	<groupId>sir.wellington.alchemy</groupId>
+	<artifactId>alchemy-test</artifactId>
 	<version>1.0.3</version>
 </dependency>
 ```
@@ -38,7 +35,7 @@ To use, simply add the following maven dependency.
 
 ## JitPack 
 
-You can also use [JitPack.io](https://jitpack.io/#SirWellington/commons-test/v1.0.0).
+You can also use [JitPack.io](https://jitpack.io/#SirWellington/alchemy-test/v1.0.0).
 
 ```xml
 <repository>
@@ -50,7 +47,7 @@ You can also use [JitPack.io](https://jitpack.io/#SirWellington/commons-test/v1.
 ```xml
 <dependency>
     <groupId>com.github.SirWellington</groupId>
-    <artifactId>commons-test</artifactId>
+    <artifactId>alchemy-test</artifactId>
     <version>v1.0.3</version>
 </dependency>
 ```
@@ -176,6 +173,8 @@ assertThat(result, is("arg1"));
 
 # Release Notes
 
+## 1.1
+
 ## 1.0.3
 + Bugfixes to number generation
 
@@ -191,3 +190,7 @@ assertThat(result, is("arg1"));
 + New Throwable Assertions
 + Suite of Mockito Answers
 + Simple Data Generation API
+
+# License
+
+This Software is licensed under the Apache 2.0 License

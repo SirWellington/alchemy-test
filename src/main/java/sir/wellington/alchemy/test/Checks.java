@@ -39,38 +39,46 @@
  *
  * Portions Copyrighted 2015 Sun Microsystems, Inc.
  */
-package sir.wellington.commons.test;
+package sir.wellington.alchemy.test;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sir.wellington.alchemy.annotations.access.Internal;
 
 /**
- * Package Private utility class for housing numerical operations
  *
  * @author SirWellington
  */
-class Numbers
+@Internal
+public final class Checks
 {
 
-    private final static Logger LOG = LoggerFactory.getLogger(Numbers.class);
+    private final static Logger LOG = LoggerFactory.getLogger(Checks.class);
 
-    static long safeIncrement(long value)
+    public static void checkNotNull(Object ref) throws IllegalArgumentException
     {
-        return value == Long.MAX_VALUE ? value : value + 1;
+        checkNotNull(ref, "");
     }
 
-    static long safeDecrement(long value)
+    public static void checkNotNull(Object ref, String message) throws IllegalArgumentException
     {
-        return value == Long.MIN_VALUE ? value : value - 1;
+        if (ref == null)
+        {
+            throw new IllegalArgumentException(message);
+        }
     }
 
-    static int safeIncrement(int value)
+    public static void checkThat(boolean predicate) throws IllegalArgumentException
     {
-        return value == Integer.MAX_VALUE ? value : value + 1;
+        checkThat(predicate, "");
     }
 
-    static int safeDecrement(int value)
+    public static void checkThat(boolean predicate, String message) throws IllegalArgumentException
     {
-        return value == Integer.MIN_VALUE ? value : value - 1;
+        if (!predicate)
+        {
+            throw new IllegalArgumentException(message);
+        }
     }
+
 }

@@ -1,24 +1,40 @@
-package sir.wellington.commons.test.mockito;
+/*
+ * Copyright 2015 SirWellington.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package sir.wellington.alchemy.test.mockito;
 
-import sir.wellington.commons.test.mockito.MoreAnswers;
-import static sir.wellington.commons.test.junit.ThrowableAssertion.assertThrows;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
+import static org.hamcrest.CoreMatchers.is;
 import org.junit.After;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
-import org.hamcrest.Matchers;
-import static org.mockito.Mockito.*;
 import org.mockito.stubbing.Answer;
+import static sir.wellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
 
 /**
  *
- * @author jmoreno
+ * @author SirWellington
  */
 @RunWith(MockitoJUnitRunner.class)
 public class AnswersTest
@@ -36,9 +52,6 @@ public class AnswersTest
 
     }
 
-    /**
-     * Test of returnFirst method, of class MoreAnswers.
-     */
     @Test
     public void testReturnFirst()
     {
@@ -59,9 +72,6 @@ public class AnswersTest
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-    /**
-     * Test of returnArgumentAtIndex method, of class MoreAnswers.
-     */
     @Test
     public void testReturnArgumentAtIndex()
     {
@@ -78,9 +88,6 @@ public class AnswersTest
         assertThat(result, is(expected));
     }
 
-    /**
-     * Test of returnArgumentAtIndex method, of class MoreAnswers.
-     */
     @Test
     public void testReturnArgumentAtIndexWithBadIndex()
     {
@@ -106,10 +113,4 @@ public class AnswersTest
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-    @FunctionalInterface
-    private static interface VargsFunction<T>
-    {
-
-        T call(T... args);
-    }
 }

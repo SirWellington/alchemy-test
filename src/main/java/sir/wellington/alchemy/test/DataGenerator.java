@@ -1,18 +1,33 @@
-package sir.wellington.commons.test;
+/*
+ * Copyright 2015 SirWellington.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package sir.wellington.alchemy.test;
 
-import static com.google.common.base.Charsets.UTF_8;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Supplier;
+import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
-import org.apache.commons.math3.random.RandomDataGenerator;
-import static sir.wellington.commons.test.Numbers.safeIncrement;
+import org.apache.commons.lang3.StringUtils;
+import sir.wellington.alchemy.annotations.arguments.NonNull;
+import static sir.wellington.alchemy.test.Numbers.safeIncrement;
 
 /**
  * A Data Generator generates a series of Objects for use in testing scenarios. Common generators
@@ -56,6 +71,7 @@ public interface DataGenerator<T> extends Supplier<T>
      * @return
      */
     @Override
+    @NonNull
     T get();
 
     /**
@@ -66,9 +82,9 @@ public interface DataGenerator<T> extends Supplier<T>
      *
      * @return Only one value from the generator.
      */
-    static <T> T oneOf(DataGenerator<T> generator)
+    static <T> T oneOf(@NonNull DataGenerator<T> generator)
     {
-        Preconditions.checkNotNull(generator);
+        Checks.checkNotNull(generator);
         return generator.get();
     }
 
@@ -84,7 +100,7 @@ public interface DataGenerator<T> extends Supplier<T>
      */
     static DataGenerator<Integer> integers(int inclusiveLowerBound, int exclusiveUpperBound) throws IllegalArgumentException
     {
-        Preconditions.checkArgument(inclusiveLowerBound <= exclusiveUpperBound, "Upper Bound must be greater than Lower Bound");
+        Checks.checkThat(inclusiveLowerBound <= exclusiveUpperBound, "Upper Bound must be greater than Lower Bound");
         final boolean negativeLowerBound = inclusiveLowerBound < 0;
         final boolean negativeUpperBound = exclusiveUpperBound < 0;
 
@@ -171,7 +187,7 @@ public interface DataGenerator<T> extends Supplier<T>
      */
     static DataGenerator<Long> longs(long inclusiveLowerBound, long exclusiveUpperBound) throws IllegalArgumentException
     {
-        Preconditions.checkArgument(inclusiveLowerBound <= exclusiveUpperBound, "Upper Bound must be greater than Lower Bound");
+        Checks.checkThat(inclusiveLowerBound <= exclusiveUpperBound, "Upper Bound must be greater than Lower Bound");
         final boolean negativeLowerBound = inclusiveLowerBound < 0;
         final boolean negativeUpperBound = exclusiveUpperBound < 0;
 
@@ -247,7 +263,7 @@ public interface DataGenerator<T> extends Supplier<T>
      */
     static DataGenerator<Double> doubles(double inclusiveLowerBound, double inclusiveUpperBound) throws IllegalArgumentException
     {
-        Preconditions.checkArgument(inclusiveLowerBound <= inclusiveUpperBound, "Upper Bound must be greater than Lower Bound");
+        Checks.checkThat(inclusiveLowerBound <= inclusiveUpperBound, "Upper Bound must be greater than Lower Bound");
         final boolean negativeLowerBound = inclusiveLowerBound < 0;
         final boolean negativeUpperBound = inclusiveUpperBound < 0;
 
@@ -321,7 +337,7 @@ public interface DataGenerator<T> extends Supplier<T>
      */
     static DataGenerator<String> strings(int length)
     {
-        Preconditions.checkArgument(length > 0, "Length must be at least 1");
+        Checks.checkThat(length > 0, "Length must be at least 1");
         return () -> RandomStringUtils.random(length);
     }
 
@@ -334,8 +350,16 @@ public interface DataGenerator<T> extends Supplier<T>
      */
     static DataGenerator<String> hexadecimalString(int length)
     {
-        Preconditions.checkArgument(length > 0, "Length must be at least 1");
-        return () -> new RandomDataGenerator().nextHexString(length);
+        Checks.checkThat(length > 0, "Length must be at least 1");
+        HexBinaryAdapter hexBinaryAdapter = new HexBinaryAdapter();
+        DataGenerator<byte[]> binaryGenerator = binaryGenerator(length);
+        
+        return () ->
+        {
+            byte[] binary = oneOf(binaryGenerator);
+            String hex = hexBinaryAdapter.marshal(binary);
+            return StringUtils.left(hex, length);
+        };
     }
 
     /**
@@ -348,7 +372,7 @@ public interface DataGenerator<T> extends Supplier<T>
      */
     static DataGenerator<String> alphabeticString(int length)
     {
-        Preconditions.checkArgument(length > 0, "Length must be at least 1");
+        Checks.checkThat(length > 0, "Length must be at least 1");
         return () -> RandomStringUtils.randomAlphabetic(length);
     }
 
@@ -379,8 +403,8 @@ public interface DataGenerator<T> extends Supplier<T>
      */
     static DataGenerator<String> stringsFromFixedList(List<String> values)
     {
-        Preconditions.checkNotNull(values);
-        Preconditions.checkArgument(!values.isEmpty(), "No values specified");
+        Checks.checkNotNull(values);
+        Checks.checkThat(!values.isEmpty(), "No values specified");
         return () ->
         {
             int index = integers(0, values.size()).get();
@@ -397,8 +421,8 @@ public interface DataGenerator<T> extends Supplier<T>
      */
     static DataGenerator<String> stringsFromFixedList(String... values)
     {
-        Preconditions.checkNotNull(values);
-        Preconditions.checkArgument(values.length != 0, "No values specified");
+        Checks.checkNotNull(values);
+        Checks.checkThat(values.length != 0, "No values specified");
         return stringsFromFixedList(Arrays.asList(values));
     }
 
@@ -411,8 +435,8 @@ public interface DataGenerator<T> extends Supplier<T>
      */
     static DataGenerator<Integer> integersFromFixedList(List<Integer> values)
     {
-        Preconditions.checkNotNull(values);
-        Preconditions.checkArgument(!values.isEmpty(), "No values specified");
+        Checks.checkNotNull(values);
+        Checks.checkThat(!values.isEmpty(), "No values specified");
         return () ->
         {
             int index = integers(0, values.size()).get();
@@ -429,8 +453,8 @@ public interface DataGenerator<T> extends Supplier<T>
      */
     static DataGenerator<Double> doublesFromFixedList(List<Double> values)
     {
-        Preconditions.checkNotNull(values);
-        Preconditions.checkArgument(!values.isEmpty(), "No values specified");
+        Checks.checkNotNull(values);
+        Checks.checkThat(!values.isEmpty(), "No values specified");
         return () ->
         {
             int index = integers(0, values.size()).get();
@@ -447,12 +471,8 @@ public interface DataGenerator<T> extends Supplier<T>
      */
     static DataGenerator<byte[]> binaryGenerator(int bytes)
     {
-        Preconditions.checkArgument(bytes > 0, "bytes must be at least 1");
-        return () ->
-        {
-            String string = alphabeticString(bytes).get();
-            return string.getBytes(UTF_8);
-        };
+        Checks.checkThat(bytes > 0, "bytes must be at least 1");
+        return () -> RandomUtils.nextBytes(bytes);
     }
 
     /**
@@ -481,9 +501,9 @@ public interface DataGenerator<T> extends Supplier<T>
      */
     static <T> List<T> listOf(DataGenerator<T> generator, int size)
     {
-        Preconditions.checkArgument(size > 0, "Size must be at least 1");
-        Preconditions.checkNotNull(generator, "generator is null");
-        List<T> list = Lists.newArrayListWithExpectedSize(size);
+        Checks.checkThat(size > 0, "Size must be at least 1");
+        Checks.checkNotNull(generator, "generator is null");
+        List<T> list = new ArrayList<>(size);
         for (int i = 0; i < size; ++i)
         {
             list.add(generator.get());
@@ -505,10 +525,10 @@ public interface DataGenerator<T> extends Supplier<T>
      */
     static <K, V> Map<K, V> mapOf(DataGenerator<K> keyGenerator, DataGenerator<V> valueGenerator, int size)
     {
-        Preconditions.checkArgument(size > 0, "size must be at least 1");
-        Preconditions.checkNotNull(keyGenerator);
-        Preconditions.checkNotNull(valueGenerator);
-        Map<K, V> map = Maps.newHashMapWithExpectedSize(size);
+        Checks.checkThat(size > 0, "size must be at least 1");
+        Checks.checkNotNull(keyGenerator);
+        Checks.checkNotNull(valueGenerator);
+        Map<K, V> map = new HashMap<>(size);
 
         for (int i = 0; i < size; ++i)
         {
@@ -539,10 +559,10 @@ public interface DataGenerator<T> extends Supplier<T>
      */
     static <E extends Enum> Supplier<E> enumValueOf(Class<E> enumClass)
     {
-        Preconditions.checkNotNull(enumClass);
+        Checks.checkNotNull(enumClass);
         E[] constants = enumClass.getEnumConstants();
-        Preconditions.checkArgument(constants != null, "Class is not an Enum: " + enumClass.getName());
-        Preconditions.checkArgument(constants.length > 0, "Enum has no values");
+        Checks.checkThat(constants != null, "Class is not an Enum: " + enumClass.getName());
+        Checks.checkThat(constants.length > 0, "Enum has no values");
         return () ->
         {
             int index = integers(0, constants.length).get();

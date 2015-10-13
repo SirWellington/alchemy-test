@@ -2,25 +2,34 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     
-    <groupId>sir.wellington.commons</groupId>
-    <artifactId>commons-test</artifactId>
-    <version>1.0.3</version>
-    
-    <name>${project.groupId}:${project.artifactId}</name>
-    <url>https://github.com/SirWellington/commons-test</url>
+    <groupId>sir.wellington.alchemy</groupId>
+    <artifactId>alchemy-test</artifactId>
+    <version>1.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>${project.artifactId}</name>
+    <url>https://github.com/SirWellington/alchemy-test</url>
     <description>
-        The purpose of this library is to make it easier to test your code 
+        Part of the Alchemy collection.
+        This library makes it easier to test your code
         by providing unit-test helpers, fake data generators, and mock helpers.
     </description>
     
-    <packaging>jar</packaging>
-    
+    <organization>
+        <name>Sir Wellington</name>
+        <url>https://github.com/SirWellington</url>
+    </organization>
+
     <developers>
         <developer>
             <name>Juan Wellington Moreno</name>
             <email>jwellington.moreno@gmail.com</email>
             <id>SirWellington</id>
             <organizationUrl>https://github.com/SirWellington</organizationUrl>
+            <roles>
+                <role>owner</role>
+                <role>developer</role>
+            </roles>
         </developer>
     </developers>
     
@@ -31,18 +40,43 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+    
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/SirWellington/alchemy-test/issues</url>
+    </issueManagement>
+    
+    <scm>
+        <connection>scm:git:git@github.com:SirWellington/alchemy-test.git</connection>
+        <developerConnection>scm:git:git@github.com:SirWellington/alchemy-test.git</developerConnection>
+        <url>git@github.com:SirWellington/alchemy-test.git</url>
+    </scm>
+
+    <inceptionYear>2015</inceptionYear>
+
+    <prerequisites>
+        <maven>3.0.3</maven>
+    </prerequisites>
         
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <!--Skip GPG Signing by default.-->
+        <!--Key-Signing should not be required to pass a build in Open Source Software.-->
+        <!--<gpg.skip>true</gpg.skip>-->
     </properties>
     
     <distributionManagement>
         
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        
         <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
         
     </distributionManagement>
@@ -81,19 +115,11 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.4</version>
         </dependency>
-        
         <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>18.0</version>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>alchemy-annotations</artifactId>
+            <version>1.1-SNAPSHOT</version>
         </dependency>
-        
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-math3</artifactId>
-            <version>3.5</version>
-        </dependency>
-
     </dependencies>
     
     
@@ -133,6 +159,7 @@
                 </executions>
             </plugin>
             
+          
             <!--Code Coverage-->
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -170,6 +197,50 @@
                 </executions>
             </plugin>
             
+
         </plugins>
     </build>
+    
+    <profiles>
+        <profile>
+            <id>release</id>
+            
+            <build>
+                <plugins>
+<!--                    
+                    Release Plugin
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.6</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>-->
+                    
+                    <!--Code Signing-->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    
+                </plugins>
+            </build>
+            
+        </profile>
+    </profiles>
+
 </project>

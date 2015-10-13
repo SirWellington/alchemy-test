@@ -1,7 +1,22 @@
-package sir.wellington.commons.test.mockito;
+/*
+ * Copyright 2015 SirWellington.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package sir.wellington.alchemy.test.mockito;
 
-import com.google.common.base.Preconditions;
 import org.mockito.stubbing.Answer;
+import sir.wellington.alchemy.test.Checks;
 
 /**
  * This class contains a variety of useful answers for use in combination with Mockito.
@@ -53,7 +68,7 @@ public class MoreAnswers
      */
     public static <T> Answer<T> returnArgumentAtIndex(int index)
     {
-        Preconditions.checkArgument(index >= 0, "Index is out of bounds.");
+        Checks.checkThat(index >= 0, "Index is out of bounds.");
         return (i) ->
         {
             if (index >= i.getArguments().length)
