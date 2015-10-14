@@ -26,7 +26,7 @@ To use, simply add the following maven dependency.
 ## Release
 ```xml
 <dependency>
-	<groupId>sir.wellington.alchemy</groupId>
+	<groupId>tech.sirwellington.alchemy</groupId>
 	<artifactId>alchemy-test</artifactId>
 	<version>1.0.3</version>
 </dependency>
