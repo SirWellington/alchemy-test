@@ -62,9 +62,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <!--Skip GPG Signing by default.-->
-        <!--Key-Signing should not be required to pass a build in Open Source Software.-->
-        <!--<gpg.skip>true</gpg.skip>-->
     </properties>
     
     <distributionManagement>
@@ -207,8 +204,8 @@
             
             <build>
                 <plugins>
-<!--                    
-                    Release Plugin
+                    
+                    <!--Release Plugin-->
                     <plugin>
                         <groupId>org.sonatype.plugins</groupId>
                         <artifactId>nexus-staging-maven-plugin</artifactId>
@@ -219,7 +216,7 @@
                             <nexusUrl>https://oss.sonatype.org/</nexusUrl>
                             <autoReleaseAfterClose>true</autoReleaseAfterClose>
                         </configuration>
-                    </plugin>-->
+                    </plugin>
                     
                     <!--Code Signing-->
                     <plugin>
