@@ -8,9 +8,8 @@ Part of the Alchemy collection, this library makes it easier to test your code b
 
 # Requirements
 
-* JDK 8
-* Maven installation
-
++ JDK 8
++ Maven
 
 
 # Building
@@ -32,27 +31,15 @@ To use, simply add the following maven dependency.
 </dependency>
 ```
 
-
-## JitPack 
-
-You can also use [JitPack.io](https://jitpack.io/#SirWellington/alchemy-test/v1.0.0).
-
 ```xml
-<repository>
-    <id>jitpack.io</id>
-    <url>https://jitpack.io</url>
-</repository>
-```
-
-```xml
+## Snapshot
 <dependency>
-    <groupId>com.github.SirWellington</groupId>
-    <artifactId>alchemy-test</artifactId>
-    <version>v1.0.3</version>
+	<groupId>tech.sirwellington.alchemy</groupId>
+	<artifactId>alchemy-test</artifactId>
+	<version>1.1-SNAPSHOT</version>
 </dependency>
 ```
 
-## Snapshot
 
 ==============================================
 
