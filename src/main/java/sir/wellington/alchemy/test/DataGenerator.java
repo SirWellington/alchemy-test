@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
-import sir.wellington.alchemy.annotations.arguments.NonNull;
+import tech.sirwellington.alchemy.annotations.arguments.NonNull;
 import static sir.wellington.alchemy.test.Numbers.safeIncrement;
 
 /**

@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.isA;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
-import sir.wellington.alchemy.annotations.patterns.FluidAPIPattern;
+import tech.sirwellington.alchemy.annotations.patterns.FluidAPIPattern;
 import sir.wellington.alchemy.test.Checks;
 
 /**

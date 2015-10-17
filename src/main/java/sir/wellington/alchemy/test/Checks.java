@@ -43,7 +43,7 @@ package sir.wellington.alchemy.test;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sir.wellington.alchemy.annotations.access.Internal;
+import tech.sirwellington.alchemy.annotations.access.Internal;
 
 /**
  *
