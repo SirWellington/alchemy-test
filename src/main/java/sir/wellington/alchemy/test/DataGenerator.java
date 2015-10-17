@@ -32,8 +32,9 @@ import static sir.wellington.alchemy.test.Numbers.safeIncrement;
 import tech.sirwellington.alchemy.annotations.arguments.NonNull;
 
 /**
- * A Data Generator generates a series of Objects for use in testing scenarios. Common generators
- * exist for:
+ * A {@link DataGenerator} generates Data or Objects for use in testing scenarios. 
+ * <br>
+ * Common generators exist for:
  * <pre>
  * + Integers
  * + Longs
