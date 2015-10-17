@@ -1,4 +1,4 @@
-Alchemy Test for Unit Testing
+Alchemy Test, for Unit Testing
 ==============================================
 
 [![Build Status](https://travis-ci.org/SirWellington/alchemy-test.svg)](https://travis-ci.org/SirWellington/alchemy-test)
