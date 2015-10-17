@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package sir.wellington.alchemy.test.dates;
+package tech.sirwellington.alchemy.test.dates;
 
 import java.time.Instant;
 import static java.time.temporal.ChronoUnit.DAYS;

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package sir.wellington.alchemy.test;
+package tech.sirwellington.alchemy.test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,9 +26,9 @@ import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
-import static sir.wellington.alchemy.test.Checks.Internal.checkNotNull;
-import static sir.wellington.alchemy.test.Checks.Internal.checkThat;
-import static sir.wellington.alchemy.test.Numbers.safeIncrement;
+import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
+import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
+import static tech.sirwellington.alchemy.test.Numbers.safeIncrement;
 import tech.sirwellington.alchemy.annotations.arguments.NonNull;
 
 /**

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package sir.wellington.alchemy.test;
+package tech.sirwellington.alchemy.test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,12 +42,12 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.runners.MockitoJUnitRunner;
-import static sir.wellington.alchemy.test.DataGenerator.alphabeticString;
-import static sir.wellington.alchemy.test.DataGenerator.integers;
-import static sir.wellington.alchemy.test.DataGenerator.oneOf;
-import static sir.wellington.alchemy.test.DataGenerator.strings;
-import static sir.wellington.alchemy.test.DataGenerator.uuids;
-import static sir.wellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
+import static tech.sirwellington.alchemy.test.DataGenerator.alphabeticString;
+import static tech.sirwellington.alchemy.test.DataGenerator.integers;
+import static tech.sirwellington.alchemy.test.DataGenerator.oneOf;
+import static tech.sirwellington.alchemy.test.DataGenerator.strings;
+import static tech.sirwellington.alchemy.test.DataGenerator.uuids;
+import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
 
 /**
  *

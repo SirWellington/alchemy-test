@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package sir.wellington.alchemy.test.junit;
+package tech.sirwellington.alchemy.test.junit;
 
 /**
  * Intended to be used in conjunction with {@link ThrowableAssertion} and Lambdas to make asserting Throwables much

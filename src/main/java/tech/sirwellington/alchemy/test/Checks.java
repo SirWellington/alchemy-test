@@ -39,7 +39,7 @@
  *
  * Portions Copyrighted 2015 Sun Microsystems, Inc.
  */
-package sir.wellington.alchemy.test;
+package tech.sirwellington.alchemy.test;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

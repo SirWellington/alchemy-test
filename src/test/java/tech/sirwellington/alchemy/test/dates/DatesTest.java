@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package sir.wellington.alchemy.test.dates;
+package tech.sirwellington.alchemy.test.dates;
 
 import java.time.Instant;
 import static java.time.Instant.now;
@@ -30,7 +30,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
-import static sir.wellington.alchemy.test.DataGenerator.positiveIntegers;
+import static tech.sirwellington.alchemy.test.DataGenerator.positiveIntegers;
 
 /**
  *

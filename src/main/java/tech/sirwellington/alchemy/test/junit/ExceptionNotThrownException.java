@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package sir.wellington.alchemy.test.junit;
+package tech.sirwellington.alchemy.test.junit;
 
 /**
  *

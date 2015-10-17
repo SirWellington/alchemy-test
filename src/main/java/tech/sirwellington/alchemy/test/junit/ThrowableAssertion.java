@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package sir.wellington.alchemy.test.junit;
+package tech.sirwellington.alchemy.test.junit;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.isA;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
-import static sir.wellington.alchemy.test.Checks.Internal.checkNotNull;
+import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
 import tech.sirwellington.alchemy.annotations.patterns.FluidAPIPattern;
 
 /**

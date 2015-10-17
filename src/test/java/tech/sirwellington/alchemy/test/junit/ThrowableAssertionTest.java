@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package sir.wellington.alchemy.test.junit;
+package tech.sirwellington.alchemy.test.junit;
 
 import java.io.IOException;
 import java.util.function.Function;
@@ -23,8 +23,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
-import static sir.wellington.alchemy.test.DataGenerator.alphabeticString;
-import static sir.wellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
+import static tech.sirwellington.alchemy.test.DataGenerator.alphabeticString;
+import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
 
 /**
  * @author SirWellington

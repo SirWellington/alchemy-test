@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package sir.wellington.alchemy.test.mockito;
+package tech.sirwellington.alchemy.test.mockito;
 
 import org.mockito.stubbing.Answer;
-import static sir.wellington.alchemy.test.Checks.Internal.checkThat;
+import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
 
 /**
  * This class contains a variety of useful answers for use in combination with Mockito.

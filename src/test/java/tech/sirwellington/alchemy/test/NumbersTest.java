@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package sir.wellington.alchemy.test;
+package tech.sirwellington.alchemy.test;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -21,11 +21,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
-import static sir.wellington.alchemy.test.DataGenerator.integers;
-import static sir.wellington.alchemy.test.DataGenerator.longs;
-import static sir.wellington.alchemy.test.DataGenerator.oneOf;
-import static sir.wellington.alchemy.test.Numbers.safeDecrement;
-import static sir.wellington.alchemy.test.Numbers.safeIncrement;
+import static tech.sirwellington.alchemy.test.DataGenerator.integers;
+import static tech.sirwellington.alchemy.test.DataGenerator.longs;
+import static tech.sirwellington.alchemy.test.DataGenerator.oneOf;
+import static tech.sirwellington.alchemy.test.Numbers.safeDecrement;
+import static tech.sirwellington.alchemy.test.Numbers.safeIncrement;
 
 /**
  *
