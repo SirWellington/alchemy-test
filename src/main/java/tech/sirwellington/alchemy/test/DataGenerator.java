@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 SirWellington.
+ * Copyright 2015 Sir Wellington.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package tech.sirwellington.alchemy.test;
 
 import java.util.ArrayList;
@@ -26,10 +27,10 @@ import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
+import tech.sirwellington.alchemy.annotations.arguments.NonNull;
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
 import static tech.sirwellington.alchemy.test.Numbers.safeIncrement;
-import tech.sirwellington.alchemy.annotations.arguments.NonNull;
 
 /**
  * A {@link DataGenerator} generates Data or Objects for use in testing scenarios. 

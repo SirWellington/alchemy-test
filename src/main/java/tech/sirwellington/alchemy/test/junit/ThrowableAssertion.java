@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 SirWellington.
+ * Copyright 2015 Sir Wellington.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package tech.sirwellington.alchemy.test.junit;
 
 import static org.hamcrest.Matchers.containsString;
@@ -21,8 +22,8 @@ import static org.hamcrest.Matchers.isA;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
-import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
 import tech.sirwellington.alchemy.annotations.patterns.FluidAPIPattern;
+import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
 
 /**
  * Makes it easier syntactically using Java 8 to assert an Exception is thrown by a section of code.
