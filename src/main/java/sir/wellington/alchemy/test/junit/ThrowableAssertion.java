@@ -21,8 +21,8 @@ import static org.hamcrest.Matchers.isA;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
+import static sir.wellington.alchemy.test.Checks.Internal.checkNotNull;
 import tech.sirwellington.alchemy.annotations.patterns.FluidAPIPattern;
-import sir.wellington.alchemy.test.Checks;
 
 /**
  * Makes it easier syntactically using Java 8 to assert an Exception is thrown by a section of code.
@@ -55,7 +55,7 @@ public final class ThrowableAssertion
      */
     public static ThrowableAssertion assertThrows(ExceptionOperation operation) throws ExceptionNotThrownException
     {
-        Checks.checkNotNull(operation, "missing operation");
+        checkNotNull(operation, "missing operation");
         return new ThrowableAssertion(operation)
                 .execute();
     }

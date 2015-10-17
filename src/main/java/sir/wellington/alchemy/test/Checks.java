@@ -43,41 +43,46 @@ package sir.wellington.alchemy.test;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import tech.sirwellington.alchemy.annotations.access.Internal;
 
 /**
- *
+ * Used internally to perform argument checks.
+ * 
  * @author SirWellington
  */
-@Internal
+@tech.sirwellington.alchemy.annotations.access.Internal
 public final class Checks
 {
 
     private final static Logger LOG = LoggerFactory.getLogger(Checks.class);
 
-    public static void checkNotNull(Object ref) throws IllegalArgumentException
+    @tech.sirwellington.alchemy.annotations.access.Internal
+    public static class Internal
     {
-        checkNotNull(ref, "");
-    }
 
-    public static void checkNotNull(Object ref, String message) throws IllegalArgumentException
-    {
-        if (ref == null)
+        public static void checkNotNull(Object ref) throws IllegalArgumentException
         {
-            throw new IllegalArgumentException(message);
+            checkNotNull(ref, "");
         }
-    }
 
-    public static void checkThat(boolean predicate) throws IllegalArgumentException
-    {
-        checkThat(predicate, "");
-    }
-
-    public static void checkThat(boolean predicate, String message) throws IllegalArgumentException
-    {
-        if (!predicate)
+        public static void checkNotNull(Object ref, String message) throws IllegalArgumentException
         {
-            throw new IllegalArgumentException(message);
+            if (ref == null)
+            {
+                throw new IllegalArgumentException(message);
+            }
+        }
+
+        public static void checkThat(boolean predicate) throws IllegalArgumentException
+        {
+            checkThat(predicate, "");
+        }
+
+        public static void checkThat(boolean predicate, String message) throws IllegalArgumentException
+        {
+            if (!predicate)
+            {
+                throw new IllegalArgumentException(message);
+            }
         }
     }
 
