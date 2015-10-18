@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 SirWellington.
+ * Copyright 2015 SirWellington Tech.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package sir.wellington.alchemy.test.mockito;
+
+package tech.sirwellington.alchemy.test.mockito;
 
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
@@ -30,14 +31,14 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
-import static sir.wellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
+import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
 
 /**
  *
  * @author SirWellington
  */
 @RunWith(MockitoJUnitRunner.class)
-public class AnswersTest
+public class MoreAnswersTest
 {
 
     @Before
@@ -51,11 +52,24 @@ public class AnswersTest
     {
 
     }
+    
+    @Test
+    public void testCannotInstantiate()
+    {
+        System.out.println("testCannotInstantiate");
+        
+        assertThrows(() -> MoreAnswers.class.newInstance())
+                .isInstanceOf(IllegalAccessException.class);
+        
+        assertThrows(() -> new MoreAnswers())
+                .isInstanceOf(IllegalAccessException.class);
+    }
 
     @Test
     public void testReturnFirst()
     {
         System.out.println("testReturnFirst");
+        
         Answer instance = MoreAnswers.returnFirst();
         assertNotNull(instance);
         BiFunction<String, String, String> function = mock(BiFunction.class);
@@ -76,6 +90,7 @@ public class AnswersTest
     public void testReturnArgumentAtIndex()
     {
         System.out.println("testReturnArgumentAtIndex");
+        
         int index = 1;
         Answer instance = MoreAnswers.returnArgumentAtIndex(index);
         assertNotNull(instance);
@@ -92,6 +107,7 @@ public class AnswersTest
     public void testReturnArgumentAtIndexWithBadIndex()
     {
         System.out.println("testReturnArgumentAtIndexWithBadIndex");
+        
         int index = -1;
         try
         {
@@ -109,6 +125,7 @@ public class AnswersTest
         BiFunction<String, String, String> function = mock(BiFunction.class);
         when(function.apply(anyString(), anyString()))
                 .then(instance);
+        
         assertThrows(() -> function.apply("one", "args4"))
                 .isInstanceOf(IllegalArgumentException.class);
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 SirWellington.
+ * Copyright 2015 SirWellington Tech.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package sir.wellington.alchemy.test.junit;
+
+package tech.sirwellington.alchemy.test.junit;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
@@ -21,8 +22,8 @@ import static org.hamcrest.Matchers.isA;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
-import sir.wellington.alchemy.annotations.patterns.FluidAPIPattern;
-import sir.wellington.alchemy.test.Checks;
+import tech.sirwellington.alchemy.annotations.designs.FluidAPIDesign;
+import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
 
 /**
  * Makes it easier syntactically using Java 8 to assert an Exception is thrown by a section of code.
@@ -40,7 +41,7 @@ import sir.wellington.alchemy.test.Checks;
  *
  * @author SirWellington
  */
-@FluidAPIPattern
+@FluidAPIDesign
 public final class ThrowableAssertion
 {
 
@@ -55,7 +56,7 @@ public final class ThrowableAssertion
      */
     public static ThrowableAssertion assertThrows(ExceptionOperation operation) throws ExceptionNotThrownException
     {
-        Checks.checkNotNull(operation, "missing operation");
+        checkNotNull(operation, "missing operation");
         return new ThrowableAssertion(operation)
                 .execute();
     }

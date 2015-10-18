@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 SirWellington.
+ * Copyright 2015 SirWellington Tech.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,19 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package sir.wellington.alchemy.test.mockito;
+
+package tech.sirwellington.alchemy.test.mockito;
 
 import org.mockito.stubbing.Answer;
-import sir.wellington.alchemy.test.Checks;
+import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
+import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
 
 /**
  * This class contains a variety of useful answers for use in combination with Mockito.
  *
  * @author SirWellington
  */
-public class MoreAnswers
+@NonInstantiable
+public final class MoreAnswers
 {
 
+    MoreAnswers() throws IllegalAccessException
+    {
+        throw new IllegalAccessException("cannot instantiate class");
+    }
+    
+    
     /**
      * For example:
      *
@@ -68,7 +77,7 @@ public class MoreAnswers
      */
     public static <T> Answer<T> returnArgumentAtIndex(int index)
     {
-        Checks.checkThat(index >= 0, "Index is out of bounds.");
+        checkThat(index >= 0, "Index is out of bounds.");
         return (i) ->
         {
             if (index >= i.getArguments().length)
