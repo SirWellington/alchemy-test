@@ -22,7 +22,7 @@ import static org.hamcrest.Matchers.isA;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
-import tech.sirwellington.alchemy.annotations.patterns.FluidAPIPattern;
+import tech.sirwellington.alchemy.annotations.designs.FluidAPIDesign;
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
 
 /**
@@ -41,7 +41,7 @@ import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
  *
  * @author SirWellington
  */
-@FluidAPIPattern
+@FluidAPIDesign
 public final class ThrowableAssertion
 {
 

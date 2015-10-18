@@ -17,6 +17,7 @@ package tech.sirwellington.alchemy.test;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
 
 /**
  * Used internally to perform argument checks.
@@ -24,6 +25,7 @@ import org.slf4j.LoggerFactory;
  * @author SirWellington
  */
 @tech.sirwellington.alchemy.annotations.access.Internal
+@NonInstantiable
 public final class Checks
 {
 
@@ -35,6 +37,7 @@ public final class Checks
     }
 
     @tech.sirwellington.alchemy.annotations.access.Internal
+    @NonInstantiable
     public static class Internal
     {
 
