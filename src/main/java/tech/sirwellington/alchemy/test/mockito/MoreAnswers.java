@@ -24,9 +24,16 @@ import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
  *
  * @author SirWellington
  */
-public class MoreAnswers
+public final class MoreAnswers
 {
 
+    MoreAnswers() throws IllegalAccessException
+    {
+        throw new IllegalAccessException("cannot instantiate class");
+    }
+
+    
+    
     /**
      * For example:
      *

@@ -29,7 +29,7 @@ public final class Checks
 
     private final static Logger LOG = LoggerFactory.getLogger(Checks.class);
 
-    private Checks() throws IllegalAccessException
+    Checks() throws IllegalAccessException
     {
         throw new IllegalAccessException("cannot instantiate");
     }
@@ -38,7 +38,7 @@ public final class Checks
     public static class Internal
     {
 
-        private Internal() throws IllegalAccessException
+        Internal() throws IllegalAccessException
         {
             throw new IllegalAccessException("cannot instantiate");
         }

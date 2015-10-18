@@ -64,7 +64,40 @@ public class ChecksTest
     public void testCheckNotNullExpecting()
     {
         System.out.println("testCheckNotNullExpecting");
+
+        Checks.Internal.checkNotNull(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testCheckNotNullExpectingWithMessage()
+    {
+        System.out.println("testCheckNotNullExpectingWithMessage");
+
         Checks.Internal.checkNotNull(null, message);
     }
-    
+
+    @Test
+    public void testCheckThat()
+    {
+        System.out.println("testCheckThat");
+
+        Checks.Internal.checkThat(true);
+        Checks.Internal.checkThat(true, message);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testCheckThatExpecting()
+    {
+        System.out.println("testCheckThatExpecting");
+
+        Checks.Internal.checkThat(false);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testCheckThatExpectingWithMessage()
+    {
+        System.out.println("testCheckThatExpectingWithMessage");
+
+        Checks.Internal.checkThat(false, message);
+    }
 }

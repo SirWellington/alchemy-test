@@ -38,7 +38,7 @@ import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThr
  * @author SirWellington
  */
 @RunWith(MockitoJUnitRunner.class)
-public class AnswersTest
+public class MoreAnswersTest
 {
 
     @Before
@@ -51,6 +51,18 @@ public class AnswersTest
     public void tearDown()
     {
 
+    }
+    
+    @Test
+    public void testCannotInstantiate()
+    {
+        System.out.println("testCannotInstantiate");
+        
+        assertThrows(() -> MoreAnswers.class.newInstance())
+                .isInstanceOf(IllegalAccessException.class);
+        
+        assertThrows(() -> new MoreAnswers())
+                .isInstanceOf(IllegalAccessException.class);
     }
 
     @Test
@@ -113,6 +125,7 @@ public class AnswersTest
         BiFunction<String, String, String> function = mock(BiFunction.class);
         when(function.apply(anyString(), anyString()))
                 .then(instance);
+        
         assertThrows(() -> function.apply("one", "args4"))
                 .isInstanceOf(IllegalArgumentException.class);
     }
