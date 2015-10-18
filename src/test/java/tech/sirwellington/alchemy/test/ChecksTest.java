@@ -28,11 +28,14 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class ChecksTest
 {
 
+    private String message;
+
     @Before
     public void setUp()
     {
+        message = "some message";
     }
-    
+
     @Test(expected = IllegalAccessException.class)
     public void testCannotInstantiate() throws InstantiationException, IllegalAccessException
     {
@@ -40,11 +43,28 @@ public class ChecksTest
         Checks.class.newInstance();
     }
 
+    @Test(expected = IllegalAccessException.class)
+    public void testCannotInstantiateInnerClass() throws InstantiationException, IllegalAccessException
+    {
+        System.out.println("testCannotInstantiateInnerClass");
+        Checks.Internal.class.newInstance();
+    }
+
     @Test
     public void testCheckNotNull()
     {
         System.out.println("testCheckNotNull");
-        
-        
+
+        Object object = new Object();
+        Checks.Internal.checkNotNull(object);
+        Checks.Internal.checkNotNull(object, message);
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testCheckNotNullExpecting()
+    {
+        System.out.println("testCheckNotNullExpecting");
+        Checks.Internal.checkNotNull(null, message);
+    }
+    
 }
