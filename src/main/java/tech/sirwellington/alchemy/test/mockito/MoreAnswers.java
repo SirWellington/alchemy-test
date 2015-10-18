@@ -17,6 +17,7 @@
 package tech.sirwellington.alchemy.test.mockito;
 
 import org.mockito.stubbing.Answer;
+import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
 
 /**
@@ -24,6 +25,7 @@ import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
  *
  * @author SirWellington
  */
+@NonInstantiable
 public final class MoreAnswers
 {
 
@@ -31,7 +33,6 @@ public final class MoreAnswers
     {
         throw new IllegalAccessException("cannot instantiate class");
     }
-
     
     
     /**
