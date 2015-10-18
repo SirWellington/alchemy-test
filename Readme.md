@@ -4,7 +4,10 @@ Alchemy Test, for Unit Testing
 [![Build Status](https://travis-ci.org/SirWellington/alchemy-test.svg)](https://travis-ci.org/SirWellington/alchemy-test)
 
 # Purpose
-Part of the Alchemy collection, this library makes it easier to test your code by providing unit-test helpers, fake data generators, and mock helpers.
+
+Part of the Alchemy collection, this library makes it easier to test your code by providing syntactic sugar for unit-testing and mocking.
+
+Testing your code should be as fun and simple as writing it.
 
 # Requirements
 
@@ -13,12 +16,9 @@ Part of the Alchemy collection, this library makes it easier to test your code b
 
 
 # Building
-This project builds with maven. Just run a `mvn clean install` to compile and install to your local maven repository
-
+This project builds with maven. Just run a `mvn clean install` to compile and install to your local maven repository.
 
 # Download
-
-> This library is not yet available on Maven Central
 
 To use, simply add the following maven dependency.
 
@@ -27,143 +27,75 @@ To use, simply add the following maven dependency.
 <dependency>
 	<groupId>tech.sirwellington.alchemy</groupId>
 	<artifactId>alchemy-test</artifactId>
-	<version>1.0.3</version>
+	<version>1.1</version>
 </dependency>
 ```
 
-```xml
 ## Snapshot
+
+>First add the Snapshot Repository
+```xml
+<repository>
+	<id>ossrh</id>
+    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+</repository>
+```
+
+```xml
 <dependency>
 	<groupId>tech.sirwellington.alchemy</groupId>
 	<artifactId>alchemy-test</artifactId>
-	<version>1.1-SNAPSHOT</version>
+	<version>1.2-SNAPSHOT</version>
 </dependency>
 ```
 
 
 ==============================================
+# Throwable Assertions
+In conjunction with JUnit, Throwable assertions make it really easy to write _Exception Statements_.
 
-# JUnit Helpers
+Instead of writing all this:
 
-## Throwable Assertions
-Throwable assertions make it easy to assert that certain parts of code throw an exception and of a particualr type.
-
-Instead of 
-
-``` java
+>``` java
 try
 {
 	instance.call("badArg");
 	fail("Expected exception");
 }
-catch(Exception ex)
+catch(IllegalArgumentException ex)
 {
-	//Pass
+	//This means the test passed
 }
 ```
-You can now just do: 
+
+You can now just do:
 
 ``` java
-
 assertThrows(() -> instance.call("badArg"))
-.isInstanceOf(RuntimeException.class); //Optional further assertion
+.isInstanceOf(IllegalArgumentException.class); //Optional further assertion
 ```
 
-This is possible thanks to the new Java 8 lambdas. It makes it much easier to make excpetion assertions on your code.
+# Mockito Answers
 
-
-# Data Generation
-
-Using randomly generated data sets helps improve test quality by assuring that your code can work over a wide range of data, 
-and not just what you hard-code in. This library makes it painless to generate primitive types, 
-and you can even supply your own Data Generators for use in conjunction with this library.
-
-
->Examples assume static imports`
-
-## Numbers
-
-```java
-//A number in the range [-50, 50)
-int someNumber = integers(-50, 50).get();
-
-//Get any positive long
-long somePositiveNumber = positiveLongs().get();
-
-//alternative way to get a single value
-somePositiveNumber = oneOf(positiveLongs());
-
-//A double in the range [0.1, 1999.0]
-DataGenerator<Double> doubleGenerator = doubles(0.1, 1999.0);
-for(int i = 0; i < 100; ++i)
-{
-	LOG.info("Received double {}", doubleGenerator.get());
-}
-
-//A list of 30 randomly selected positive integers
-List<Integer> thirtyNumbers = listOf(positiveIntegers(), 30);
-
-```
-## Strings
-```java
-//May have unicode characters as well
-String anyCharacterString = strings(30).get();
-assertThat(anyCharacterString.lenght(), is(30));
-
-String hex = hexadecimalString(32).get();
-String alphabetical = alphabeticString(5).get();
-
-List<String> uuids = Lists.newArrayList();
-for(int i = 0; i < 40; ++i)
-{
-	uuids.add(DataGenerator.uuids.get());
-}
-
-//Shorter way
-uuids = listOf(uuids, 20);
-List<String> strings = listOf(alphabeticString(20), 100);
-
-//The generated strings can only be one of the supplied ones.
-String stringFromList = stringsFromFixedList("one", "something else", "Java").get();
-```
-
-## Enums
-
-Let's say you have an enum called Fruits defined as:
-```java
-enum Fruit
-{
-	APPLE,
-	ORANGE,
-	BANANA,
-	GUAVA
-}
-```
-and you want to get one of the values at random. All you have to do is
-
-```java
-Fruit fruit = enumValueOf(Fruit.class).get();
-```
-
-# Mockito Helpers
-## Answers
-
+## Returning arguments back
 ```java
 // Return the first argument back when the mock is called
-when(someMock).call(anyString(), anyString(), anyString())
-	.then(returnFirst());
+when(someMock)
+	.call(anyString(), anyString())
+	then(returnFirst());
 
 //verify it works
-String result = mock.call("arg1", "arg2", "arg3");
+String result = mock.call("arg1", "arg2");
 assertThat(result, is("arg1"));
 ```
 
 # Release Notes
 
 ## 1.1
++ Initial Public Release
 
 ## 1.0.3
-+ Bugfixes to number generation
++ Bug-fixes to number generation
 
 ## 1.0.2
 + Expanding `positiveIntegers()` and `positiveLongs()` to include larger ranges from `1...Integer/Long.MAX_VALUE`

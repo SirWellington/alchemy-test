@@ -860,5 +860,148 @@ body .markdown-body
   float: left;
   margin: 0.3em 0 0.25em -1.6em;
   vertical-align: middle;
-}</style><title>Readme</title></head><body><article class="markdown-body"><p>test</p>
+}</style><title>Readme</title></head><body><article class="markdown-body"><h1>
+<a id="user-content-alchemy-test-for-unit-testing" class="anchor" href="#alchemy-test-for-unit-testing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Alchemy Test, for Unit Testing</h1>
+
+<p><a href="https://travis-ci.org/SirWellington/alchemy-test"><img src="https://camo.githubusercontent.com/37524904d321b5014826f5b434664310a0b35a16/68747470733a2f2f7472617669732d63692e6f72672f53697257656c6c696e67746f6e2f616c6368656d792d746573742e737667" alt="Build Status" data-canonical-src="https://travis-ci.org/SirWellington/alchemy-test.svg" style="max-width:100%;"></a></p>
+
+<h1>
+<a id="user-content-purpose" class="anchor" href="#purpose" aria-hidden="true"><span class="octicon octicon-link"></span></a>Purpose</h1>
+
+<p>Part of the Alchemy collection, this library makes it easier to test your code by providing syntactic sugar for unit-testing and mocking.</p>
+
+<p>Testing your code should be as fun and simple as writing it.</p>
+
+<h1>
+<a id="user-content-requirements" class="anchor" href="#requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Requirements</h1>
+
+<ul>
+<li>JDK 8</li>
+<li>Maven</li>
+</ul>
+
+<h1>
+<a id="user-content-building" class="anchor" href="#building" aria-hidden="true"><span class="octicon octicon-link"></span></a>Building</h1>
+
+<p>This project builds with maven. Just run a <code>mvn clean install</code> to compile and install to your local maven repository.</p>
+
+<h1>
+<a id="user-content-download" class="anchor" href="#download" aria-hidden="true"><span class="octicon octicon-link"></span></a>Download</h1>
+
+<p>To use, simply add the following maven dependency.</p>
+
+<h2>
+<a id="user-content-release" class="anchor" href="#release" aria-hidden="true"><span class="octicon octicon-link"></span></a>Release</h2>
+
+<div class="highlight highlight-text-xml"><pre>&lt;<span class="pl-ent">dependency</span>&gt;
+    &lt;<span class="pl-ent">groupId</span>&gt;tech.sirwellington.alchemy&lt;/<span class="pl-ent">groupId</span>&gt;
+    &lt;<span class="pl-ent">artifactId</span>&gt;alchemy-test&lt;/<span class="pl-ent">artifactId</span>&gt;
+    &lt;<span class="pl-ent">version</span>&gt;1.1&lt;/<span class="pl-ent">version</span>&gt;
+&lt;/<span class="pl-ent">dependency</span>&gt;</pre></div>
+
+<h2>
+<a id="user-content-snapshot" class="anchor" href="#snapshot" aria-hidden="true"><span class="octicon octicon-link"></span></a>Snapshot</h2>
+
+<blockquote>
+<p>First add the Snapshot Repository</p>
+
+<div class="highlight highlight-text-xml"><pre>&lt;<span class="pl-ent">repository</span>&gt;
+    &lt;<span class="pl-ent">id</span>&gt;ossrh&lt;/<span class="pl-ent">id</span>&gt;
+    &lt;<span class="pl-ent">url</span>&gt;https://oss.sonatype.org/content/repositories/snapshots&lt;/<span class="pl-ent">url</span>&gt;
+&lt;/<span class="pl-ent">repository</span>&gt;</pre></div>
+</blockquote>
+
+<div class="highlight highlight-text-xml"><pre>&lt;<span class="pl-ent">dependency</span>&gt;
+    &lt;<span class="pl-ent">groupId</span>&gt;tech.sirwellington.alchemy&lt;/<span class="pl-ent">groupId</span>&gt;
+    &lt;<span class="pl-ent">artifactId</span>&gt;alchemy-test&lt;/<span class="pl-ent">artifactId</span>&gt;
+    &lt;<span class="pl-ent">version</span>&gt;1.2-SNAPSHOT&lt;/<span class="pl-ent">version</span>&gt;
+&lt;/<span class="pl-ent">dependency</span>&gt;</pre></div>
+
+<h1></h1>
+
+<h1>
+<a id="user-content-throwable-assertions" class="anchor" href="#throwable-assertions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Throwable Assertions</h1>
+
+<p>In conjunction with JUnit, Throwable assertions make it really easy to write <em>Exception Statements</em>.</p>
+
+<p>Instead of writing all this:</p>
+
+<blockquote>
+<div class="highlight highlight-source-java"><pre><span class="pl-k">try</span>
+{
+    instance<span class="pl-k">.</span>call(<span class="pl-s"><span class="pl-pds">"</span>badArg<span class="pl-pds">"</span></span>);
+    fail(<span class="pl-s"><span class="pl-pds">"</span>Expected exception<span class="pl-pds">"</span></span>);
+}
+<span class="pl-k">catch</span>(<span class="pl-smi">IllegalArgumentException</span> ex)
+{
+    <span class="pl-c">//This means the test passed</span>
+}</pre></div>
+</blockquote>
+
+<p>You can now just do:</p>
+
+<div class="highlight highlight-source-java"><pre>assertThrows(() <span class="pl-k">-</span><span class="pl-k">&gt;</span> instance<span class="pl-k">.</span>call(<span class="pl-s"><span class="pl-pds">"</span>badArg<span class="pl-pds">"</span></span>))
+.isInstanceOf(<span class="pl-smi">IllegalArgumentException</span><span class="pl-k">.</span>class); <span class="pl-c">//Optional further assertion</span></pre></div>
+
+<h1>
+<a id="user-content-mockito-answers" class="anchor" href="#mockito-answers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Mockito Answers</h1>
+
+<h2>
+<a id="user-content-returning-arguments-back" class="anchor" href="#returning-arguments-back" aria-hidden="true"><span class="octicon octicon-link"></span></a>Returning arguments back</h2>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-c">// Return the first argument back when the mock is called</span>
+when(someMock)
+    .call(anyString(), anyString())
+    then(returnFirst());
+
+<span class="pl-c">//verify it works</span>
+<span class="pl-smi">String</span> result <span class="pl-k">=</span> mock<span class="pl-k">.</span>call(<span class="pl-s"><span class="pl-pds">"</span>arg1<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>arg2<span class="pl-pds">"</span></span>);
+assertThat(result, is(<span class="pl-s"><span class="pl-pds">"</span>arg1<span class="pl-pds">"</span></span>));</pre></div>
+
+<h1>
+<a id="user-content-release-notes" class="anchor" href="#release-notes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Release Notes</h1>
+
+<h2>
+<a id="user-content-11" class="anchor" href="#11" aria-hidden="true"><span class="octicon octicon-link"></span></a>1.1</h2>
+
+<ul>
+<li>Initial Public Release</li>
+</ul>
+
+<h2>
+<a id="user-content-103" class="anchor" href="#103" aria-hidden="true"><span class="octicon octicon-link"></span></a>1.0.3</h2>
+
+<ul>
+<li>Bug-fixes to number generation</li>
+</ul>
+
+<h2>
+<a id="user-content-102" class="anchor" href="#102" aria-hidden="true"><span class="octicon octicon-link"></span></a>1.0.2</h2>
+
+<ul>
+<li>Expanding <code>positiveIntegers()</code> and <code>positiveLongs()</code> to include larger ranges from <code>1...Integer/Long.MAX_VALUE</code>
+</li>
+<li>Adding <code>smallPositiveIntegers()</code> to allow explicit creation of "small" positive integer values. This is useful in conjunction with creating arrays, or other types of functions that require a workable size.</li>
+</ul>
+
+<h2>
+<a id="user-content-101" class="anchor" href="#101" aria-hidden="true"><span class="octicon octicon-link"></span></a>1.0.1</h2>
+
+<ul>
+<li>Adding convenience method for alphabeticStrings</li>
+</ul>
+
+<h2>
+<a id="user-content-100" class="anchor" href="#100" aria-hidden="true"><span class="octicon octicon-link"></span></a>1.0.0</h2>
+
+<ul>
+<li>New Throwable Assertions</li>
+<li>Suite of Mockito Answers</li>
+<li>Simple Data Generation API</li>
+</ul>
+
+<h1>
+<a id="user-content-license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h1>
+
+<p>This Software is licensed under the Apache 2.0 License</p>
 </article></body></html>
