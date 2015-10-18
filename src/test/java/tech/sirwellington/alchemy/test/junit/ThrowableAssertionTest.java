@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 SirWellington.
+ * Copyright 2015 SirWellington Tech.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
-import static tech.sirwellington.alchemy.test.DataGenerator.alphabeticString;
 import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
 
 /**
@@ -46,17 +45,18 @@ public class ThrowableAssertionTest
     @Test
     public void testAssertThrown()
     {
-        System.out.println("assertThrown");
+        System.out.println("testAssertThrown");
+        
         ThrowableAssertion.assertThrows(() ->
         {
             throw new RuntimeException();
         }).hasNoCause()
-          .isInstanceOf(RuntimeException.class);
+                .isInstanceOf(RuntimeException.class);
 
         try
         {
             ThrowableAssertion.assertThrows(() -> {} );
-            
+
             fail("Expected exception here");
         }
         catch (ExceptionNotThrownException ex)
@@ -77,7 +77,8 @@ public class ThrowableAssertionTest
     @Test
     public void testIsInstanceOf()
     {
-        System.out.println("isInstanceOf");
+        System.out.println("testIsInstanceOf");
+        
         assertThrows(() ->
         {
             throw new IllegalArgumentException();
@@ -87,35 +88,38 @@ public class ThrowableAssertionTest
     @Test
     public void testHasMessage()
     {
-        System.out.println("hasMessage");
-        String message = alphabeticString(20).get();
+        System.out.println("testHasMessage");
+        
+        String message = "some message";
         assertThrows(() ->
         {
             throw new IllegalArgumentException(message);
         }).isInstanceOf(IllegalArgumentException.class)
-          .hasMessage(message);
+                .hasMessage(message);
     }
 
     @Test
     public void testHasNoCause()
     {
-        System.out.println("hasNoCause");
+        System.out.println("testHasNoCause");
+        
         assertThrows(() ->
         {
             throw new IllegalArgumentException();
         }).isInstanceOf(IllegalArgumentException.class)
-          .hasNoCause();
+                .hasNoCause();
     }
 
     @Test
     public void testHasCauseInstanceOf()
     {
-        System.out.println("hasCauseInstanceOf");
+        System.out.println("testHasCauseInstanceOf");
+        
         assertThrows(() ->
         {
             throw new IllegalArgumentException(new IOException());
         }).isInstanceOf(IllegalArgumentException.class)
-          .hasCauseInstanceOf(IOException.class);
+                .hasCauseInstanceOf(IOException.class);
     }
 
 }
