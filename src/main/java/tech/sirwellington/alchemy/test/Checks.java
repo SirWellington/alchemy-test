@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package tech.sirwellington.alchemy.test;
 
 import org.slf4j.Logger;
@@ -21,7 +20,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Used internally to perform argument checks.
- * 
+ *
  * @author SirWellington
  */
 @tech.sirwellington.alchemy.annotations.access.Internal
@@ -30,9 +29,19 @@ public final class Checks
 
     private final static Logger LOG = LoggerFactory.getLogger(Checks.class);
 
+    private Checks() throws IllegalAccessException
+    {
+        throw new IllegalAccessException("cannot instantiate");
+    }
+
     @tech.sirwellington.alchemy.annotations.access.Internal
     public static class Internal
     {
+
+        private Internal() throws IllegalAccessException
+        {
+            throw new IllegalAccessException("cannot instantiate");
+        }
 
         public static void checkNotNull(Object ref) throws IllegalArgumentException
         {
