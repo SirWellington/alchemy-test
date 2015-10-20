@@ -12,7 +12,6 @@ Part of the Alchemy collection, **Alchemy Test** is a Unit Test Library that mak
 
 
 # Requirements
-
 + Java 8
 + Maven 3+
 
@@ -51,7 +50,11 @@ To use, simply add the following maven dependency.
 </dependency>
 ```
 
+# Javadocs
+## [Latest](http://www.javadoc.io/doc/tech.sirwellington.alchemy/alchemy-test/)
 
+
+API
 ==============================================
 # Throwable Assertions
 In conjunction with JUnit, Throwable assertions make it really easy to write _Exception Statements_.
@@ -94,6 +97,8 @@ assertThat(result, is("arg1"));
 # More coming soon...
 
 # Release Notes
+
+## 1.2
 
 ## 1.1
 + Initial Public Release
