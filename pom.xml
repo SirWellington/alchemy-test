@@ -19,7 +19,7 @@
 
         Testing your code should be as fun and simple as writing it.
 
-        Alchemy Test isa Unit Test Library that makes it easier
+        Alchemy Test is a Unit Test Library that makes it easier
         to test your code by providing syntactic sugar for unit-testing and mocking.
     </description>
 
