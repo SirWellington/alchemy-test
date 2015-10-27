@@ -1,9 +1,9 @@
 Alchemy Test
 ==============================================
 
-## "Testing your code should be as fun and simple as writing it."
-
 <img src="https://raw.githubusercontent.com/SirWellington/alchemy/develop/Graphics/Logo/Alchemy-Logo-v3-name.png" width="200">
+
+## "Testing your code should be as fun and simple as writing it."
 
 [![Build Status](https://travis-ci.org/SirWellington/alchemy-test.svg)](https://travis-ci.org/SirWellington/alchemy-test)
 
