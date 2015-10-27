@@ -1,23 +1,17 @@
 Alchemy Test
 ==============================================
-### "Testing your code should be as fun and simple as writing it."
+
+<img src="https://raw.githubusercontent.com/SirWellington/alchemy/develop/Graphics/Logo/Alchemy-Logo-v3-name.png" width="200">
 
 [![Build Status](https://travis-ci.org/SirWellington/alchemy-test.svg)](https://travis-ci.org/SirWellington/alchemy-test)
+
+### "Testing your code should be as fun and simple as writing it."
 
 
 # Purpose
 
 Part of the Alchemy collection, **Alchemy Test** is a Unit Test Library that makes it easier to test your code by providing syntactic sugar for unit-testing and mocking.
 
-
-
-# Requirements
-+ Java 8
-+ Maven 3+
-
-
-# Building
-This project builds with maven. Just run a `mvn clean install` to compile and install to your local maven repository.
 
 # Download
 
@@ -95,6 +89,15 @@ assertThat(result, is("arg1"));
 ```
 
 # More coming soon...
+
+
+# Requirements
++ Java 8
++ Maven 3+
+
+
+# Building
+This project builds with maven. Just run a `mvn clean install` to compile and install to your local maven repository.
 
 # Release Notes
 
