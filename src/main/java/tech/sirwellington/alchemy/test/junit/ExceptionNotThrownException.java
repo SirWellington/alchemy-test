@@ -20,7 +20,7 @@ package tech.sirwellington.alchemy.test.junit;
  *
  * @author SirWellington
  */
-public class ExceptionNotThrownException extends RuntimeException
+public class ExceptionNotThrownException extends AssertionError
 {
 
     public ExceptionNotThrownException()

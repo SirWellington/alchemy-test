@@ -18,11 +18,12 @@ package tech.sirwellington.alchemy.test.junit;
 import java.io.IOException;
 import java.util.function.Function;
 import org.junit.After;
-import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import static org.junit.Assert.fail;
 import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
 
 /**
@@ -46,22 +47,29 @@ public class ThrowableAssertionTest
     public void testAssertThrown()
     {
         System.out.println("testAssertThrown");
-        
+
         ThrowableAssertion.assertThrows(() ->
         {
             throw new RuntimeException();
         }).hasNoCause()
                 .isInstanceOf(RuntimeException.class);
 
+        boolean passed = true;
         try
         {
-            ThrowableAssertion.assertThrows(() -> {} );
-
-            fail("Expected exception here");
+            ThrowableAssertion.assertThrows(() ->
+            {
+            });
+            passed = false;
         }
-        catch (ExceptionNotThrownException ex)
+        catch (AssertionError ex)
         {
-
+            passed = true;
+        }
+        
+        if (!passed)
+        {
+            fail("Expected AssertionError");
         }
 
         Function<String, String> function = (s) ->
@@ -78,7 +86,7 @@ public class ThrowableAssertionTest
     public void testIsInstanceOf()
     {
         System.out.println("testIsInstanceOf");
-        
+
         assertThrows(() ->
         {
             throw new IllegalArgumentException();
@@ -89,7 +97,7 @@ public class ThrowableAssertionTest
     public void testHasMessage()
     {
         System.out.println("testHasMessage");
-        
+
         String message = "some message";
         assertThrows(() ->
         {
@@ -102,7 +110,7 @@ public class ThrowableAssertionTest
     public void testHasNoCause()
     {
         System.out.println("testHasNoCause");
-        
+
         assertThrows(() ->
         {
             throw new IllegalArgumentException();
@@ -114,7 +122,7 @@ public class ThrowableAssertionTest
     public void testHasCauseInstanceOf()
     {
         System.out.println("testHasCauseInstanceOf");
-        
+
         assertThrows(() ->
         {
             throw new IllegalArgumentException(new IOException());
