@@ -89,7 +89,7 @@ public class AlchemyTestRunner extends BlockJUnit4ClassRunner
 
     private int determineTimesToRun(FrameworkMethod method)
     {
-        Times methodAnnotation = method.getAnnotation(Times.class);
+        Repeat methodAnnotation = method.getAnnotation(Repeat.class);
 
         if (methodAnnotation != null)
         {
@@ -103,7 +103,7 @@ public class AlchemyTestRunner extends BlockJUnit4ClassRunner
             return value;
         }
 
-        Times testAnnotation = getTestClass().getAnnotation(Times.class);
+        Repeat testAnnotation = getTestClass().getAnnotation(Repeat.class);
 
         if (testAnnotation != null)
         {
