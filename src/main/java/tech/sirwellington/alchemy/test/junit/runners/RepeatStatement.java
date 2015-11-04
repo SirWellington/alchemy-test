@@ -64,6 +64,7 @@ class RepeatStatement extends Statement
         for (int i = 0; i < timesToRepeat; ++i)
         {
             Statement delegateStatement = statementFactory.get();
+            checkNotNull(delegateStatement, "statementFactory returned null Statement");
             delegateStatement.evaluate();
         }
         long end = System.currentTimeMillis();
