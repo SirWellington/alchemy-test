@@ -25,6 +25,9 @@ import org.junit.runners.model.Statement;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import static org.hamcrest.Matchers.isEmptyOrNullString;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -119,6 +122,8 @@ public class RepeatStatementTest
     @Test
     public void testToString()
     {
+        String toString = instance.toString();
+        assertThat(toString, not(isEmptyOrNullString()));
     }
 
 }
