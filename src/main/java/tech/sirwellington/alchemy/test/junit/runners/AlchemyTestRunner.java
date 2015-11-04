@@ -27,8 +27,6 @@ import org.mockito.internal.runners.util.FrameworkUsageValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.junit.Assert.fail;
-
 /**
  *
  * @author SirWellington
@@ -89,29 +87,39 @@ public class AlchemyTestRunner extends BlockJUnit4ClassRunner
 
     private int determineTimesToRun(FrameworkMethod method)
     {
-        Repeat methodAnnotation = method.getAnnotation(Repeat.class);
 
-        if (methodAnnotation != null)
+        DontRepeat dontRepeatAnnotation = method.getAnnotation(DontRepeat.class);
+
+        if (dontRepeatAnnotation != null)
         {
-            int value = methodAnnotation.value();
+            return 1;
+        }
+
+        Repeat repeatAnnotationOnMethod = method.getAnnotation(Repeat.class);
+
+        if (repeatAnnotationOnMethod != null)
+        {
+            int value = repeatAnnotationOnMethod.value();
 
             if (value <= 0)
             {
-                fail(method.getName() + " annotated with a negative @Times");
+                LOG.error(method.getName() + " annotated with a negative @Times. Defaulting to 1");
+                value = 1;
             }
 
             return value;
         }
 
-        Repeat testAnnotation = getTestClass().getAnnotation(Repeat.class);
+        Repeat repeatAnnotationOnClass = getTestClass().getAnnotation(Repeat.class);
 
-        if (testAnnotation != null)
+        if (repeatAnnotationOnClass != null)
         {
-            int value = testAnnotation.value();
+            int value = repeatAnnotationOnClass.value();
 
             if (value <= 0)
             {
-                fail(getTestClass().getName() + " annotated with a negative @Times");
+                LOG.error(getTestClass().getName() + " annotated with a negative @Times. Defaulting to 1");
+                value = 1;
             }
 
             return value;
