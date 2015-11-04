@@ -76,7 +76,7 @@ assertThrows(() -> instance.call("badArg"))
 
 # Alchemy Test Runner
 
-#### Let's take some of the drudgery out of Unit Testing
+#### "Let's take some of the drudgery out of Unit Testing"
 
 
 ## Free Print Statements
@@ -89,7 +89,7 @@ public void testSomeMethod()
 	//Print out the test name at the beginning
 	System.out.println("testSomeMethod");
 
-	//Rest of the Test Case
+	//Rest of the Test Case...
 }
 ```
 
@@ -125,7 +125,7 @@ testValidContentType()
 
 ## Repeat Tests
 Used in conjunction with [Alchemy Generator](https://github.com/SirWellington/alchemy-generator),
-repeat tests can make for powerful test quality.
+repeat tests can make for powerful test *quality*.
 
 ```java
 @Repeat(1000)
@@ -139,6 +139,7 @@ public class StringEncryptorTests
 	public void setup()
 	{
 		text = one(hexadecimalStrings(10));
+		instance = new StringEncryptor();
 	}
 
 	@Test
@@ -163,7 +164,8 @@ public class StringEncryptorTests
 	@Before
 	public void setup()
 	{
-		text = one(strings(10));
+		text = one(alphabeticStrings(10));
+		instance = new StringEncryptor();
 	}
 
 	//Repeat less often
@@ -177,6 +179,15 @@ public class StringEncryptorTests
 }
 ```
 You can also use the `@DontRepeat` annotation to prevent a testCase from being repeated entirely.
+
+```java
+@DontRepeat
+@Test
+public void testExecute()
+{
+	//Will run only once
+}
+```
 
 ## Mockito Initialization
 
