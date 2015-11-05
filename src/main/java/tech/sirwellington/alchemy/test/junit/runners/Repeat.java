@@ -14,32 +14,26 @@
  * limitations under the License.
  */
 
-package tech.sirwellington.alchemy.test.junit;
+
+package tech.sirwellington.alchemy.test.junit.runners;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
 
 /**
+ * Allows each Test Case to be executed multiple times. This is highly useful when combined with
+ * randomized data, allowing your tests to cover more ground quickly.
  *
  * @author SirWellington
  */
-public class ExceptionNotThrownException extends AssertionError
+@Retention(RUNTIME)
+@Target({TYPE, METHOD})
+public @interface Repeat 
 {
-
-    public ExceptionNotThrownException()
-    {
-    }
-
-    public ExceptionNotThrownException(String message)
-    {
-        super(message);
-    }
-
-    public ExceptionNotThrownException(String message, Throwable cause)
-    {
-        super(message, cause);
-    }
-
-    public ExceptionNotThrownException(Throwable cause)
-    {
-        super(cause);
-    }
-
+    int value() default 100;
 }

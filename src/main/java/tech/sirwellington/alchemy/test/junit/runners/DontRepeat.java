@@ -14,32 +14,24 @@
  * limitations under the License.
  */
 
-package tech.sirwellington.alchemy.test.junit;
+
+package tech.sirwellington.alchemy.test.junit.runners;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
 
 /**
+ * Applied on a Test Method, this Annotation tells the {@link AlchemyTestRunner} not to repeat the
+ * test case, even if a {@linkplain Repeat @Repeat} is attached to the Test Class (or method).
  *
  * @author SirWellington
  */
-public class ExceptionNotThrownException extends AssertionError
+@Retention(RUNTIME)
+@Target({METHOD})
+public @interface DontRepeat
 {
-
-    public ExceptionNotThrownException()
-    {
-    }
-
-    public ExceptionNotThrownException(String message)
-    {
-        super(message);
-    }
-
-    public ExceptionNotThrownException(String message, Throwable cause)
-    {
-        super(message, cause);
-    }
-
-    public ExceptionNotThrownException(Throwable cause)
-    {
-        super(cause);
-    }
-
 }

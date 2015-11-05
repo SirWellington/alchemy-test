@@ -14,32 +14,26 @@
  * limitations under the License.
  */
 
-package tech.sirwellington.alchemy.test.junit;
+
+package tech.sirwellington.alchemy.test.junit.runners;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+import tech.sirwellington.alchemy.generator.AlchemyGenerator;
+
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
+ * Use this annotation on a Test Class's fields to automatically generate a value at Test Time. This
+ * is done using the {@link AlchemyGenerator } library.
  *
  * @author SirWellington
  */
-public class ExceptionNotThrownException extends AssertionError
+@Retention(RUNTIME)
+@Target({TYPE, FIELD})
+public @interface Generate
 {
-
-    public ExceptionNotThrownException()
-    {
-    }
-
-    public ExceptionNotThrownException(String message)
-    {
-        super(message);
-    }
-
-    public ExceptionNotThrownException(String message, Throwable cause)
-    {
-        super(message, cause);
-    }
-
-    public ExceptionNotThrownException(Throwable cause)
-    {
-        super(cause);
-    }
-
+    //TODO: Add additional metadata.
 }

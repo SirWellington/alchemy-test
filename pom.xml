@@ -5,11 +5,11 @@
     <parent>
         <groupId>tech.sirwellington.alchemy</groupId>
         <artifactId>alchemy</artifactId>
-        <version>1.0</version>
+        <version>1.1</version>
     </parent>
 
     <artifactId>alchemy-test</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
     <name>${project.artifactId}</name>
     <packaging>jar</packaging>
 
@@ -19,7 +19,7 @@
 
         Testing your code should be as fun and simple as writing it.
 
-        Alchemy Test isa Unit Test Library that makes it easier 
+        Alchemy Test is a Unit Test Library that makes it easier
         to test your code by providing syntactic sugar for unit-testing and mocking.
     </description>
 
@@ -70,13 +70,17 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>alchemy-annotations</artifactId>
             <version>1.2</version>
         </dependency>
-        
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>alchemy-generator</artifactId>
+            <version>1.1</version>
+        </dependency>
     </dependencies>
 
     <build>
