@@ -22,13 +22,23 @@ import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.Statement;
 import org.junit.runners.model.TestClass;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.runners.util.FrameworkUsageValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * Alchemy Test Runner Features:
  *
+ * <ul>
+ * <li> Initializes Mockito {@linkplain Mock @Mocks}
+ * <li> Prints out the testName to the console using {@code System.out.println()}
+ * <li> Can repeat your tests using the {@linkplain  Repeat @Repeat} annotation.
+ *
+ * </ul>
+ *
+ * @see <a href="https://github.com/SirWellington/alchemy-test">https://github.com/SirWellington/alchemy-test</a>
  * @author SirWellington
  */
 public class AlchemyTestRunner extends BlockJUnit4ClassRunner
