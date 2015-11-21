@@ -1,7 +1,7 @@
 Alchemy Test
 ==============================================
 
-<img src="https://raw.githubusercontent.com/SirWellington/alchemy/develop/Graphics/Logo/Alchemy-Logo-v3-name.png" width="200">
+[<img src="https://raw.githubusercontent.com/SirWellington/alchemy/develop/Graphics/Logo/Alchemy-Logo-v3-name.png" width="200">](https://github.com/SirWellington/alchemy)
 
 ## "Testing your code should be as fun and simple as writing it."
 
@@ -23,7 +23,7 @@ To use, simply add the following maven dependency.
 <dependency>
 	<groupId>tech.sirwellington.alchemy</groupId>
 	<artifactId>alchemy-test</artifactId>
-	<version>1.2</version>
+	<version>1.2.1</version>
 </dependency>
 ```
 
