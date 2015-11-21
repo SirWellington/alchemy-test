@@ -23,7 +23,7 @@ To use, simply add the following maven dependency.
 <dependency>
 	<groupId>tech.sirwellington.alchemy</groupId>
 	<artifactId>alchemy-test</artifactId>
-	<version>1.2</version>
+	<version>1.2.1</version>
 </dependency>
 ```
 
