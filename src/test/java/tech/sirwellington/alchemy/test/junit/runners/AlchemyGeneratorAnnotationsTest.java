@@ -22,10 +22,13 @@ import org.junit.runner.RunWith;
 import org.junit.runners.model.TestClass;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isEmptyOrNullString;
+import static org.hamcrest.Matchers.lessThan;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
+import static tech.sirwellington.alchemy.test.junit.runners.GenerateInteger.Type.RANGE;
 
 /**
  *
@@ -60,15 +63,25 @@ public class AlchemyGeneratorAnnotationsTest
     {
 
         private static final int STRING_LENGTH = 105;
+        
+        private static final int MIN_INT = 13;
+        private static final int MAX_INT = 20145;
 
         @GenerateString(length = STRING_LENGTH)
         private String string;
+        
+        @GenerateInteger(value = RANGE, min = MIN_INT, max = MAX_INT)
+        private int integer;
 
         @Before
         public void setUp()
         {
             assertThat(string, not(isEmptyOrNullString()));
             assertThat(string.length(), is(STRING_LENGTH));
+            
+            assertThat(integer, greaterThanOrEqualTo(MIN_INT));
+            assertThat(integer, lessThan(MAX_INT));
+            
         }
     }
 

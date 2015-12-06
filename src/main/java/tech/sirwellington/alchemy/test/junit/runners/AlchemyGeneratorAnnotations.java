@@ -47,14 +47,37 @@ class AlchemyGeneratorAnnotations
         {
             inflateString(field, target);
         }
+
+        List<FrameworkField> integerGeneratedFields = testClass.getAnnotatedFields(GenerateInteger.class);
+        for (FrameworkField field : integerGeneratedFields)
+        {
+            inflateInteger(field, target);
+        }
     }
 
-    static void inflateString(FrameworkField field, Object target) throws IllegalArgumentException, IllegalAccessException
+    private static void inflateString(FrameworkField field, Object target) throws IllegalArgumentException, IllegalAccessException
     {
         GenerateString annotation = field.getAnnotation(GenerateString.class);
         checkNotNull(annotation, "missing annotation");
 
         AlchemyGenerator<String> generator = GenerateString.Values.createGeneratorFor(annotation);
+        String value = generator.get();
+        inflate(field, target, value);
+    }
+
+    private static void inflateInteger(FrameworkField field, Object target) throws IllegalArgumentException, IllegalAccessException
+    {
+        GenerateInteger annotation = field.getAnnotation(GenerateInteger.class);
+        checkNotNull(annotation, "missing annotation");
+
+        AlchemyGenerator<Integer> generator = GenerateInteger.Values.createGeneratorFor(annotation);
+        Integer value = generator.get();
+        inflate(field, target, value);
+
+    }
+
+    private static void inflate(FrameworkField field, Object target, Object value) throws IllegalArgumentException, IllegalAccessException
+    {
 
         Field javaField = field.getField();
         boolean originalAccessibility = javaField.isAccessible();
@@ -62,7 +85,7 @@ class AlchemyGeneratorAnnotations
         try
         {
             javaField.setAccessible(true);
-            javaField.set(target, generator.get());
+            javaField.set(target, value);
         }
         finally
         {
