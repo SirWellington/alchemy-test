@@ -33,7 +33,23 @@ import static tech.sirwellington.alchemy.test.junit.runners.GenerateInteger.Type
 import static tech.sirwellington.alchemy.test.junit.runners.GenerateInteger.Type.RANGE;
 
 /**
- *
+ * Used in with the {@link AlchemyTestRunner}, this Annotations allows the 
+ * Runtime Injection of Generated Integers from the {@link AlchemyGenerator} library.
+ * 
+ * Example:
+ * <pre>
+ * {@code
+ * `@RunWith(AlchemyTestRunner.class)
+ * public class ExampleTest
+ * {
+ *   `@GenerateInteger(POSITIVE)
+ *    private int size;
+ * 
+ *    ...
+ * }
+ * </pre>
+ * Note, ticks (`) used to escape Javadocs.
+ * @see GenerateString
  * @author SirWellington
  */
 @Target(FIELD)

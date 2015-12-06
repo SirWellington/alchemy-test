@@ -33,7 +33,23 @@ import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
 
 /**
- *
+ * Used in with the {@link AlchemyTestRunner}, this Annotations allows the 
+ * Runtime Injection of Generated Strings from the {@link AlchemyGenerator} library.
+ * <p>
+ * Example:
+ * <pre>
+ * {@code
+ * `@RunWith(AlchemyTestRunner.class)
+ * public class ExampleTest
+ * {
+ *   `@GenerateString(HEXADECIMAL)
+ *   private String username;
+ * 
+ *  ...
+ * }
+ * </pre>
+ * Note, '`' (ticks) used to escape Javadocs. 
+ * @see GenerateInteger
  * @author SirWellington
  */
 @Target(FIELD)
@@ -44,8 +60,16 @@ public @interface GenerateString
     /*
      * Named value because it allows for @StringGenerator(ALPHABETIC) instead of @StringGenerator(type = ALPHABETIC)
      */
+    /**
+     * The type of String to Generate
+     * @return 
+     */
     Type value() default Type.ALPHABETIC;
 
+    /**
+     * The length of the string, must be {@code > 0}. 
+     * @return 
+     */
     int length() default 10;
 
     public static enum Type

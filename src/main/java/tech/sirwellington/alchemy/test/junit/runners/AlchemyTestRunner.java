@@ -34,7 +34,8 @@ import org.slf4j.LoggerFactory;
  * <ul>
  * <li> Initializes Mockito {@linkplain Mock @Mocks}
  * <li> Prints out the testName to the console using {@code System.out.println()}
- * <li> Can repeat your tests using the {@linkplain  Repeat @Repeat} annotation.
+ * <li> Can repeat your tests using the {@linkplain  Repeat @Repeat} annotation
+ * <li> Initialize generated Data Using {@link GenerateString}, {@link GenerateInteger}, etc..
  *
  * </ul>
  *
