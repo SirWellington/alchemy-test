@@ -21,6 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 import tech.sirwellington.alchemy.generator.EnumGenerators;
 
@@ -39,11 +40,9 @@ import static tech.sirwellington.alchemy.test.junit.runners.GenerateString.Type.
  *
  * @author SirWellington
  */
-@Repeat(100)
-@RunWith(AlchemyTestRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class GenerateStringTest
 {
-
     private GenerateString annotation;
     private GenerateString.Type type;
     private int length;
@@ -57,10 +56,11 @@ public class GenerateStringTest
 
     }
 
-    @DontRepeat
     @Test
     public void testCannotInstatiate()
     {
+        System.out.println("testCannotInstatiate");
+        
         assertThrows(() -> new GenerateString.Values())
             .isInstanceOf(IllegalAccessException.class);
 
@@ -71,6 +71,8 @@ public class GenerateStringTest
     @Test
     public void testValues()
     {
+        System.out.println("testValues");
+        
         AlchemyGenerator<String> result = GenerateString.Values.createGeneratorFor(annotation);
         assertThat(result, notNullValue());
 
@@ -106,6 +108,8 @@ public class GenerateStringTest
     @Test
     public void testValuesEdgeCases()
     {
+        System.out.println("testValuesEdgeCases");
+        
         assertThrows(() -> GenerateString.Values.createGeneratorFor(null))
             .isInstanceOf(IllegalArgumentException.class);
         
