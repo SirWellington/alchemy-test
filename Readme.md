@@ -8,6 +8,43 @@ Alchemy Test
 [![Build Status](https://travis-ci.org/SirWellington/alchemy-test.svg)](https://travis-ci.org/SirWellington/alchemy-test)
 
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Purpose](#purpose)
+- [Download](#download)
+  - [Release](#release)
+  - [Snapshot](#snapshot)
+- [[Javadocs](http://www.javadoc.io/doc/tech.sirwellington.alchemy/alchemy-test/)](#javadocshttpwwwjavadociodoctechsirwellingtonalchemyalchemy-test)
+- [API](#api)
+- [Throwable Assertions](#throwable-assertions)
+- [Alchemy Test Runner](#alchemy-test-runner)
+      - ["Let's take some of the drudgery out of Unit Testing"](#lets-take-some-of-the-drudgery-out-of-unit-testing)
+  - [Free Print Statements](#free-print-statements)
+  - [Test Synopsis](#test-synopsis)
+  - [Automatic Data Generation](#automatic-data-generation)
+    - [Supported Generators](#supported-generators)
+  - [Repeat Tests](#repeat-tests)
+  - [Mockito Initialization](#mockito-initialization)
+- [Mockito Answers](#mockito-answers)
+  - [Returning arguments back](#returning-arguments-back)
+- [More coming soon...](#more-coming-soon)
+- [Requirements](#requirements)
+- [Building](#building)
+- [Feature Requests](#feature-requests)
+- [Release Notes](#release-notes)
+  - [1.2](#12)
+  - [1.1](#11)
+  - [1.0.3](#103)
+  - [1.0.2](#102)
+  - [1.0.1](#101)
+  - [1.0.0](#100)
+- [License](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+
 # Purpose
 
 We write so many tests in our day; it should be easier.
@@ -112,6 +149,8 @@ public class HttpTests
 }
 ```
 
+## Test Synopsis
+
 We even tell you information about the test run:
 ```java
 testRequestReadyEdgeCases()
@@ -123,9 +162,36 @@ testValidContentType()
   Runs: 100
 ```
 
-## Repeat Tests
+## Automatic Data Generation
 Used in conjunction with [Alchemy Generator](https://github.com/SirWellington/alchemy-generator),
-repeat tests can make for powerful test *quality*.
+Alchemy Unit Tests can now easily generate any Data they use
+
+```java
+@RunWith(AlchemyTestRunnner.class)
+public class ExampleTest
+{
+	@GenerateString
+	private String name;
+
+	@GenerateString(HEXADECIMAL)
+	private String username;
+
+	@GenerateInteger(POSITIVE)
+	private int points;
+
+	...
+}
+```
+
+
+### Supported Generators
++ `@GenerateString`
++ `@GenerateInteger`
++ More on the way...
+
+
+## Repeat Tests
+Used in conjunction with `Automatic Data Generation`, Repeat Tests can dramatically improve test *quality*.
 
 ```java
 @Repeat(1000)
