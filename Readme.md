@@ -108,7 +108,7 @@ You can now just do:
 
 ``` java
 assertThrows(() -> instance.call("badArg"))
-.isInstanceOf(IllegalArgumentException.class); //Optional further assertion
+  .isInstanceOf(IllegalArgumentException.class); //Optional further assertion
 ```
 
 # Alchemy Test Runner
@@ -317,6 +317,12 @@ This project builds with maven. Just run a `mvn clean install` to compile and in
 Feature Requests are definitely welcomed! **Please drop a note in [Issues](https://github.com/SirWellington/alchemy-test/issues).**
 
 # Release Notes
+
+## 1.3
++ Adding `@Generate` ability to Alchemy Tests, via `AlchemyTestRunner`
+
+## 1.2.1
++ Dependency Updates
 
 ## 1.2
 + Alchemy Test Runner
