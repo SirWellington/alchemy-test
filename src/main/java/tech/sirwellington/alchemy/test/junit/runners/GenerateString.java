@@ -16,11 +16,15 @@
 
 package tech.sirwellington.alchemy.test.junit.runners;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 import java.util.UUID;
 import tech.sirwellington.alchemy.annotations.access.Internal;
 import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static tech.sirwellington.alchemy.generator.StringGenerators.alphabeticString;
 import static tech.sirwellington.alchemy.generator.StringGenerators.alphanumericString;
 import static tech.sirwellington.alchemy.generator.StringGenerators.hexadecimalString;
@@ -32,6 +36,8 @@ import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
  *
  * @author SirWellington
  */
+@Target(FIELD)
+@Retention(RUNTIME)
 public @interface GenerateString
 {
 

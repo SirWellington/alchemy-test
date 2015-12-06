@@ -69,6 +69,9 @@ public class AlchemyTestRunner extends BlockJUnit4ClassRunner
                 {
                     MockitoAnnotations.initMocks(target);
                 }
+                
+                AlchemyGeneratorAnnotations.populateGeneratedFields(getTestClass(), target);
+                
                 superStatement.evaluate();
             }
         };

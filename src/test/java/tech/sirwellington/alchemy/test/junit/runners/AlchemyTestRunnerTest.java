@@ -28,6 +28,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.isEmptyOrNullString;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
@@ -42,7 +44,7 @@ import static org.mockito.Mockito.when;
 public class AlchemyTestRunnerTest
 {
 
-    private static final int RUNS = 99;
+    private static final int RUNS = 199;
 
     @Before
     public void setUp() throws InitializationError
@@ -74,6 +76,9 @@ public class AlchemyTestRunnerTest
     public static class MockTestClass
     {
 
+        @GenerateString
+        private String string;
+        
         @Mock
         private AlchemyGenerator<?> object;
 
@@ -93,6 +98,7 @@ public class AlchemyTestRunnerTest
         public void setup()
         {
             assertThat(object, notNullValue());
+            assertThat(string, not(isEmptyOrNullString()));
 
             when(object.get()).thenReturn(null);
             assertThat(object.get(), nullValue());
