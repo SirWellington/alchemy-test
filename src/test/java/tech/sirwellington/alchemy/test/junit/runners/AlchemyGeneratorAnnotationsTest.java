@@ -24,6 +24,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.model.TestClass;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isEmptyOrNullString;
@@ -87,6 +88,9 @@ public class AlchemyGeneratorAnnotationsTest
         @GenerateInstant(value = GenerateInstant.Type.RANGE, startTime = START_TIME, endTime = END_TIME)
         private Instant instant;
         
+        @GeneratePojo
+        private SamplePojo pojo;
+        
 
         @Before
         public void setUp()
@@ -108,6 +112,25 @@ public class AlchemyGeneratorAnnotationsTest
             Date now = new Date();
             assertThat(pastDate.before(now), is(true));
             
+            checkPojo(pojo);
+            
+        }
+
+        private void checkPojo(SamplePojo pojo)
+        {
+            assertThat(pojo, notNullValue());
+            assertThat(pojo.name, not(isEmptyOrNullString()));
+            assertThat(pojo.birthday, notNullValue());
+            assertThat(pojo.age, greaterThan(0));
+            assertThat(pojo.balance, greaterThan(0L));
+        }
+        
+        private static class SamplePojo
+        {
+            private String name;
+            private Instant birthday;
+            private int age;
+            private long balance;
         }
     }
 

@@ -69,8 +69,14 @@ final class AlchemyGeneratorAnnotations
         {
             inflateInstant(field, target);
         }
+
+        List<FrameworkField> pojoGeneratedField = testClass.getAnnotatedFields(GeneratePojo.class);
+        for (FrameworkField field : pojoGeneratedField)
+        {
+            inflatePojo(field, target);
+        }
     }
-    
+
     private static void inflateString(FrameworkField field, Object target) throws IllegalArgumentException, IllegalAccessException
     {
         GenerateString annotation = field.getAnnotation(GenerateString.class);
@@ -112,7 +118,17 @@ final class AlchemyGeneratorAnnotations
         Instant value = generator.get();
         inflate(field, target, value);
     }
-    
+
+    private static void inflatePojo(FrameworkField field, Object target) throws IllegalArgumentException, IllegalAccessException
+    {
+        Class<?> typeOfPojo = field.getType();
+        GeneratePojo annotation = field.getAnnotation(GeneratePojo.class);
+
+        AlchemyGenerator<?> generator = GeneratePojo.Values.createGeneratorFor(annotation, typeOfPojo);
+        Object value = generator.get();
+        inflate(field, target, value);
+    }
+
     private static void inflate(FrameworkField field, Object target, Object value) throws IllegalArgumentException,
                                                                                           IllegalAccessException
     {
