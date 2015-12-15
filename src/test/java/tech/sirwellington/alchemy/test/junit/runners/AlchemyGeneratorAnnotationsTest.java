@@ -16,6 +16,7 @@
 
 package tech.sirwellington.alchemy.test.junit.runners;
 
+import java.time.Instant;
 import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
@@ -63,13 +64,13 @@ public class AlchemyGeneratorAnnotationsTest
     private static class FakeTestClass
     {
 
-        private static final int STRING_LENGTH = 105;
+        private static final int STRING_LENGTH = 346;
         
-        private static final int MIN_INT = 13;
-        private static final int MAX_INT = 20145;
+        private static final int MIN_INT = 34;
+        private static final int MAX_INT = 2021145;
         
-        private static final long START_TIME = 204531;
-        private static final long END_TIME = START_TIME + 205342545;
+        private static final long START_TIME = 20431;
+        private static final long END_TIME = START_TIME + 25442545;
 
         @GenerateString(length = STRING_LENGTH)
         private String string;
@@ -82,6 +83,9 @@ public class AlchemyGeneratorAnnotationsTest
         
         @GenerateDate(GenerateDate.Type.PAST)
         private Date pastDate;
+        
+        @GenerateInstant(value = GenerateInstant.Type.RANGE, startTime = START_TIME, endTime = END_TIME)
+        private Instant instant;
         
 
         @Before
@@ -96,6 +100,10 @@ public class AlchemyGeneratorAnnotationsTest
             assertThat(date, notNullValue());
             assertThat(date.getTime(), greaterThanOrEqualTo(START_TIME));
             assertThat(date.getTime(), lessThan(END_TIME));
+            
+            assertThat(instant, notNullValue());
+            assertThat(instant.toEpochMilli(), greaterThanOrEqualTo(START_TIME));
+            assertThat(instant.toEpochMilli(), lessThan(END_TIME));
             
             Date now = new Date();
             assertThat(pastDate.before(now), is(true));

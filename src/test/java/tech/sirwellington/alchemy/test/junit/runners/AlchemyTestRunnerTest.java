@@ -15,6 +15,7 @@
  */
 package tech.sirwellington.alchemy.test.junit.runners;
 
+import java.time.Instant;
 import java.util.Date;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -87,6 +88,9 @@ public class AlchemyTestRunnerTest
         @GenerateDate(GenerateDate.Type.FUTURE)
         private Date futureDate;
         
+        @GenerateInstant
+        private Instant instant;
+        
         @Mock
         private AlchemyGenerator<?> object;
 
@@ -110,10 +114,10 @@ public class AlchemyTestRunnerTest
             assertThat(integer, greaterThan(0));
             assertThat(futureDate, notNullValue());
             assertThat(futureDate.after(new Date()), is(true));
+            assertThat(instant, notNullValue());
 
             when(object.get()).thenReturn(null);
             assertThat(object.get(), nullValue());
-            
         }
 
         @Test
