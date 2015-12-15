@@ -16,6 +16,7 @@
 
 package tech.sirwellington.alchemy.test.junit.runners;
 
+import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,6 +28,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isEmptyOrNullString;
 import static org.hamcrest.Matchers.lessThan;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static tech.sirwellington.alchemy.test.junit.runners.GenerateInteger.Type.RANGE;
 
@@ -34,7 +36,6 @@ import static tech.sirwellington.alchemy.test.junit.runners.GenerateInteger.Type
  *
  * @author SirWellington
  */
-//@Repeat(10)
 @RunWith(MockitoJUnitRunner.class)
 public class AlchemyGeneratorAnnotationsTest
 {
@@ -66,12 +67,22 @@ public class AlchemyGeneratorAnnotationsTest
         
         private static final int MIN_INT = 13;
         private static final int MAX_INT = 20145;
+        
+        private static final long START_TIME = 204531;
+        private static final long END_TIME = START_TIME + 205342545;
 
         @GenerateString(length = STRING_LENGTH)
         private String string;
         
         @GenerateInteger(value = RANGE, min = MIN_INT, max = MAX_INT)
         private int integer;
+        
+        @GenerateDate(value = GenerateDate.Type.RANGE, startDate = START_TIME, endDate = END_TIME)
+        private Date date;
+        
+        @GenerateDate(GenerateDate.Type.PAST)
+        private Date pastDate;
+        
 
         @Before
         public void setUp()
@@ -81,6 +92,13 @@ public class AlchemyGeneratorAnnotationsTest
             
             assertThat(integer, greaterThanOrEqualTo(MIN_INT));
             assertThat(integer, lessThan(MAX_INT));
+            
+            assertThat(date, notNullValue());
+            assertThat(date.getTime(), greaterThanOrEqualTo(START_TIME));
+            assertThat(date.getTime(), lessThan(END_TIME));
+            
+            Date now = new Date();
+            assertThat(pastDate.before(now), is(true));
             
         }
     }

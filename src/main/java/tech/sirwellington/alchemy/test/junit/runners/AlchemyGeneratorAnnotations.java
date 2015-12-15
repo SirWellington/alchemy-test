@@ -17,6 +17,7 @@
 package tech.sirwellington.alchemy.test.junit.runners;
 
 import java.lang.reflect.Field;
+import java.util.Date;
 import java.util.List;
 import org.junit.runners.model.FrameworkField;
 import org.junit.runners.model.TestClass;
@@ -34,7 +35,8 @@ import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
  */
 @Internal
 @NonInstantiable
-class AlchemyGeneratorAnnotations
+//TODO: This needs a better name
+final class AlchemyGeneratorAnnotations
 {
 
     private final static Logger LOG = LoggerFactory.getLogger(AlchemyGeneratorAnnotations.class);
@@ -81,11 +83,14 @@ class AlchemyGeneratorAnnotations
         inflate(field, target, value);
 
     }
-    private static void inflateDate(FrameworkField field, Object target)
+    private static void inflateDate(FrameworkField field, Object target) throws IllegalArgumentException, IllegalAccessException
     {
         GenerateDate annotation = field.getAnnotation(GenerateDate.class);
         checkNotNull(annotation, "missing annotation");
         
+        AlchemyGenerator<Date> generator = GenerateDate.Values.createGeneratorFor(annotation);
+        Date value = generator.get();
+        inflate(field, target, value);
     }
 
     private static void inflate(FrameworkField field, Object target, Object value) throws IllegalArgumentException, IllegalAccessException

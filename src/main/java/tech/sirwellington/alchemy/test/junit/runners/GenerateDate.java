@@ -62,14 +62,14 @@ public @interface GenerateDate
      *
      * @return
      */
-    long startDate();
+    long startDate() default 0;
 
     /**
      * If using the {@link Type#RANGE} type, specify an end date, in Epoch Millis.
      *
      * @return
      */
-    long endDate();
+    long endDate() default 0;
 
     public enum Type
     {
@@ -113,7 +113,7 @@ public @interface GenerateDate
 
         private static AlchemyGenerator<Date> datesInRange(long startDate, long endDate)
         {
-            checkThat(startDate < endDate, "startDate must come endDate");
+            checkThat(startDate < endDate, "startDate must come before endDate");
             
             Date start = new Date(startDate);
             Date end = new Date(endDate);

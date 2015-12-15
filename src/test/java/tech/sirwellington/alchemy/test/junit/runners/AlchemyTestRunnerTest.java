@@ -15,6 +15,7 @@
  */
 package tech.sirwellington.alchemy.test.junit.runners;
 
+import java.util.Date;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -27,6 +28,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isEmptyOrNullString;
 import static org.hamcrest.Matchers.not;
@@ -79,6 +81,12 @@ public class AlchemyTestRunnerTest
         @GenerateString
         private String string;
         
+        @GenerateInteger(GenerateInteger.Type.POSITIVE)
+        private int integer;
+        
+        @GenerateDate(GenerateDate.Type.FUTURE)
+        private Date futureDate;
+        
         @Mock
         private AlchemyGenerator<?> object;
 
@@ -99,9 +107,13 @@ public class AlchemyTestRunnerTest
         {
             assertThat(object, notNullValue());
             assertThat(string, not(isEmptyOrNullString()));
+            assertThat(integer, greaterThan(0));
+            assertThat(futureDate, notNullValue());
+            assertThat(futureDate.after(new Date()), is(true));
 
             when(object.get()).thenReturn(null);
             assertThat(object.get(), nullValue());
+            
         }
 
         @Test
