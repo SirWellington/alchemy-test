@@ -46,7 +46,7 @@ public class GenerateIntegerTest
     private int min;
     private int max;
 
-    private FakeAnnotation annotation;
+    private GenerateIntegerInstance annotation;
 
     @Before
     public void setUp()
@@ -54,16 +54,13 @@ public class GenerateIntegerTest
         type = enumValueOf(GenerateInteger.Type.class).get();
         min = one(integers(-1000, 1000));
         max = one(integers(1000, 100_000));
-        annotation = new FakeAnnotation(type, min, max);
+        annotation = new GenerateIntegerInstance(type, min, max);
     }
 
     @Test
     public void testCannotInstatiate()
     {
         System.out.println("testCannotInstatiate");
-
-        assertThrows(() -> new GenerateInteger.Values())
-            .isInstanceOf(IllegalAccessException.class);
 
         assertThrows(() -> GenerateInteger.Values.class.newInstance())
             .isInstanceOf(IllegalAccessException.class);
@@ -108,27 +105,27 @@ public class GenerateIntegerTest
         assertThrows(() -> GenerateInteger.Values.createGeneratorFor(null))
             .isInstanceOf(IllegalArgumentException.class);
 
-        annotation = new FakeAnnotation(null, min, max);
+        annotation = new GenerateIntegerInstance(null, min, max);
         assertThrows(() -> GenerateInteger.Values.createGeneratorFor(annotation))
             .isInstanceOf(IllegalArgumentException.class);
 
         int badMin = max;
         int badMax = min;
         type = RANGE;
-        annotation = new FakeAnnotation(type, badMin, badMax);
+        annotation = new GenerateIntegerInstance(type, badMin, badMax);
         assertThrows(() -> GenerateInteger.Values.createGeneratorFor(annotation))
             .isInstanceOf(IllegalArgumentException.class);
 
     }
 
-    private class FakeAnnotation implements GenerateInteger
+    private static class GenerateIntegerInstance implements GenerateInteger
     {
 
         private final Type type;
         private final int min;
         private final int max;
 
-        private FakeAnnotation(Type type, int min, int max)
+        private GenerateIntegerInstance(Type type, int min, int max)
         {
             this.type = type;
             this.min = min;

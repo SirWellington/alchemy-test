@@ -47,8 +47,10 @@ import static tech.sirwellington.alchemy.test.junit.runners.GenerateInteger.Type
  * 
  *    ...
  * }
+ * }
  * </pre>
  * Note, ticks (`) used to escape Javadocs.
+ * 
  * @see GenerateString
  * @author SirWellington
  */
@@ -76,7 +78,7 @@ public @interface GenerateInteger
     class Values
     {
 
-        Values() throws IllegalAccessException
+        private Values() throws IllegalAccessException
         {
             throw new IllegalAccessException("cannot instantiate");
         }

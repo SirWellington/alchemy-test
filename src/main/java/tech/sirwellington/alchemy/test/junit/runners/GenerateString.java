@@ -32,12 +32,9 @@ import static tech.sirwellington.alchemy.generator.StringGenerators.uuids;
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
 
-/**
- * Used in with the {@link AlchemyTestRunner}, this Annotations allows the 
- * Runtime Injection of Generated Strings from the {@link AlchemyGenerator} library.
- * <p>
- * Example:
+/*
  * <pre>
+ * 
  * {@code
  * `@RunWith(AlchemyTestRunner.class)
  * public class ExampleTest
@@ -47,7 +44,26 @@ import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
  * 
  *  ...
  * }
+ * 
  * </pre>
+ */
+/**
+ * Used in with the {@link AlchemyTestRunner}, this Annotations allows the 
+ * Runtime Injection of Generated Strings from the {@link AlchemyGenerator} library.
+ * <p>
+ * Example:
+ * <pre>
+ * {@code 
+ * `@RunWith(AlchemyTestRunner.class)
+ * public class ExampleTest
+ * {
+ *   `@GenerateString(HEXADECIMAL)
+ *   private String username;
+ * 
+ * }
+ * }
+ * </pre>
+ * 
  * Note, '`' (ticks) used to escape Javadocs. 
  * @see GenerateInteger
  * @author SirWellington
@@ -90,7 +106,7 @@ public @interface GenerateString
     static class Values
     {
 
-        Values() throws IllegalAccessException
+        private Values() throws IllegalAccessException
         {
             throw new IllegalAccessException("cannot instantiate");
         }

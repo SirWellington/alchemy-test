@@ -52,7 +52,7 @@ public class GenerateStringTest
     {
         type = EnumGenerators.enumValueOf(GenerateString.Type.class).get();
         length = one(integers(5, 500));
-        annotation = new FakeAnnotation(type, length);
+        annotation = new GenerateStringInstance(type, length);
 
     }
 
@@ -61,9 +61,6 @@ public class GenerateStringTest
     {
         System.out.println("testCannotInstatiate");
         
-        assertThrows(() -> new GenerateString.Values())
-            .isInstanceOf(IllegalAccessException.class);
-
         assertThrows(() -> GenerateString.Values.class.newInstance())
             .isInstanceOf(IllegalAccessException.class);
     }
@@ -114,22 +111,22 @@ public class GenerateStringTest
             .isInstanceOf(IllegalArgumentException.class);
         
         int badLength = one(negativeIntegers());
-        annotation = new FakeAnnotation(type, badLength);
+        annotation = new GenerateStringInstance(type, badLength);
         assertThrows(() -> GenerateString.Values.createGeneratorFor(annotation))
             .isInstanceOf(IllegalArgumentException.class);
             
-        annotation = new FakeAnnotation(null, length);
+        annotation = new GenerateStringInstance(null, length);
         assertThrows(() -> GenerateString.Values.createGeneratorFor(annotation))
             .isInstanceOf(IllegalArgumentException.class);
     }
 
-    private static class FakeAnnotation implements GenerateString
+    private static class GenerateStringInstance implements GenerateString
     {
 
         private final GenerateString.Type type;
         private final int length;
 
-        public FakeAnnotation(GenerateString.Type type, int length)
+        public GenerateStringInstance(GenerateString.Type type, int length)
         {
             this.type = type;
             this.length = length;

@@ -53,6 +53,12 @@ class AlchemyGeneratorAnnotations
         {
             inflateInteger(field, target);
         }
+        
+        List<FrameworkField> dateGenereatedFields = testClass.getAnnotatedFields(GenerateDate.class);
+        for(FrameworkField field : dateGenereatedFields)
+        {
+            inflateDate(field, target);
+        }
     }
 
     private static void inflateString(FrameworkField field, Object target) throws IllegalArgumentException, IllegalAccessException
@@ -75,6 +81,12 @@ class AlchemyGeneratorAnnotations
         inflate(field, target, value);
 
     }
+    private static void inflateDate(FrameworkField field, Object target)
+    {
+        GenerateDate annotation = field.getAnnotation(GenerateDate.class);
+        checkNotNull(annotation, "missing annotation");
+        
+    }
 
     private static void inflate(FrameworkField field, Object target, Object value) throws IllegalArgumentException, IllegalAccessException
     {
@@ -92,5 +104,7 @@ class AlchemyGeneratorAnnotations
             javaField.setAccessible(originalAccessibility);
         }
     }
+
+    
 
 }
