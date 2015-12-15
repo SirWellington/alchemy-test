@@ -28,12 +28,6 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
-import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
-import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
-import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
-import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
-import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
-import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
 
 /**
  * Used in with the {@link AlchemyTestRunner}, this Annotations allows the Runtime Injection of 
@@ -110,7 +104,7 @@ public @interface GenerateInstant
                 case PRESENT:
                     return TimeGenerators.presentInstants();
                 case FUTURE:
-                    return TimeGenerators.presentInstants();
+                    return TimeGenerators.futureInstants();
                 case ANYTIME:
                     return TimeGenerators.anytime();
                 case RANGE:
