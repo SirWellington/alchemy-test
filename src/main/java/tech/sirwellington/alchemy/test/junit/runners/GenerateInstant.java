@@ -18,20 +18,26 @@ package tech.sirwellington.alchemy.test.junit.runners;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
-import java.util.Date;
+import java.time.Instant;
 import tech.sirwellington.alchemy.annotations.access.Internal;
 import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
-import tech.sirwellington.alchemy.generator.DateGenerators;
+import tech.sirwellington.alchemy.generator.TimeGenerators;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
+import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
+import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
+import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
+import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
+import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
+import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
 
 /**
- * Used in with the {@link AlchemyTestRunner}, this Annotations allows the Runtime Injection of Generated {@linkplain Date Dates}
- * using {@link DateGenerators} from the {@link AlchemyGenerator} library.
+ * Used in with the {@link AlchemyTestRunner}, this Annotations allows the Runtime Injection of 
+ * Generated {@linkplain Instant Instants}  using {@link TimeGenerators} from the {@link AlchemyGenerator} library.
  *
  * Example:
  * <pre>
@@ -39,40 +45,40 @@ import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
  * `@RunWith(AlchemyTestRunner.class)
  * public class ExampleTest
  * {
- *   `@GenerateDate(ANYTIME)
- *    private Date dateOfOrder;
+ *   `@GenerateInstant(ANYTIME)
+ *    private Instant timeOfOrder;
  *
  *    ...
  * }
  * }
  * </pre> 
- * Note, ticks (`) used to escape Javadocs.
+ * Note, ticks (`) used to escape Javadocs. 
  * 
  * @see GenerateString
- * @see GenerateInstant
+ * @see GenerateDate
  * 
  * @author SirWellington
  */
 @Target(FIELD)
 @Retention(RUNTIME)
-public @interface GenerateDate
+public @interface GenerateInstant
 {
 
     Type value() default Type.ANYTIME;
 
     /**
-     * If using the {@link Type#RANGE} type, specify a beginning date, in Epoch Millis.
+     * If using the {@link Type#RANGE} type, specify a beginning time, in Epoch Millis.
      *
      * @return
      */
-    long startDate() default 0;
+    long startTime() default 0;
 
     /**
-     * If using the {@link Type#RANGE} type, specify an end date, in Epoch Millis.
+     * If using the {@link Type#RANGE} type, specify an end time, in Epoch Millis.
      *
      * @return
      */
-    long endDate() default 0;
+    long endTime() default 0;
 
     public enum Type
     {
@@ -93,35 +99,35 @@ public @interface GenerateDate
             throw new IllegalAccessException("cannot instantiate");
         }
 
-        static AlchemyGenerator<Date> createGeneratorFor(GenerateDate annotation) throws IllegalArgumentException
+        static AlchemyGenerator<Instant> createGeneratorFor(GenerateInstant annotation) throws IllegalArgumentException
         {
             checkNotNull(annotation, "missing annotation");
 
             switch (annotation.value())
             {
                 case PAST:
-                    return DateGenerators.pastDates();
+                    return TimeGenerators.pastInstants();
                 case PRESENT:
-                    return DateGenerators.presentDates();
+                    return TimeGenerators.presentInstants();
                 case FUTURE:
-                    return DateGenerators.futureDates();
+                    return TimeGenerators.presentInstants();
                 case ANYTIME:
-                    return DateGenerators.anyTime();
+                    return TimeGenerators.anytime();
                 case RANGE:
-                    return datesInRange(annotation.startDate(), annotation.endDate());
+                    return timesInRange(annotation.startTime(), annotation.endTime());
                 default:
-                    return DateGenerators.anyTime();
+                    return TimeGenerators.anytime();
             }
         }
 
-        private static AlchemyGenerator<Date> datesInRange(long startDate, long endDate)
+        private static AlchemyGenerator<Instant> timesInRange(long startTime, long endDate)
         {
-            checkThat(startDate < endDate, "startDate must come before endDate");
+            checkThat(startTime < endDate, "startDate must come before endDate");
             
-            Date start = new Date(startDate);
-            Date end = new Date(endDate);
+            Instant start = Instant.ofEpochMilli(startTime);
+            Instant end = Instant.ofEpochMilli(endDate);
             
-            return DateGenerators.datesBetween(start, end);
+            return TimeGenerators.timesBetween(start, end);
         }
     }
 
