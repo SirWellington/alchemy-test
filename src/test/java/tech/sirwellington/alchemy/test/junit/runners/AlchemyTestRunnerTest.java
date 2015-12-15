@@ -91,6 +91,9 @@ public class AlchemyTestRunnerTest
         @GenerateInstant
         private Instant instant;
         
+        @GeneratePojo
+        private SamplePojo pojo;
+        
         @Mock
         private AlchemyGenerator<?> object;
 
@@ -115,6 +118,9 @@ public class AlchemyTestRunnerTest
             assertThat(futureDate, notNullValue());
             assertThat(futureDate.after(new Date()), is(true));
             assertThat(instant, notNullValue());
+            assertThat(pojo, notNullValue());
+            assertThat(pojo.name, not(isEmptyOrNullString()));
+            assertThat(pojo.number, greaterThan(0));
 
             when(object.get()).thenReturn(null);
             assertThat(object.get(), nullValue());
@@ -207,6 +213,12 @@ public class AlchemyTestRunnerTest
         {
             assertThat(totalRuns, is(1));
         }
+    }
+    
+    private static class SamplePojo
+    {
+        private String name;
+        private int number;
     }
 
 }
