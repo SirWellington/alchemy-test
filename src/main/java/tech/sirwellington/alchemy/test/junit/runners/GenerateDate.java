@@ -46,9 +46,10 @@ import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
  * }
  * }
  * </pre> 
- * Note, ticks (`) used to escape Javadocs. @author SirWellington
+ * Note, ticks (`) used to escape Javadocs.
  * 
  * @see GenerateString
+ * @author SirWellington
  */
 @Target(FIELD)
 @Retention(RUNTIME)
