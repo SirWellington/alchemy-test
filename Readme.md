@@ -8,11 +8,17 @@ Alchemy Test
 [![Build Status](https://travis-ci.org/SirWellington/alchemy-test.svg)](https://travis-ci.org/SirWellington/alchemy-test)
 
 
+# Purpose
+
+We write so many tests in our day; it should be easier.
+Part of the [Alchemy Collection](https://github.com/SirWellington/alchemy), **Alchemy Test** is a Unit Test Library that makes it easier to test your code by providing syntactic sugar for unit-testing and mocking.
+
+
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Purpose](#purpose)
 - [Download](#download)
   - [Release](#release)
   - [Snapshot](#snapshot)
@@ -34,6 +40,9 @@ Alchemy Test
 - [Building](#building)
 - [Feature Requests](#feature-requests)
 - [Release Notes](#release-notes)
+- [1.4](#14)
+  - [1.3](#13)
+  - [1.2.1](#121)
   - [1.2](#12)
   - [1.1](#11)
   - [1.0.3](#103)
@@ -45,12 +54,6 @@ Alchemy Test
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 
-# Purpose
-
-We write so many tests in our day; it should be easier.
-Part of the [Alchemy Collection](https://github.com/SirWellington/alchemy), **Alchemy Test** is a Unit Test Library that makes it easier to test your code by providing syntactic sugar for unit-testing and mocking.
-
-
 # Download
 
 To use, simply add the following maven dependency.
@@ -60,7 +63,7 @@ To use, simply add the following maven dependency.
 <dependency>
 	<groupId>tech.sirwellington.alchemy</groupId>
 	<artifactId>alchemy-test</artifactId>
-	<version>1.2.1</version>
+	<version>1.3</version>
 </dependency>
 ```
 
@@ -78,7 +81,7 @@ To use, simply add the following maven dependency.
 <dependency>
 	<groupId>tech.sirwellington.alchemy</groupId>
 	<artifactId>alchemy-test</artifactId>
-	<version>1.3-SNAPSHOT</version>
+	<version>1.4-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -187,7 +190,11 @@ public class ExampleTest
 ### Supported Generators
 + `@GenerateString`
 + `@GenerateInteger`
-+ More on the way...
++ `@GenerateDate`
++ `@GenerateInstant`
++ `@GeneratePojo`
+
+More on the way...
 
 
 ## Repeat Tests
@@ -318,8 +325,15 @@ Feature Requests are definitely welcomed! **Please drop a note in [Issues](https
 
 # Release Notes
 
+# 1.4
+
 ## 1.3
-+ Adding `@Generate` ability to Alchemy Tests, via `AlchemyTestRunner`
++ Adding `@Generate` ability to Alchemy Tests, via `AlchemyTestRunner`. These automatically inject Fake Data using `AlchemyGenerator`.
+    + `@GenerateString`
+    + `@GenerateInteger`
+    + `@GenerateDate`
+    + `@GenerateInstant`
+    + `@GeneratePojo`
 
 ## 1.2.1
 + Dependency Updates
