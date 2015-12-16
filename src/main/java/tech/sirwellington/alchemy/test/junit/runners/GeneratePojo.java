@@ -19,21 +19,40 @@ package tech.sirwellington.alchemy.test.junit.runners;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+import tech.sirwellington.alchemy.annotations.access.Internal;
+import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
+import tech.sirwellington.alchemy.generator.ObjectGenerators;
 
 import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
+
 
 /**
- * Use this annotation on a Test Class's fields to automatically generate a value at Test Time. This
- * is done using the {@link AlchemyGenerator } library.
  *
  * @author SirWellington
  */
+@Target(FIELD)
 @Retention(RUNTIME)
-@Target({TYPE, FIELD})
-public @interface Generate
+public @interface GeneratePojo 
 {
-    //TODO: Add additional metadata.
+    
+    @Internal
+    @NonInstantiable
+    static class Values
+    {
+        private Values() throws IllegalAccessException
+        {
+            throw new IllegalAccessException("cannot instantiate");
+        }
+        
+        static <POJO> AlchemyGenerator<POJO> createGeneratorFor(GeneratePojo annotation, Class<POJO> classOfPojo)
+        {
+            checkNotNull(classOfPojo, "missing classOfPojo");
+            checkNotNull(annotation, "missing annotation");
+            
+            return ObjectGenerators.pojos(classOfPojo);
+        }
+    }
 }

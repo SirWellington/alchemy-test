@@ -15,6 +15,8 @@
  */
 package tech.sirwellington.alchemy.test.junit.runners;
 
+import java.time.Instant;
+import java.util.Date;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -27,7 +29,10 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.isEmptyOrNullString;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
@@ -42,7 +47,7 @@ import static org.mockito.Mockito.when;
 public class AlchemyTestRunnerTest
 {
 
-    private static final int RUNS = 99;
+    private static final int RUNS = 199;
 
     @Before
     public void setUp() throws InitializationError
@@ -74,6 +79,21 @@ public class AlchemyTestRunnerTest
     public static class MockTestClass
     {
 
+        @GenerateString
+        private String string;
+        
+        @GenerateInteger(GenerateInteger.Type.POSITIVE)
+        private int integer;
+        
+        @GenerateDate(GenerateDate.Type.FUTURE)
+        private Date futureDate;
+        
+        @GenerateInstant
+        private Instant instant;
+        
+        @GeneratePojo
+        private SamplePojo pojo;
+        
         @Mock
         private AlchemyGenerator<?> object;
 
@@ -93,6 +113,14 @@ public class AlchemyTestRunnerTest
         public void setup()
         {
             assertThat(object, notNullValue());
+            assertThat(string, not(isEmptyOrNullString()));
+            assertThat(integer, greaterThan(0));
+            assertThat(futureDate, notNullValue());
+            assertThat(futureDate.after(new Date()), is(true));
+            assertThat(instant, notNullValue());
+            assertThat(pojo, notNullValue());
+            assertThat(pojo.name, not(isEmptyOrNullString()));
+            assertThat(pojo.number, greaterThan(0));
 
             when(object.get()).thenReturn(null);
             assertThat(object.get(), nullValue());
@@ -185,6 +213,12 @@ public class AlchemyTestRunnerTest
         {
             assertThat(totalRuns, is(1));
         }
+    }
+    
+    private static class SamplePojo
+    {
+        private String name;
+        private int number;
     }
 
 }
