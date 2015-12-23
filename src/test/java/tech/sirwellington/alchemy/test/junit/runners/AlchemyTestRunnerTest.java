@@ -17,6 +17,7 @@ package tech.sirwellington.alchemy.test.junit.runners;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -94,6 +95,9 @@ public class AlchemyTestRunnerTest
         @GeneratePojo
         private SamplePojo pojo;
         
+        @GenerateEnum
+        private TimeUnit timeUnit;
+        
         @Mock
         private AlchemyGenerator<?> object;
 
@@ -121,6 +125,7 @@ public class AlchemyTestRunnerTest
             assertThat(pojo, notNullValue());
             assertThat(pojo.name, not(isEmptyOrNullString()));
             assertThat(pojo.number, greaterThan(0));
+            assertThat(timeUnit, notNullValue());
 
             when(object.get()).thenReturn(null);
             assertThat(object.get(), nullValue());
