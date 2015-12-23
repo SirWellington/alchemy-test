@@ -33,9 +33,6 @@ import static org.junit.Assert.assertThat;
 import static tech.sirwellington.alchemy.generator.AlchemyGenerator.one;
 import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
 import static tech.sirwellington.alchemy.test.junit.runners.GenerateDate.Type.RANGE;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertThat;
 
 /**
  *
@@ -43,6 +40,7 @@ import static org.junit.Assert.assertThat;
  */
 public class GenerateDateTest
 {
+
     private GenerateDate.Type type;
     private Date startDate;
     private Date endDate;
@@ -55,32 +53,30 @@ public class GenerateDateTest
         type = EnumGenerators.enumValueOf(GenerateDate.Type.class).get();
         startDate = one(DateGenerators.pastDates());
         endDate = one(DateGenerators.after(startDate));
-        
+
         annotation = new GenerateDateInstance(type, startDate, endDate);
     }
 
-       @Test
+    @Test
     public void testCannotInstatiate()
     {
         System.out.println("testCannotInstatiate");
-        
+
         assertThrows(() -> GenerateDate.Values.class.newInstance())
             .isInstanceOf(IllegalAccessException.class);
     }
 
-    
     @Test
     public void testValue()
     {
         System.out.println("testValue");
-        
+
         AlchemyGenerator<Date> generator = GenerateDate.Values.createGeneratorFor(annotation);
         assertThat(generator, notNullValue());
 
         Date now = new Date();
         Date result = generator.get();
         assertThat(result, notNullValue());
-
 
         switch (type)
         {
@@ -102,16 +98,15 @@ public class GenerateDateTest
         }
 
     }
-    
 
     @Test
     public void testValueEdgeCases()
     {
         System.out.println("testValueEdgeCases");
-        
+
         assertThrows(() -> GenerateDate.Values.createGeneratorFor(null))
             .isInstanceOf(IllegalArgumentException.class);
-        
+
         type = RANGE;
         annotation = new GenerateDateInstance(type, endDate, startDate);
         assertThrows(() -> GenerateDate.Values.createGeneratorFor(annotation))
