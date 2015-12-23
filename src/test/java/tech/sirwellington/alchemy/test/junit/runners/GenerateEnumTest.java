@@ -29,7 +29,7 @@ import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThr
  *
  * @author SirWellington
  */
-public class A 
+public class GenerateEnumTest 
 {
 
     private enum Role
