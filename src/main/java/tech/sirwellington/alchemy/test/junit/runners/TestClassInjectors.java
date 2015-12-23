@@ -30,6 +30,8 @@ import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
+import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
+import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
 
 /**
  *
@@ -38,10 +40,10 @@ import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
 @Internal
 @NonInstantiable
 //TODO: This needs a better name
-final class AlchemyGeneratorAnnotations
+final class TestClassInjectors
 {
     
-    private final static Logger LOG = LoggerFactory.getLogger(AlchemyGeneratorAnnotations.class);
+    private final static Logger LOG = LoggerFactory.getLogger(TestClassInjectors.class);
     
     static void populateGeneratedFields(TestClass testClass, Object target) throws IllegalArgumentException,
                                                                                    IllegalAccessException

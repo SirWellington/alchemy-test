@@ -36,13 +36,18 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
 import static tech.sirwellington.alchemy.test.junit.runners.GenerateInteger.Type.RANGE;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.assertThat;
 
 /**
  *
  * @author SirWellington
  */
 @RunWith(MockitoJUnitRunner.class)
-public class AlchemyGeneratorAnnotationsTest
+public class TestClassInjectorsTest
 {
 
     @Before
@@ -56,7 +61,7 @@ public class AlchemyGeneratorAnnotationsTest
         TestClass testClass = new TestClass(FakeTestClass.class);
         FakeTestClass instance = new FakeTestClass();
  
-        AlchemyGeneratorAnnotations.populateGeneratedFields(testClass, instance);
+        TestClassInjectors.populateGeneratedFields(testClass, instance);
         instance.setUp();
     }
 
@@ -66,7 +71,7 @@ public class AlchemyGeneratorAnnotationsTest
         TestClass testClass = new TestClass(BadTest.class);
         BadTest instance = new BadTest();
         
-        assertThrows(() ->  AlchemyGeneratorAnnotations.populateGeneratedFields(testClass, instance))
+        assertThrows(() ->  TestClassInjectors.populateGeneratedFields(testClass, instance))
             .isInstanceOf(IllegalArgumentException.class);
     }
 
