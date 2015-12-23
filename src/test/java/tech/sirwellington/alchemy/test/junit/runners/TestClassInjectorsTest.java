@@ -18,6 +18,7 @@ package tech.sirwellington.alchemy.test.junit.runners;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,6 +26,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.model.TestClass;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.is;
@@ -36,11 +38,6 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
 import static tech.sirwellington.alchemy.test.junit.runners.GenerateInteger.Type.RANGE;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.assertThat;
 
 /**
  *
@@ -58,6 +55,8 @@ public class TestClassInjectorsTest
     @Test
     public void testPopulateGeneratedFields() throws Exception
     {
+        System.out.println("testPopulateGeneratedFields");
+        
         TestClass testClass = new TestClass(FakeTestClass.class);
         FakeTestClass instance = new FakeTestClass();
  
@@ -66,10 +65,24 @@ public class TestClassInjectorsTest
     }
 
     @Test
-    public void testPopulateGeneratedFieldsWithBadArgs() throws Exception
+    public void testPopulateGeneratedFieldsWithBadEnum() throws Exception
     {
-        TestClass testClass = new TestClass(BadTest.class);
-        BadTest instance = new BadTest();
+        System.out.println("testPopulateGeneratedFieldsWithBadEnum");
+        
+        TestClass testClass = new TestClass(BadEnumTest.class);
+        BadEnumTest instance = new BadEnumTest();
+        
+        assertThrows(() ->  TestClassInjectors.populateGeneratedFields(testClass, instance))
+            .isInstanceOf(IllegalArgumentException.class);
+    }
+    
+    @Test
+    public void testPopulateGeneratedFieldsWithBadList() throws Exception
+    {
+        System.out.println("testPopulateGeneratedFieldsWithBadList");
+        
+        TestClass testClass = new TestClass(BadListTest.class);
+        BadListTest instance = new BadListTest();
         
         assertThrows(() ->  TestClassInjectors.populateGeneratedFields(testClass, instance))
             .isInstanceOf(IllegalArgumentException.class);
@@ -112,6 +125,11 @@ public class TestClassInjectorsTest
         @GenerateEnum
         private TimeUnit timeUnit;
         
+        @GenerateList(String.class)
+        private List<String> names;
+        
+        @GenerateList(value = SamplePojo.class, size = 5)
+        private List<SamplePojo> pojos;
 
         @Before
         public void setUp()
@@ -137,6 +155,13 @@ public class TestClassInjectorsTest
             
             assertThat(timeUnit, notNullValue());
             
+            assertThat(names, notNullValue());
+            assertThat(names, not(empty()));
+            
+            assertThat(pojos, notNullValue());
+            assertThat(pojos, not(empty()));
+            assertThat(pojos.size(), is(5));
+            
         }
 
         private void checkPojo(SamplePojo pojo)
@@ -157,8 +182,19 @@ public class TestClassInjectorsTest
         }
     }
     
+    private static class BadListTest
+    {
+        @GenerateList(value = String.class, size = -1)
+        private List<String> strings;
+        
+        @Before
+        public void setUp()
+        {
+            assertThat(strings, nullValue());
+        }
+    }
     
-    private static class BadTest
+    private static class BadEnumTest
     {
         @GenerateEnum
         private Object object;
