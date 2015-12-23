@@ -29,6 +29,7 @@ import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
+import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
 
 /**
  *
@@ -64,16 +65,22 @@ final class AlchemyGeneratorAnnotations
             inflateDate(field, target);
         }
         
-        List<FrameworkField> instantGeneratedField = testClass.getAnnotatedFields(GenerateInstant.class);
-        for (FrameworkField field : instantGeneratedField)
+        List<FrameworkField> instantGeneratedFields = testClass.getAnnotatedFields(GenerateInstant.class);
+        for (FrameworkField field : instantGeneratedFields)
         {
             inflateInstant(field, target);
         }
 
-        List<FrameworkField> pojoGeneratedField = testClass.getAnnotatedFields(GeneratePojo.class);
-        for (FrameworkField field : pojoGeneratedField)
+        List<FrameworkField> pojoGeneratedFields = testClass.getAnnotatedFields(GeneratePojo.class);
+        for (FrameworkField field : pojoGeneratedFields)
         {
             inflatePojo(field, target);
+        }
+        
+        List<FrameworkField> enumGeneratedFields = testClass.getAnnotatedFields(GenerateEnum.class);
+        for(FrameworkField field : enumGeneratedFields)
+        {
+            inflateEnum(field, target);
         }
     }
 
@@ -125,6 +132,19 @@ final class AlchemyGeneratorAnnotations
         GeneratePojo annotation = field.getAnnotation(GeneratePojo.class);
 
         AlchemyGenerator<?> generator = GeneratePojo.Values.createGeneratorFor(annotation, typeOfPojo);
+        Object value = generator.get();
+        inflate(field, target, value);
+    }
+
+    private static void inflateEnum(FrameworkField field, Object target) throws IllegalArgumentException, IllegalAccessException
+    {
+        Class<?> typeOfPojo = field.getType();
+        checkThat(typeOfPojo.isEnum(), "@GenerateEnum can only be used on Enum Types");
+        Class<? extends Enum> typeOfEnum = (Class<? extends Enum>) typeOfPojo;
+        
+        GenerateEnum annotation = field.getAnnotation(GenerateEnum.class);
+
+        AlchemyGenerator<?> generator = GenerateEnum.Values.createGeneratorFor(annotation, typeOfEnum);
         Object value = generator.get();
         inflate(field, target, value);
     }

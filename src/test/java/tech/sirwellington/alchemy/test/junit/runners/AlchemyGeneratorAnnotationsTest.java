@@ -18,6 +18,7 @@ package tech.sirwellington.alchemy.test.junit.runners;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,7 +32,9 @@ import static org.hamcrest.Matchers.isEmptyOrNullString;
 import static org.hamcrest.Matchers.lessThan;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
+import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
 import static tech.sirwellington.alchemy.test.junit.runners.GenerateInteger.Type.RANGE;
 
 /**
@@ -55,6 +58,16 @@ public class AlchemyGeneratorAnnotationsTest
  
         AlchemyGeneratorAnnotations.populateGeneratedFields(testClass, instance);
         instance.setUp();
+    }
+
+    @Test
+    public void testPopulateGeneratedFieldsWithBadArgs() throws Exception
+    {
+        TestClass testClass = new TestClass(BadTest.class);
+        BadTest instance = new BadTest();
+        
+        assertThrows(() ->  AlchemyGeneratorAnnotations.populateGeneratedFields(testClass, instance))
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -91,6 +104,9 @@ public class AlchemyGeneratorAnnotationsTest
         @GeneratePojo
         private SamplePojo pojo;
         
+        @GenerateEnum
+        private TimeUnit timeUnit;
+        
 
         @Before
         public void setUp()
@@ -114,6 +130,8 @@ public class AlchemyGeneratorAnnotationsTest
             
             checkPojo(pojo);
             
+            assertThat(timeUnit, notNullValue());
+            
         }
 
         private void checkPojo(SamplePojo pojo)
@@ -133,5 +151,18 @@ public class AlchemyGeneratorAnnotationsTest
             private long balance;
         }
     }
-
+    
+    
+    private static class BadTest
+    {
+        @GenerateEnum
+        private Object object;
+        
+        @Before
+        public void setUp()
+        {
+            assertThat(object, nullValue());
+        }
+    }
+    
 }
