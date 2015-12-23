@@ -73,8 +73,7 @@ public @interface GenerateEnum
             throw new IllegalAccessException("cannot instantiate");
         }
 
-        static <E extends Enum> AlchemyGenerator<E> createGeneratorFor(GenerateEnum annotation, Class<E> enumClass) throws
-            IllegalArgumentException
+        static <E extends Enum> AlchemyGenerator<E> createGeneratorFor(GenerateEnum annotation, Class<E> enumClass) throws IllegalArgumentException
         {
             checkNotNull(annotation, "missing annotation");
             checkNotNull(enumClass, "missing enum class");
