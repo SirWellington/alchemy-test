@@ -13,8 +13,6 @@ Alchemy Test
 We write so many tests in our day; it should be easier.
 Part of the [Alchemy Collection](https://github.com/SirWellington/alchemy), **Alchemy Test** is a Unit Test Library that makes it easier to test your code by providing syntactic sugar for unit-testing and mocking.
 
-
-
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
@@ -40,7 +38,7 @@ Part of the [Alchemy Collection](https://github.com/SirWellington/alchemy), **Al
 - [Building](#building)
 - [Feature Requests](#feature-requests)
 - [Release Notes](#release-notes)
-- [1.4](#14)
+  - [1.4](#14)
   - [1.3](#13)
   - [1.2.1](#121)
   - [1.2](#12)
@@ -63,7 +61,7 @@ To use, simply add the following maven dependency.
 <dependency>
 	<groupId>tech.sirwellington.alchemy</groupId>
 	<artifactId>alchemy-test</artifactId>
-	<version>1.3</version>
+	<version>1.4</version>
 </dependency>
 ```
 
@@ -81,7 +79,7 @@ To use, simply add the following maven dependency.
 <dependency>
 	<groupId>tech.sirwellington.alchemy</groupId>
 	<artifactId>alchemy-test</artifactId>
-	<version>1.4-SNAPSHOT</version>
+	<version>1.5-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -182,6 +180,11 @@ public class ExampleTest
 	@GenerateInteger(POSITIVE)
 	private int points;
 
+    @GeneratePojo
+    private User user;
+
+    @GenerateList(String.class)
+    private List<String> names;
 	...
 }
 ```
@@ -193,6 +196,8 @@ public class ExampleTest
 + `@GenerateDate`
 + `@GenerateInstant`
 + `@GeneratePojo`
++ `@GenerateEnum`
++ `@GenerateList`
 
 More on the way...
 
@@ -325,7 +330,10 @@ Feature Requests are definitely welcomed! **Please drop a note in [Issues](https
 
 # Release Notes
 
-# 1.4
+## 1.4
++ Additional `@Generate` capability
+    + `@GenerateEnum`
+    + `@GenerateList`
 
 ## 1.3
 + Adding `@Generate` ability to Alchemy Tests, via `AlchemyTestRunner`. These automatically inject Fake Data using `AlchemyGenerator`.
