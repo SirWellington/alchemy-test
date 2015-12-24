@@ -182,6 +182,11 @@ public class ExampleTest
 	@GenerateInteger(POSITIVE)
 	private int points;
 
+    @GeneratePojo
+    private User user;
+
+    @GenerateList(String.class)
+    private List<String> names;
 	...
 }
 ```
@@ -193,6 +198,8 @@ public class ExampleTest
 + `@GenerateDate`
 + `@GenerateInstant`
 + `@GeneratePojo`
++ `@GenerateEnum`
++ `@GenerateList`
 
 More on the way...
 
