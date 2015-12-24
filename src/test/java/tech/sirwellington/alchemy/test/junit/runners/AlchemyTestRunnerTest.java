@@ -17,6 +17,7 @@ package tech.sirwellington.alchemy.test.junit.runners;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -30,6 +31,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isEmptyOrNullString;
@@ -98,6 +100,9 @@ public class AlchemyTestRunnerTest
         @GenerateEnum
         private TimeUnit timeUnit;
         
+        @GenerateList(Date.class)
+        private List<Date> dates;
+        
         @Mock
         private AlchemyGenerator<?> object;
 
@@ -126,6 +131,8 @@ public class AlchemyTestRunnerTest
             assertThat(pojo.name, not(isEmptyOrNullString()));
             assertThat(pojo.number, greaterThan(0));
             assertThat(timeUnit, notNullValue());
+            assertThat(dates, notNullValue());
+            assertThat(dates, not(empty()));
 
             when(object.get()).thenReturn(null);
             assertThat(object.get(), nullValue());
