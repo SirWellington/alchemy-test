@@ -61,7 +61,7 @@ To use, simply add the following maven dependency.
 <dependency>
 	<groupId>tech.sirwellington.alchemy</groupId>
 	<artifactId>alchemy-test</artifactId>
-	<version>1.3</version>
+	<version>1.4</version>
 </dependency>
 ```
 
@@ -79,7 +79,7 @@ To use, simply add the following maven dependency.
 <dependency>
 	<groupId>tech.sirwellington.alchemy</groupId>
 	<artifactId>alchemy-test</artifactId>
-	<version>1.4-SNAPSHOT</version>
+	<version>1.5-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -331,6 +331,9 @@ Feature Requests are definitely welcomed! **Please drop a note in [Issues](https
 # Release Notes
 
 ## 1.4
++ Additional `@Generate` capability
+    + `@GenerateEnum`
+    + `@GenerateList`
 
 ## 1.3
 + Adding `@Generate` ability to Alchemy Tests, via `AlchemyTestRunner`. These automatically inject Fake Data using `AlchemyGenerator`.
