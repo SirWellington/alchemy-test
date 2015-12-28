@@ -20,6 +20,7 @@ import java.lang.annotation.Annotation;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 
 import static org.hamcrest.Matchers.*;
@@ -34,8 +35,7 @@ import static tech.sirwellington.alchemy.test.junit.runners.GenerateLong.Type.RA
  *
  * @author SirWellington
  */
-@Repeat(10)
-@RunWith(AlchemyTestRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class GenerateLongTest
 {
 
