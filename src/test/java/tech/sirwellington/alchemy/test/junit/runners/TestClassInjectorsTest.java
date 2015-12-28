@@ -16,6 +16,7 @@
 
 package tech.sirwellington.alchemy.test.junit.runners;
 
+import java.net.URL;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
@@ -141,6 +142,9 @@ public class TestClassInjectorsTest
         
         @GenerateList(value = SamplePojo.class, size = 5)
         private List<SamplePojo> pojos;
+        
+        @GenerateURL
+        private URL url;
 
         @Before
         public void setUp()
@@ -178,6 +182,8 @@ public class TestClassInjectorsTest
             assertThat(pojos, notNullValue());
             assertThat(pojos, not(empty()));
             assertThat(pojos.size(), is(5));
+            
+            assertThat(url, notNullValue());
             
         }
 
