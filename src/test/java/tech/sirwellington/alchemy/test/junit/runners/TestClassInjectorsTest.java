@@ -37,7 +37,6 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
-import static tech.sirwellington.alchemy.test.junit.runners.GenerateInteger.Type.RANGE;
 
 /**
  *
@@ -101,14 +100,26 @@ public class TestClassInjectorsTest
         private static final int MIN_INT = 34;
         private static final int MAX_INT = 2021145;
         
+        private static final long MIN_LONG = -19532L;
+        private static final long MAX_LONG = 394813391439L;
+        
+        private static final double MIN_DOUBLE = -39341.1983123153;
+        private static final double MAX_DOUBLE = 29414.5329;
+        
         private static final long START_TIME = 20431;
         private static final long END_TIME = START_TIME + 25442545;
 
         @GenerateString(length = STRING_LENGTH)
         private String string;
         
-        @GenerateInteger(value = RANGE, min = MIN_INT, max = MAX_INT)
+        @GenerateInteger(value = GenerateInteger.Type.RANGE, min = MIN_INT, max = MAX_INT)
         private int integer;
+        
+        @GenerateLong(value = GenerateLong.Type.RANGE, min = MIN_LONG, max=MAX_LONG)
+        private long lon;
+        
+        @GenerateDouble(value = GenerateDouble.Type.RANGE, min = MIN_DOUBLE, max = MAX_DOUBLE)
+        private double decimal;
         
         @GenerateDate(value = GenerateDate.Type.RANGE, startDate = START_TIME, endDate = END_TIME)
         private Date date;
@@ -139,6 +150,12 @@ public class TestClassInjectorsTest
             
             assertThat(integer, greaterThanOrEqualTo(MIN_INT));
             assertThat(integer, lessThan(MAX_INT));
+            
+            assertThat(lon, greaterThanOrEqualTo(MIN_LONG));
+            assertThat(lon, lessThan(MAX_LONG));
+            
+            assertThat(decimal, greaterThan(MIN_DOUBLE));
+            assertThat(decimal, lessThan(MAX_DOUBLE));
             
             assertThat(date, notNullValue());
             assertThat(date.getTime(), greaterThanOrEqualTo(START_TIME));

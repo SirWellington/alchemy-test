@@ -18,6 +18,7 @@
 package tech.sirwellington.alchemy.test.junit.runners;
 
 import java.lang.reflect.Field;
+import java.net.URL;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
@@ -47,43 +48,71 @@ final class TestClassInjectors
     static void populateGeneratedFields(TestClass testClass, Object target) throws IllegalArgumentException,
                                                                                    IllegalAccessException
     {
+        //@GenerateString
         List<FrameworkField> stringGeneratedFields = testClass.getAnnotatedFields(GenerateString.class);
 
         for (FrameworkField field : stringGeneratedFields)
         {
             inflateString(field, target);
         }
-
+        
+        //@GenerateInteger
         List<FrameworkField> integerGeneratedFields = testClass.getAnnotatedFields(GenerateInteger.class);
         for (FrameworkField field : integerGeneratedFields)
         {
             inflateInteger(field, target);
         }
+        
+        //@GenerateLong
+        List<FrameworkField> longGeneratedFields = testClass.getAnnotatedFields(GenerateLong.class);
+        for (FrameworkField field : longGeneratedFields)
+        {
+            inflateLong(field, target);
+        }
+        
+        //@GenerateDouble
+        List<FrameworkField> doubleGeneratedFields = testClass.getAnnotatedFields(GenerateDouble.class);
+        for(FrameworkField field : doubleGeneratedFields)
+        {
+            inflateDouble(field, target);
+        }
 
+        //@GenerateDate
         List<FrameworkField> dateGeneratedFields = testClass.getAnnotatedFields(GenerateDate.class);
         for (FrameworkField field : dateGeneratedFields)
         {
             inflateDate(field, target);
         }
 
+        //@GenerateInstant
         List<FrameworkField> instantGeneratedFields = testClass.getAnnotatedFields(GenerateInstant.class);
         for (FrameworkField field : instantGeneratedFields)
         {
             inflateInstant(field, target);
         }
 
+        //@GenerateURL
+        List<FrameworkField> urlGeneratedFields = testClass.getAnnotatedFields(GenerateURL.class);
+        for (FrameworkField field : urlGeneratedFields)
+        {
+            inflateUrl(field, target);
+        }
+        
+        //@GeneratePojo
         List<FrameworkField> pojoGeneratedFields = testClass.getAnnotatedFields(GeneratePojo.class);
         for (FrameworkField field : pojoGeneratedFields)
         {
             inflatePojo(field, target);
         }
 
+        //@GenerateEnum
         List<FrameworkField> enumGeneratedFields = testClass.getAnnotatedFields(GenerateEnum.class);
         for (FrameworkField field : enumGeneratedFields)
         {
             inflateEnum(field, target);
         }
 
+        //@GenerateList
         List<FrameworkField> listGeneratedfields = testClass.getAnnotatedFields(GenerateList.class);
         for (FrameworkField field : listGeneratedfields)
         {
@@ -113,6 +142,26 @@ final class TestClassInjectors
 
     }
 
+    private static void inflateLong(FrameworkField field, Object target) throws IllegalAccessException
+    {
+        GenerateLong annotation = field.getAnnotation(GenerateLong.class);
+        checkNotNull(annotation, "missing annotation");
+
+        AlchemyGenerator<Long> generator = GenerateLong.Values.createGeneratorFor(annotation);
+        Long value = generator.get();
+        inflate(field, target, value);
+    }
+
+    private static void inflateDouble(FrameworkField field, Object target) throws IllegalAccessException
+    {
+        GenerateDouble annotation = field.getAnnotation(GenerateDouble.class);
+        checkNotNull(annotation, "missing annotation");
+
+        AlchemyGenerator<Double> generator = GenerateDouble.Values.createGeneratorFor(annotation);
+        Double value = generator.get();
+        inflate(field, target, value);
+    }
+
     private static void inflateDate(FrameworkField field, Object target) throws IllegalArgumentException, IllegalAccessException
     {
         GenerateDate annotation = field.getAnnotation(GenerateDate.class);
@@ -131,6 +180,16 @@ final class TestClassInjectors
 
         AlchemyGenerator<Instant> generator = GenerateInstant.Values.createGeneratorFor(annotation);
         Instant value = generator.get();
+        inflate(field, target, value);
+    }
+
+    private static void inflateUrl(FrameworkField field, Object target) throws IllegalAccessException
+    {
+        GenerateURL annotation = field.getAnnotation(GenerateURL.class);
+        checkNotNull(annotation, "missing annotation");
+
+        AlchemyGenerator<URL> generator = GenerateURL.Values.createGeneratorFor(annotation);
+        URL value = generator.get();
         inflate(field, target, value);
     }
 
@@ -186,5 +245,7 @@ final class TestClassInjectors
             javaField.setAccessible(originalAccessibility);
         }
     }
+
+ 
 
 }
