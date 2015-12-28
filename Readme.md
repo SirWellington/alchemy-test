@@ -193,8 +193,11 @@ public class ExampleTest
 ### Supported Generators
 + `@GenerateString`
 + `@GenerateInteger`
++ `@GenerateLong`
++ `@GenerateDouble`
 + `@GenerateDate`
 + `@GenerateInstant`
++ `@GenerateURL`
 + `@GeneratePojo`
 + `@GenerateEnum`
 + `@GenerateList`
@@ -334,6 +337,9 @@ Feature Requests are definitely welcomed! **Please drop a note in [Issues](https
 + Additional `@Generate` capability
     + `@GenerateEnum`
     + `@GenerateList`
+    + `@GenerateLong`
+    + `@GenerateDouble`
+    + `@GenerateURL`
 
 ## 1.3
 + Adding `@Generate` ability to Alchemy Tests, via `AlchemyTestRunner`. These automatically inject Fake Data using `AlchemyGenerator`.
