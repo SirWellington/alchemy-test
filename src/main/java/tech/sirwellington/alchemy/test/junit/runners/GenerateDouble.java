@@ -42,7 +42,7 @@ import static tech.sirwellington.alchemy.test.junit.runners.GenerateDouble.Type.
  * public class ExampleTest
  * {
  *   `@GenerateDouble(POSITIVE)
- *    private long hits;
+ *    private double percentage;
  * 
  *    ...
  * }
