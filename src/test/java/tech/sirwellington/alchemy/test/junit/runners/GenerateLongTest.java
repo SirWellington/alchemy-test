@@ -36,10 +36,10 @@ import static tech.sirwellington.alchemy.test.junit.runners.GenerateLong.Type.RA
  */
 @Repeat(10)
 @RunWith(AlchemyTestRunner.class)
-public class GenerateLongTest 
+public class GenerateLongTest
 {
 
-      private GenerateLong.Type type;
+    private GenerateLong.Type type;
     private long min;
     private long max;
 
