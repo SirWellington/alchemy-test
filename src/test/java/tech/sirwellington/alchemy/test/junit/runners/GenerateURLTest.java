@@ -45,7 +45,7 @@ public class GenerateURLTest
     @Before
     public void setUp()
     {
-        protocol = StringGenerators.stringsFromFixedList("http", "https", "ftp", "ssh").get();
+        protocol = StringGenerators.stringsFromFixedList("http", "https", "ftp", "file").get();
 
         annotation = new GenerateURLInstance(protocol);
 
