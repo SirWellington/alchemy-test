@@ -52,6 +52,9 @@ import static tech.sirwellington.alchemy.test.junit.runners.GenerateInteger.Type
  * Note, ticks (`) used to escape Javadocs.
  * 
  * @see GenerateString
+ * @see GenerateLong
+ * @see GenerateDouble
+ * 
  * @author SirWellington
  */
 @Target(FIELD)
