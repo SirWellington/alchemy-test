@@ -15,6 +15,7 @@
  */
 package tech.sirwellington.alchemy.test.junit.runners;
 
+import java.net.URL;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
@@ -103,6 +104,9 @@ public class AlchemyTestRunnerTest
         @GenerateList(Date.class)
         private List<Date> dates;
         
+        @GenerateURL
+        private URL url;
+        
         @Mock
         private AlchemyGenerator<?> object;
 
@@ -133,6 +137,7 @@ public class AlchemyTestRunnerTest
             assertThat(timeUnit, notNullValue());
             assertThat(dates, notNullValue());
             assertThat(dates, not(empty()));
+            assertThat(url, notNullValue());
 
             when(object.get()).thenReturn(null);
             assertThat(object.get(), nullValue());
