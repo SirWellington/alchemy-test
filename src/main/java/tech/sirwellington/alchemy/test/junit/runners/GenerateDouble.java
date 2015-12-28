@@ -41,7 +41,7 @@ import static tech.sirwellington.alchemy.test.junit.runners.GenerateDouble.Type.
  * `@RunWith(AlchemyTestRunner.class)
  * public class ExampleTest
  * {
- *   `@GenerateDoubles(POSITIVE)
+ *   `@GenerateDouble(POSITIVE)
  *    private long hits;
  * 
  *    ...
@@ -51,6 +51,7 @@ import static tech.sirwellington.alchemy.test.junit.runners.GenerateDouble.Type.
  * Note, ticks (`) used to escape Javadocs.
  * 
  * @see GenerateInteger
+ * @see GenerateLong
  * @see GenerateString
  * 
  * @author SirWellington
