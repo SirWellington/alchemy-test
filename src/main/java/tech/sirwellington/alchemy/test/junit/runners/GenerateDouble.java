@@ -106,7 +106,7 @@ public @interface GenerateDouble
                 case POSITIVE:
                     return positiveDoubles();
                 case NEGATIVE:
-                    return doubles(-Double.MAX_VALUE, 0);
+                    return doubles(-Double.MAX_VALUE, -Double.MAX_VALUE);
                 default:
                     return doubles(-Double.MAX_VALUE, Double.MAX_VALUE);
             }
