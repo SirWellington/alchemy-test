@@ -38,9 +38,9 @@ Part of the [Alchemy Collection](https://github.com/SirWellington/alchemy), **Al
 - [Building](#building)
 - [Feature Requests](#feature-requests)
 - [Release Notes](#release-notes)
+  - [1.5](#15)
   - [1.4](#14)
   - [1.3](#13)
-  - [1.2.1](#121)
   - [1.2](#12)
   - [1.1](#11)
   - [1.0.3](#103)
@@ -61,7 +61,7 @@ To use, simply add the following maven dependency.
 <dependency>
 	<groupId>tech.sirwellington.alchemy</groupId>
 	<artifactId>alchemy-test</artifactId>
-	<version>1.4</version>
+	<version>1.5</version>
 </dependency>
 ```
 
@@ -79,7 +79,7 @@ To use, simply add the following maven dependency.
 <dependency>
 	<groupId>tech.sirwellington.alchemy</groupId>
 	<artifactId>alchemy-test</artifactId>
-	<version>1.5-SNAPSHOT</version>
+	<version>1.6-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -333,7 +333,7 @@ Feature Requests are definitely welcomed! **Please drop a note in [Issues](https
 
 # Release Notes
 
-## 1.4
+## 1.5
 + Additional `@Generate` capability
     + `@GenerateEnum`
     + `@GenerateList`
@@ -341,7 +341,7 @@ Feature Requests are definitely welcomed! **Please drop a note in [Issues](https
     + `@GenerateDouble`
     + `@GenerateURL`
 
-## 1.3
+## 1.4
 + Adding `@Generate` ability to Alchemy Tests, via `AlchemyTestRunner`. These automatically inject Fake Data using `AlchemyGenerator`.
     + `@GenerateString`
     + `@GenerateInteger`
@@ -349,7 +349,7 @@ Feature Requests are definitely welcomed! **Please drop a note in [Issues](https
     + `@GenerateInstant`
     + `@GeneratePojo`
 
-## 1.2.1
+## 1.3
 + Dependency Updates
 
 ## 1.2
