@@ -24,17 +24,16 @@ import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static tech.sirwellington.alchemy.generator.NumberGenerators.integers;
-import static tech.sirwellington.alchemy.generator.NumberGenerators.negativeIntegers;
-import static tech.sirwellington.alchemy.generator.NumberGenerators.positiveIntegers;
+import static tech.sirwellington.alchemy.generator.NumberGenerators.longs;
+import static tech.sirwellington.alchemy.generator.NumberGenerators.positiveLongs;
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
-import static tech.sirwellington.alchemy.test.junit.runners.GenerateInteger.Type.POSITIVE;
-import static tech.sirwellington.alchemy.test.junit.runners.GenerateInteger.Type.RANGE;
+import static tech.sirwellington.alchemy.test.junit.runners.GenerateLong.Type.POSITIVE;
+import static tech.sirwellington.alchemy.test.junit.runners.GenerateLong.Type.RANGE;
 
 /**
  * Used in with the {@link AlchemyTestRunner}, this Annotations allows the 
- * Runtime Injection of Generated Integers from the {@link AlchemyGenerator} library.
+ * Runtime Injection of Generated Longs from the {@link AlchemyGenerator} library.
  * 
  * Example:
  * <pre>
@@ -42,8 +41,8 @@ import static tech.sirwellington.alchemy.test.junit.runners.GenerateInteger.Type
  * `@RunWith(AlchemyTestRunner.class)
  * public class ExampleTest
  * {
- *   `@GenerateInteger(POSITIVE)
- *    private int size;
+ *   `@GenerateLongs(POSITIVE)
+ *    private long hits;
  * 
  *    ...
  * }
@@ -51,22 +50,21 @@ import static tech.sirwellington.alchemy.test.junit.runners.GenerateInteger.Type
  * </pre>
  * Note, ticks (`) used to escape Javadocs.
  * 
+ * @see GenerateInteger
  * @see GenerateString
- * @see GenerateLong
- * @see GenerateDouble
  * 
  * @author SirWellington
  */
 @Target(FIELD)
 @Retention(RUNTIME)
-public @interface GenerateInteger
+public @interface GenerateLong
 {
 
     Type value() default POSITIVE;
 
-    int min() default 0;
+    long min() default 0;
 
-    int max() default 0;
+    long max() default 0;
 
     public enum Type
     {
@@ -86,30 +84,30 @@ public @interface GenerateInteger
             throw new IllegalAccessException("cannot instantiate");
         }
 
-        static AlchemyGenerator<Integer> createGeneratorFor(GenerateInteger annotation)
+        static AlchemyGenerator<Long> createGeneratorFor(GenerateLong annotation)
         {
             checkNotNull(annotation, "missing annotation");
 
             Type type = annotation.value();
-            checkNotNull(type, "@GenerateInteger missing value");
+            checkNotNull(type, "@GenerateLong missing value");
 
             if (type == RANGE)
             {
-                int min = annotation.min();
-                int max = annotation.max();
-                checkThat(min < max, "@GenerateInteger: min must be less than max");
-                return integers(min, max);
+                long min = annotation.min();
+                long max = annotation.max();
+                checkThat(min < max, "@GenerateLong: min must be less than max");
+                return longs(min, max);
             }
 
             //Cover remaining cases
             switch (type)
             {
                 case POSITIVE:
-                    return positiveIntegers();
+                    return positiveLongs();
                 case NEGATIVE:
-                    return negativeIntegers();
+                    return longs(Long.MIN_VALUE, 0);
                 default:
-                    return integers(Integer.MIN_VALUE, Integer.MAX_VALUE);
+                    return longs(Long.MIN_VALUE, Long.MAX_VALUE);
             }
         }
 
