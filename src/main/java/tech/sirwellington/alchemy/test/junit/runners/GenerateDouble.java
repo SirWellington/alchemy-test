@@ -24,17 +24,16 @@ import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static tech.sirwellington.alchemy.generator.NumberGenerators.integers;
-import static tech.sirwellington.alchemy.generator.NumberGenerators.negativeIntegers;
-import static tech.sirwellington.alchemy.generator.NumberGenerators.positiveIntegers;
+import static tech.sirwellington.alchemy.generator.NumberGenerators.doubles;
+import static tech.sirwellington.alchemy.generator.NumberGenerators.positiveDoubles;
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
-import static tech.sirwellington.alchemy.test.junit.runners.GenerateInteger.Type.POSITIVE;
-import static tech.sirwellington.alchemy.test.junit.runners.GenerateInteger.Type.RANGE;
+import static tech.sirwellington.alchemy.test.junit.runners.GenerateDouble.Type.POSITIVE;
+import static tech.sirwellington.alchemy.test.junit.runners.GenerateDouble.Type.RANGE;
 
 /**
  * Used in with the {@link AlchemyTestRunner}, this Annotations allows the 
- * Runtime Injection of Generated Integers from the {@link AlchemyGenerator} library.
+ * Runtime Injection of Generated Doubles from the {@link AlchemyGenerator} library.
  * 
  * Example:
  * <pre>
@@ -42,8 +41,8 @@ import static tech.sirwellington.alchemy.test.junit.runners.GenerateInteger.Type
  * `@RunWith(AlchemyTestRunner.class)
  * public class ExampleTest
  * {
- *   `@GenerateInteger(POSITIVE)
- *    private int size;
+ *   `@GenerateDouble(POSITIVE)
+ *    private double percentage;
  * 
  *    ...
  * }
@@ -51,22 +50,22 @@ import static tech.sirwellington.alchemy.test.junit.runners.GenerateInteger.Type
  * </pre>
  * Note, ticks (`) used to escape Javadocs.
  * 
- * @see GenerateString
+ * @see GenerateInteger
  * @see GenerateLong
- * @see GenerateDouble
+ * @see GenerateString
  * 
  * @author SirWellington
  */
 @Target(FIELD)
 @Retention(RUNTIME)
-public @interface GenerateInteger
+public @interface GenerateDouble
 {
 
     Type value() default POSITIVE;
 
-    int min() default 0;
+    double min() default 0;
 
-    int max() default 0;
+    double max() default 0;
 
     public enum Type
     {
@@ -86,30 +85,30 @@ public @interface GenerateInteger
             throw new IllegalAccessException("cannot instantiate");
         }
 
-        static AlchemyGenerator<Integer> createGeneratorFor(GenerateInteger annotation)
+        static AlchemyGenerator<Double> createGeneratorFor(GenerateDouble annotation)
         {
             checkNotNull(annotation, "missing annotation");
 
             Type type = annotation.value();
-            checkNotNull(type, "@GenerateInteger missing value");
+            checkNotNull(type, "@GenerateDouble missing value");
 
             if (type == RANGE)
             {
-                int min = annotation.min();
-                int max = annotation.max();
-                checkThat(min < max, "@GenerateInteger: min must be less than max");
-                return integers(min, max);
+                double min = annotation.min();
+                double max = annotation.max();
+                checkThat(min < max, "@GenerateDouble: min must be less than max");
+                return doubles(min, max);
             }
 
             //Cover remaining cases
             switch (type)
             {
                 case POSITIVE:
-                    return positiveIntegers();
+                    return positiveDoubles();
                 case NEGATIVE:
-                    return negativeIntegers();
+                    return doubles(-Double.MAX_VALUE, -Double.MAX_VALUE);
                 default:
-                    return integers(Integer.MIN_VALUE, Integer.MAX_VALUE);
+                    return doubles(-Double.MAX_VALUE, Double.MAX_VALUE);
             }
         }
 
