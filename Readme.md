@@ -5,7 +5,7 @@ Alchemy Test
 
 ## "Testing your code should be as fun and simple as writing it."
 
-[![Build Status](https://travis-ci.org/SirWellington/alchemy-test.svg)](https://travis-ci.org/SirWellington/alchemy-test)
+[![Build Status](http://jenkins.redroma.tech/job/Alchemy%20Test/badge/icon)](http://jenkins.redroma.tech/job/Alchemy%20Test/)
 
 
 # Purpose
