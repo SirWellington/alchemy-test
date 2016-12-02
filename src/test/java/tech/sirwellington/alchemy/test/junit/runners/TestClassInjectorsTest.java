@@ -26,6 +26,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.model.TestClass;
 import org.mockito.runners.MockitoJUnitRunner;
+import tech.sirwellington.alchemy.annotations.testing.IntegrationTest;
 
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.greaterThan;
@@ -43,6 +44,7 @@ import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThr
  *
  * @author SirWellington
  */
+@IntegrationTest
 @RunWith(MockitoJUnitRunner.class)
 public class TestClassInjectorsTest
 {
