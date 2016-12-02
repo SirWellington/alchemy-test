@@ -27,6 +27,7 @@ import tech.sirwellington.alchemy.generator.BooleanGenerators;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
 
 /**
  * Used in with the {@link AlchemyTestRunner}, this Annotations allows the 
@@ -65,6 +66,7 @@ public @interface GenerateBoolean
         
         static AlchemyGenerator<Boolean> createGeneratorFor(GenerateBoolean annotation)
         {
+            checkNotNull(annotation, "annotation is null");
             return BooleanGenerators.booleans();
         }
     }
