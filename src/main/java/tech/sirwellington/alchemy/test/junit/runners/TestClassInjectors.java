@@ -56,6 +56,13 @@ final class TestClassInjectors
             inflateString(field, target);
         }
         
+        //@GenerateBoolean
+        List<FrameworkField> booleanGeneratedFields = testClass.getAnnotatedFields(GenerateBoolean.class);
+        for (FrameworkField field : booleanGeneratedFields)
+        {
+            inflateBoolean(field, target);
+        }
+        
         //@GenerateInteger
         List<FrameworkField> integerGeneratedFields = testClass.getAnnotatedFields(GenerateInteger.class);
         for (FrameworkField field : integerGeneratedFields)
@@ -130,6 +137,17 @@ final class TestClassInjectors
         inflate(field, target, value);
     }
 
+    private static void inflateBoolean(FrameworkField field, Object target) throws IllegalArgumentException,
+                                                                                   IllegalAccessException
+    {
+        GenerateBoolean annotation = field.getAnnotation(GenerateBoolean.class);
+        checkNotNull(annotation, "missing annotation: @GenerateBoolean");
+        
+        AlchemyGenerator<Boolean> generator = GenerateBoolean.Values.createGeneratorFor(annotation);
+        Boolean value = generator.get();
+        inflate(field, target, value);
+    }
+    
     private static void inflateInteger(FrameworkField field, Object target) throws IllegalArgumentException,
                                                                                    IllegalAccessException
     {
