@@ -26,6 +26,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.model.TestClass;
 import org.mockito.runners.MockitoJUnitRunner;
+import tech.sirwellington.alchemy.annotations.testing.IntegrationTest;
 
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.greaterThan;
@@ -43,6 +44,7 @@ import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThr
  *
  * @author SirWellington
  */
+@IntegrationTest
 @RunWith(MockitoJUnitRunner.class)
 public class TestClassInjectorsTest
 {
@@ -113,6 +115,9 @@ public class TestClassInjectorsTest
         @GenerateString(length = STRING_LENGTH)
         private String string;
         
+        @GenerateBoolean
+        private Boolean bool;
+        
         @GenerateInteger(value = GenerateInteger.Type.RANGE, min = MIN_INT, max = MAX_INT)
         private int integer;
         
@@ -151,6 +156,8 @@ public class TestClassInjectorsTest
         {
             assertThat(string, not(isEmptyOrNullString()));
             assertThat(string.length(), is(STRING_LENGTH));
+            
+            assertThat(bool, notNullValue());
             
             assertThat(integer, greaterThanOrEqualTo(MIN_INT));
             assertThat(integer, lessThan(MAX_INT));
