@@ -61,7 +61,7 @@ To use, simply add the following maven dependency.
 <dependency>
 	<groupId>tech.sirwellington.alchemy</groupId>
 	<artifactId>alchemy-test</artifactId>
-	<version>1.5</version>
+	<version>1.6</version>
 </dependency>
 ```
 
@@ -79,7 +79,7 @@ To use, simply add the following maven dependency.
 <dependency>
 	<groupId>tech.sirwellington.alchemy</groupId>
 	<artifactId>alchemy-test</artifactId>
-	<version>1.6-SNAPSHOT</version>
+	<version>1.7-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -332,6 +332,9 @@ This project builds with maven. Just run a `mvn clean install` to compile and in
 Feature Requests are definitely welcomed! **Please drop a note in [Issues](https://github.com/SirWellington/alchemy-test/issues).**
 
 # Release Notes
+
+## 1.6
++ Adds `@GenerateBoolean`
 
 ## 1.5
 + Additional `@Generate` capability
