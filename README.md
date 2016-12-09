@@ -6,7 +6,7 @@ Alchemy Test
 ## "Testing your code should be as fun and simple as writing it."
 
 [![Build Status](http://jenkins.redroma.tech/job/Alchemy%20Test/badge/icon)](http://jenkins.redroma.tech/job/Alchemy%20Test/)
-
+![Maven Central Version](http://img.shields.io/maven-central/v/tech.sirwellington.alchemy/alchemy-test.svg)
 
 # Purpose
 
