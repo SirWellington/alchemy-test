@@ -28,6 +28,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static tech.sirwellington.alchemy.generator.StringGenerators.alphabeticString;
 import static tech.sirwellington.alchemy.generator.StringGenerators.alphanumericString;
 import static tech.sirwellington.alchemy.generator.StringGenerators.hexadecimalString;
+import static tech.sirwellington.alchemy.generator.StringGenerators.numericString;
 import static tech.sirwellington.alchemy.generator.StringGenerators.uuids;
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
@@ -93,6 +94,7 @@ public @interface GenerateString
         ALPHABETIC,
         ALPHANUMERIC,
         HEXADECIMAL,
+        NUMERIC,
         /**
          * For UUIDS, the {@link #length() } property will be ignored, and instead the standard UUID size from {@link UUID#randomUUID()
          * } is used.
@@ -129,6 +131,8 @@ public @interface GenerateString
                     return alphanumericString(length);
                 case HEXADECIMAL:
                     return hexadecimalString(length);
+                case NUMERIC:
+                    return numericString(length);
                 case UUID:
                     return uuids;
                 default:
