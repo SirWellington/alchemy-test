@@ -47,7 +47,6 @@ import static org.mockito.Mockito.when;
  *
  * @author SirWellington
  */
-@RunWith(MockitoJUnitRunner.class)
 public class AlchemyTestRunnerTest
 {
 
@@ -219,9 +218,13 @@ public class AlchemyTestRunnerTest
 
         private static int totalRuns = 0;
 
+        @Mock
+        private Object object;
+
         @Test
         public void testRun()
         {
+            assertThat(object, notNullValue());
             ++totalRuns;
         }
 

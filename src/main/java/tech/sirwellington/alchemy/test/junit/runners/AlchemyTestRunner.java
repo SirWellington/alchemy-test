@@ -22,9 +22,9 @@ import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.Statement;
 import org.junit.runners.model.TestClass;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.internal.runners.util.FrameworkUsageValidator;
+import org.mockito.*;
+import org.mockito.internal.junit.UnnecessaryStubbingsReporter;
+import org.mockito.internal.runners.util.FailureDetector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -93,7 +93,19 @@ public class AlchemyTestRunner extends BlockJUnit4ClassRunner
         if (shouldInitMocks)
         {
             //Allow Mockito to do its verification
-            notifier.addListener(new FrameworkUsageValidator(notifier));
+            UnnecessaryStubbingsReporter reporter = new UnnecessaryStubbingsReporter();
+            FailureDetector listener = new FailureDetector();
+
+            Mockito.framework().addListener(reporter);
+
+            try
+            {
+                notifier.addListener(listener);
+            }
+            finally
+            {
+                Mockito.framework().removeListener(reporter);
+            }
         }
 
         super.run(notifier);
