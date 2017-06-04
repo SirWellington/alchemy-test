@@ -61,7 +61,7 @@ To use, simply add the following maven dependency.
 <dependency>
 	<groupId>tech.sirwellington.alchemy</groupId>
 	<artifactId>alchemy-test</artifactId>
-	<version>1.6</version>
+	<version>1.7</version>
 </dependency>
 ```
 
@@ -79,7 +79,7 @@ To use, simply add the following maven dependency.
 <dependency>
 	<groupId>tech.sirwellington.alchemy</groupId>
 	<artifactId>alchemy-test</artifactId>
-	<version>1.7-SNAPSHOT</version>
+	<version>2.0-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -331,51 +331,6 @@ This project builds with maven. Just run a `mvn clean install` to compile and in
 # Feature Requests
 Feature Requests are definitely welcomed! **Please drop a note in [Issues](https://github.com/SirWellington/alchemy-test/issues).**
 
-# Release Notes
-
-## 1.6
-+ Adds `@GenerateBoolean`
-
-## 1.5
-+ Additional `@Generate` capability
-    + `@GenerateEnum`
-    + `@GenerateList`
-    + `@GenerateLong`
-    + `@GenerateDouble`
-    + `@GenerateURL`
-
-## 1.4
-+ Adding `@Generate` ability to Alchemy Tests, via `AlchemyTestRunner`. These automatically inject Fake Data using `AlchemyGenerator`.
-    + `@GenerateString`
-    + `@GenerateInteger`
-    + `@GenerateDate`
-    + `@GenerateInstant`
-    + `@GeneratePojo`
-
-## 1.3
-+ Dependency Updates
-
-## 1.2
-+ Alchemy Test Runner
-
-## 1.1
-+ Initial Public Release
-
-## 1.0.3
-+ Bug-fixes to number generation
-
-## 1.0.2
-+ Expanding `positiveIntegers()` and `positiveLongs()` to include larger ranges from `1...Integer/Long.MAX_VALUE`
-+ Adding `smallPositiveIntegers()` to allow explicit creation of "small" positive integer values. This is useful in conjunction with creating arrays, or other types of functions that require a workable size.
-
-## 1.0.1
-+ Adding convenience method for alphabeticStrings
-
-
-## 1.0.0
-+ New Throwable Assertions
-+ Suite of Mockito Answers
-+ Simple Data Generation API
 
 # License
 
