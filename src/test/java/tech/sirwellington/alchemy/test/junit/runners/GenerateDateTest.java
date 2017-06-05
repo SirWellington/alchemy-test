@@ -30,7 +30,7 @@ import static org.hamcrest.Matchers.lessThan;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
-import static tech.sirwellington.alchemy.generator.AlchemyGenerator.one;
+import static tech.sirwellington.alchemy.generator.AlchemyGenerator.Get.one;
 import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
 import static tech.sirwellington.alchemy.test.junit.runners.GenerateDate.Type.RANGE;
 
@@ -57,13 +57,11 @@ public class GenerateDateTest
         annotation = new GenerateDateInstance(type, startDate, endDate);
     }
 
-    @Test
-    public void testCannotInstatiate()
+    @Test(expected = IllegalAccessException.class)
+    public void testCannotInstatiate() throws IllegalAccessException, InstantiationException
     {
         System.out.println("testCannotInstatiate");
-
-        assertThrows(() -> GenerateDate.Values.class.newInstance())
-            .isInstanceOf(IllegalAccessException.class);
+        GenerateDate.Values.class.newInstance();
     }
 
     @Test
@@ -99,19 +97,27 @@ public class GenerateDateTest
 
     }
 
-    @Test
-    public void testValueEdgeCases()
-    {
-        System.out.println("testValueEdgeCases");
 
-        assertThrows(() -> GenerateDate.Values.createGeneratorFor(null))
-            .isInstanceOf(IllegalArgumentException.class);
+    @Test(expected = IllegalArgumentException.class)
+    public void testValueEdgeCases1() throws Exception
+    {
+        System.out.println("testValueEdgeCases1");
+
+        GenerateDate.Values.createGeneratorFor(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testValueEdgeCases2() throws Exception
+    {
+        System.out.println("testValueEdgeCases2");
 
         type = RANGE;
+
         annotation = new GenerateDateInstance(type, endDate, startDate);
-        assertThrows(() -> GenerateDate.Values.createGeneratorFor(annotation))
-            .isInstanceOf(IllegalArgumentException.class);
+        GenerateDate.Values.createGeneratorFor(annotation);
     }
+
+
 
     private static class GenerateDateInstance implements GenerateDate
     {

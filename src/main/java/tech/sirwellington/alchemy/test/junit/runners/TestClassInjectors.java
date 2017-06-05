@@ -19,9 +19,9 @@ package tech.sirwellington.alchemy.test.junit.runners;
 
 import java.lang.reflect.Field;
 import java.net.URL;
-import java.time.Instant;
 import java.util.Date;
 import java.util.List;
+
 import org.junit.runners.model.FrameworkField;
 import org.junit.runners.model.TestClass;
 import org.slf4j.Logger;
@@ -89,13 +89,6 @@ final class TestClassInjectors
         for (FrameworkField field : dateGeneratedFields)
         {
             inflateDate(field, target);
-        }
-
-        //@GenerateInstant
-        List<FrameworkField> instantGeneratedFields = testClass.getAnnotatedFields(GenerateInstant.class);
-        for (FrameworkField field : instantGeneratedFields)
-        {
-            inflateInstant(field, target);
         }
 
         //@GenerateURL
@@ -187,17 +180,6 @@ final class TestClassInjectors
 
         AlchemyGenerator<Date> generator = GenerateDate.Values.createGeneratorFor(annotation);
         Date value = generator.get();
-        inflate(field, target, value);
-    }
-
-    private static void inflateInstant(FrameworkField field, Object target) throws IllegalArgumentException,
-                                                                                   IllegalAccessException
-    {
-        GenerateInstant annotation = field.getAnnotation(GenerateInstant.class);
-        checkNotNull(annotation, "missing annotation");
-
-        AlchemyGenerator<Instant> generator = GenerateInstant.Values.createGeneratorFor(annotation);
-        Instant value = generator.get();
         inflate(field, target, value);
     }
 

@@ -18,6 +18,7 @@ package tech.sirwellington.alchemy.test.junit.runners;
 
 import java.lang.annotation.Annotation;
 import java.net.URL;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,11 +26,11 @@ import org.mockito.runners.MockitoJUnitRunner;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 import tech.sirwellington.alchemy.generator.StringGenerators;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
-import static tech.sirwellington.alchemy.generator.AlchemyGenerator.one;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.startsWith;
+import static org.junit.Assert.assertThat;
+import static tech.sirwellington.alchemy.generator.AlchemyGenerator.Get.one;
 import static tech.sirwellington.alchemy.generator.StringGenerators.hexadecimalString;
-import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
 
 /**
  *
@@ -51,13 +52,11 @@ public class GenerateURLTest
 
     }
 
-    @Test
-    public void testCannotInstatiate()
+    @Test(expected = IllegalAccessException.class)
+    public void testCannotInstatiate() throws IllegalAccessException, InstantiationException
     {
         System.out.println("testCannotInstatiate");
-
-        assertThrows(() -> GenerateURL.Values.class.newInstance())
-            .isInstanceOf(IllegalAccessException.class);
+        GenerateURL.Values.class.newInstance();
     }
 
     @Test
@@ -72,23 +71,28 @@ public class GenerateURLTest
         assertThat(url.toString(), startsWith(protocol));
     }
 
-    @Test
-    public void testValuesEdgeCases()
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testValuesEdgeCases1() throws Exception
     {
-        System.out.println("testValuesEdgeCases");
+        GenerateURL.Values.createGeneratorFor(null);
+    }
 
-        assertThrows(() -> GenerateURL.Values.createGeneratorFor(null))
-            .isInstanceOf(IllegalArgumentException.class);
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testValuesEdgeCases2() throws Exception
+    {
         annotation = new GenerateURLInstance("");
-        assertThrows(() -> GenerateURL.Values.createGeneratorFor(annotation))
-            .isInstanceOf(IllegalArgumentException.class);
+        GenerateURL.Values.createGeneratorFor(annotation);
+    }
 
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testValuesEdgeCases3() throws Exception
+    {
         String badProtocol = one(hexadecimalString(3));
         annotation = new GenerateURLInstance(badProtocol);
-        assertThrows(() -> GenerateURL.Values.createGeneratorFor(annotation))
-            .isInstanceOf(IllegalArgumentException.class);
-
+        GenerateURL.Values.createGeneratorFor(annotation);
     }
 
     private static class GenerateURLInstance implements GenerateURL

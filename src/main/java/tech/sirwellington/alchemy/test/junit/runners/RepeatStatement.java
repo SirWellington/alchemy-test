@@ -15,7 +15,6 @@
  */
 package tech.sirwellington.alchemy.test.junit.runners;
 
-import java.util.function.Supplier;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.Statement;
 import tech.sirwellington.alchemy.annotations.access.Internal;
@@ -34,10 +33,10 @@ class RepeatStatement extends Statement
 {
 
     private final int timesToRepeat;
-    private final Supplier<Statement> statementFactory;
+    private final Provider<Statement> statementFactory;
     private final FrameworkMethod method;
 
-    public RepeatStatement(int timesToRepeat, Supplier<Statement> statementFactory, FrameworkMethod method)
+    public RepeatStatement(int timesToRepeat, Provider<Statement> statementFactory, FrameworkMethod method)
     {
         checkThat(timesToRepeat > 0, "timesToRepeat must be > 0");
         checkNotNull(statementFactory);

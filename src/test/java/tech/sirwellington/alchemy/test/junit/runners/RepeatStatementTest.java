@@ -17,6 +17,8 @@ package tech.sirwellington.alchemy.test.junit.runners;
 
 import java.util.Random;
 import java.util.function.Supplier;
+import javax.swing.plaf.nimbus.State;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,6 +30,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import static org.hamcrest.Matchers.isEmptyOrNullString;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -47,7 +50,7 @@ public class RepeatStatementTest
     private Statement statement;
 
     @Mock
-    private Supplier<Statement> statementFactory;
+    private Provider<Statement> statementFactory;
 
     @Mock
     private FrameworkMethod method;
@@ -80,24 +83,101 @@ public class RepeatStatementTest
     @Test
     public void testConstructor() throws Exception
     {
-        assertThrows(() -> new RepeatStatement(0, statementFactory, method))
-                .isInstanceOf(IllegalArgumentException.class);
 
-        assertThrows(() -> new RepeatStatement(-1, statementFactory, method))
-                .isInstanceOf(IllegalArgumentException.class);
+        try
+        {
+            new RepeatStatement(0, statementFactory, method);
+            fail("Expected Exception here");
+        }
+        catch (IllegalArgumentException ex)
+        {
+            //ok
+        }
+        catch (Exception ex)
+        {
+            fail("Unexpected exception");
+        }
 
-        assertThrows(() -> new RepeatStatement(-5, statementFactory, method))
-                .isInstanceOf(IllegalArgumentException.class);
+        try
+        {
+            new RepeatStatement(-1, statementFactory, method);
+            fail("Expected Exception here");
+        }
+        catch (IllegalArgumentException ex)
+        {
+            //ok
+        }
+        catch (Exception ex)
+        {
+            fail("Unexpected exception");
+        }
 
-        assertThrows(() -> new RepeatStatement(5, null, method))
-                .isInstanceOf(IllegalArgumentException.class);
+        try
+        {
+            new RepeatStatement(-5, statementFactory, method);
+            fail("Expected Exception here");
+        }
+        catch (IllegalArgumentException ex)
+        {
+            //ok
+        }
+        catch (Exception ex)
+        {
+            fail("Unexpected exception");
+        }
 
-        assertThrows(() -> new RepeatStatement(5, () -> null, method))
-                .isInstanceOf(IllegalArgumentException.class);
+        try
+        {
+            new RepeatStatement(5, null, method);
+            fail("Expected Exception here");
+        }
+        catch (IllegalArgumentException ex)
+        {
+            //ok
+        }
+        catch (Exception ex)
+        {
+            fail("Unexpected exception");
+        }
 
-        assertThrows(() -> new RepeatStatement(5, statementFactory, null))
-                .isInstanceOf(IllegalArgumentException.class);
 
+        try
+        {
+            Provider<Statement> nullProvider = new Provider<Statement>()
+            {
+                @Override
+                public Statement get()
+                {
+                    return null;
+                }
+            };
+
+            new RepeatStatement(5, nullProvider, method);
+            fail("Expected Exception here");
+        }
+        catch (IllegalArgumentException ex)
+        {
+            //ok
+        }
+        catch (Exception ex)
+        {
+            fail("Unexpected exception");
+        }
+
+
+        try
+        {
+            new RepeatStatement(5, statementFactory, null);
+            fail("Expected Exception here");
+        }
+        catch (IllegalArgumentException ex)
+        {
+            //ok
+        }
+        catch (Exception ex)
+        {
+            fail("Unexpected exception");
+        }
     }
 
     @Test
@@ -109,14 +189,13 @@ public class RepeatStatementTest
         verify(statementFactory, times(timesToRepeat + 1)).get();
         verify(statement, times(timesToRepeat)).evaluate();
     }
-    
-    @Test
+
+    @Test(expected = IllegalArgumentException.class)
     public void testEvaluateWhenFactoryReturnsNull() throws Throwable
     {
         when(statementFactory.get()).thenReturn(null);
-        
-        assertThrows(() -> instance.evaluate())
-                .isInstanceOf(IllegalArgumentException.class);
+
+        instance.evaluate();
     }
 
     @Test

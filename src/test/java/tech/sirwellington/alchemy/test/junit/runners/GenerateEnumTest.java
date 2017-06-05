@@ -49,13 +49,12 @@ public class GenerateEnumTest
         annotation = new FakeAnnotation();
     }
 
-    @Test
-    public void testCannotInstatiate()
+    @Test(expected = IllegalAccessException.class)
+    public void testCannotInstantiate() throws IllegalAccessException, InstantiationException
     {
         System.out.println("testCannotInstatiate");
 
-        assertThrows(() -> GenerateEnum.Values.class.newInstance())
-            .isInstanceOf(IllegalAccessException.class);
+        GenerateEnum.Values.class.newInstance();
     }
 
 
@@ -73,13 +72,11 @@ public class GenerateEnumTest
     }
     
     
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testValuesWithBadArgs()
     {
         System.out.println("testValuesWithBadArgs");
-        
-        assertThrows(() -> GenerateEnum.Values.createGeneratorFor(null, null))
-            .isInstanceOf(IllegalArgumentException.class);
+        GenerateEnum.Values.createGeneratorFor(null, null);
     }
 
     private static class FakeAnnotation implements GenerateEnum

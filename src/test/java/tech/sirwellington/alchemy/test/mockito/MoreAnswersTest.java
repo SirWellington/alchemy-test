@@ -16,25 +16,19 @@
 
 package tech.sirwellington.alchemy.test.mockito;
 
-import java.util.function.BiFunction;
-import java.util.function.Supplier;
-import static org.hamcrest.CoreMatchers.is;
-import org.junit.After;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
-import org.junit.Before;
-import org.junit.Test;
+
+import com.google.common.base.Supplier;
+import org.junit.*;
 import org.junit.runner.RunWith;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
-import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.*;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.*;
 
 /**
- *
  * @author SirWellington
  */
 @RunWith(MockitoJUnitRunner.class)
@@ -52,45 +46,52 @@ public class MoreAnswersTest
     {
 
     }
-    
-    @Test
-    public void testCannotInstantiate()
+
+    @Test(expected = IllegalAccessException.class)
+    public void testCannotInstantiate1() throws IllegalAccessException, InstantiationException
     {
-        System.out.println("testCannotInstantiate");
-        
-        assertThrows(() -> MoreAnswers.class.newInstance())
-                .isInstanceOf(IllegalAccessException.class);
-        
-        assertThrows(() -> new MoreAnswers())
-                .isInstanceOf(IllegalAccessException.class);
+        System.out.println("testCannotInstantiate1");
+
+        new MoreAnswers();
     }
 
-    @Test
+    @Test(expected = IllegalAccessException.class)
+    public void testCannotInstantiate2() throws IllegalAccessException, InstantiationException
+    {
+        System.out.println("testCannotInstantiate2");
+
+        MoreAnswers.class.newInstance();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
     public void testReturnFirst()
     {
         System.out.println("testReturnFirst");
-        
+
         Answer instance = MoreAnswers.returnFirst();
         assertNotNull(instance);
+
         BiFunction<String, String, String> function = mock(BiFunction.class);
         when(function.apply(anyString(), anyString()))
                 .then(instance);
+
         String expected = "arg1";
         String result = function.apply(expected, "arg2");
         assertThat(result, is(expected));
 
         Supplier supplier = mock(Supplier.class);
+
         when(supplier.get())
                 .then(instance);
-        assertThrows(() -> supplier.get())
-                .isInstanceOf(IllegalArgumentException.class);
+
+        supplier.get();
     }
 
     @Test
     public void testReturnArgumentAtIndex()
     {
         System.out.println("testReturnArgumentAtIndex");
-        
+
         int index = 1;
         Answer instance = MoreAnswers.returnArgumentAtIndex(index);
         assertNotNull(instance);
@@ -103,11 +104,11 @@ public class MoreAnswersTest
         assertThat(result, is(expected));
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testReturnArgumentAtIndexWithBadIndex()
     {
         System.out.println("testReturnArgumentAtIndexWithBadIndex");
-        
+
         int index = -1;
         try
         {
@@ -118,6 +119,7 @@ public class MoreAnswersTest
         {
 
         }
+
         index = 2;
         Answer instance = MoreAnswers.returnArgumentAtIndex(index);
         assertNotNull(instance);
@@ -125,9 +127,13 @@ public class MoreAnswersTest
         BiFunction<String, String, String> function = mock(BiFunction.class);
         when(function.apply(anyString(), anyString()))
                 .then(instance);
-        
-        assertThrows(() -> function.apply("one", "args4"))
-                .isInstanceOf(IllegalArgumentException.class);
+
+        function.apply("one", "args4");
+    }
+
+    interface BiFunction<X, Y, Z>
+    {
+        Z apply(X x, Y y);
     }
 
 }

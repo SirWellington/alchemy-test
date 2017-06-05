@@ -16,15 +16,14 @@
 package tech.sirwellington.alchemy.test.junit;
 
 import java.io.IOException;
-import java.util.function.Function;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+
+import com.google.common.base.Function;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.fail;
-import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
+import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.*;
 
 /**
  * @author SirWellington
@@ -48,38 +47,66 @@ public class ThrowableAssertionTest
     {
         System.out.println("testAssertThrown");
 
-        ThrowableAssertion.assertThrows(() ->
+
+        ExceptionOperation op = new ExceptionOperation()
         {
-            throw new RuntimeException();
-        }).hasNoCause()
-                .isInstanceOf(RuntimeException.class);
+            @Override
+            public void call() throws Throwable
+            {
+                throw new RuntimeException();
+            }
+        };
+
+        assertThrows(op).isInstanceOf(RuntimeException.class)
+                        .hasNoCause();
 
         boolean passed = true;
         try
         {
-            ThrowableAssertion.assertThrows(() ->
+            op = new ExceptionOperation()
             {
-            });
+                @Override
+                public void call() throws Throwable
+                {
+
+                }
+            };
+
+            assertThrows(op);
+
             passed = false;
         }
         catch (AssertionError ex)
         {
             passed = true;
         }
-        
+
         if (!passed)
         {
             fail("Expected AssertionError");
         }
 
-        Function<String, String> function = (s) ->
+        final Function<String, String> function = new Function<String, String>()
         {
-            throw new RuntimeException(s);
+            @Override
+            public String apply(String input)
+            {
+                throw new RuntimeException(input);
+
+            }
         };
 
-        assertThrows(() -> function.apply("some"))
-                .containsInMessage("some");
+        final String message = "some;";
+        op = new ExceptionOperation()
+        {
+            @Override
+            public void call() throws Throwable
+            {
+                function.apply(message);
+            }
+        };
 
+        assertThrows(op).hasMessage(message);
     }
 
     @Test
@@ -87,10 +114,16 @@ public class ThrowableAssertionTest
     {
         System.out.println("testIsInstanceOf");
 
-        assertThrows(() ->
+        ExceptionOperation op = new ExceptionOperation()
         {
-            throw new IllegalArgumentException();
-        }).isInstanceOf(IllegalArgumentException.class);
+            @Override
+            public void call() throws Throwable
+            {
+                throw new IllegalArgumentException();
+            }
+        };
+
+        assertThrows(op).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -98,11 +131,19 @@ public class ThrowableAssertionTest
     {
         System.out.println("testHasMessage");
 
-        String message = "some message";
-        assertThrows(() ->
+        final String message = "some message";
+
+        ExceptionOperation op = new ExceptionOperation()
         {
-            throw new IllegalArgumentException(message);
-        }).isInstanceOf(IllegalArgumentException.class)
+            @Override
+            public void call() throws Throwable
+            {
+                throw new IllegalArgumentException(message);
+            }
+        };
+
+        assertThrows(op)
+                .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(message);
     }
 
@@ -111,11 +152,17 @@ public class ThrowableAssertionTest
     {
         System.out.println("testHasNoCause");
 
-        assertThrows(() ->
+        ExceptionOperation op = new ExceptionOperation()
         {
-            throw new IllegalArgumentException();
-        }).isInstanceOf(IllegalArgumentException.class)
-                .hasNoCause();
+            @Override
+            public void call() throws Throwable
+            {
+                throw new IllegalArgumentException();
+            }
+        };
+
+        assertThrows(op).isInstanceOf(IllegalArgumentException.class)
+                        .hasNoCause();
     }
 
     @Test
@@ -123,11 +170,17 @@ public class ThrowableAssertionTest
     {
         System.out.println("testHasCauseInstanceOf");
 
-        assertThrows(() ->
+        ExceptionOperation op = new ExceptionOperation()
         {
-            throw new IllegalArgumentException(new IOException());
-        }).isInstanceOf(IllegalArgumentException.class)
-                .hasCauseInstanceOf(IOException.class);
+            @Override
+            public void call() throws Throwable
+            {
+                throw new IllegalArgumentException(new IOException());
+            }
+        };
+
+        assertThrows(op).isInstanceOf(IllegalArgumentException.class)
+                        .hasCauseInstanceOf(IOException.class);
     }
 
 }

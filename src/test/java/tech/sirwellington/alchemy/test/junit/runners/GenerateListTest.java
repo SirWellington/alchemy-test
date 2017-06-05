@@ -18,23 +18,18 @@ package tech.sirwellington.alchemy.test.junit.runners;
 
 import java.lang.annotation.Annotation;
 import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
-import static tech.sirwellington.alchemy.generator.AlchemyGenerator.one;
+import static tech.sirwellington.alchemy.generator.AlchemyGenerator.Get.one;
 import static tech.sirwellington.alchemy.generator.NumberGenerators.integers;
 import static tech.sirwellington.alchemy.generator.NumberGenerators.negativeIntegers;
-import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
 
 /**
- *
  * @author SirWellington
  */
 public class GenerateListTest
@@ -53,13 +48,12 @@ public class GenerateListTest
         annotation = new GenerateListAnnotation(genericType, size);
     }
 
-    @Test
-    public void testCannotInstantiate()
+    @Test(expected = IllegalAccessException.class)
+    public void testCannotInstantiate() throws IllegalAccessException, InstantiationException
     {
         System.out.println("testCannotInstantiate");
 
-        assertThrows(() -> GenerateList.Values.class.newInstance())
-            .isInstanceOf(IllegalAccessException.class);
+        GenerateList.Values.class.newInstance();
     }
 
     @Test
@@ -69,31 +63,32 @@ public class GenerateListTest
 
         AlchemyGenerator<List<?>> generator = GenerateList.Values.createGeneratorFor(annotation);
         assertThat(generator, notNullValue());
-        
+
         List<?> list = generator.get();
         assertThat(list, notNullValue());
         assertThat(list, not(empty()));
-        
-        for(Object element : list)
+
+        for (Object element : list)
         {
             assertThat(element, is(instanceOf(genericType)));
         }
     }
 
-    @Test
-    public void testValuesEdgeCases()
+    @Test(expected = IllegalArgumentException.class)
+    public void testValuesEdgeCases1()
     {
-        System.out.println("testValuesEdgeCases");
+        System.out.println("testValuesEdgeCases1");
 
-        assertThrows(() -> GenerateList.Values.createGeneratorFor(null))
-            .isInstanceOf(IllegalArgumentException.class);
+        GenerateList.Values.createGeneratorFor(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testValuesEdgeCases2()
+    {
+        System.out.println("testValuesEdgeCases2");
 
         annotation.size = one(negativeIntegers());
-        
-        assertThrows(() -> GenerateList.Values.createGeneratorFor(annotation))
-            .isInstanceOf(IllegalArgumentException.class);
-        
-
+        GenerateList.Values.createGeneratorFor(annotation);
     }
 
     private static class GenerateListAnnotation<T> implements GenerateList

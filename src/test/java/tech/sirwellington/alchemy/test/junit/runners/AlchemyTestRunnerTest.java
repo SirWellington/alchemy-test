@@ -29,7 +29,6 @@ import org.junit.runner.Result;
 import org.junit.runner.RunWith;
 import org.junit.runners.model.InitializationError;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 
 import static org.hamcrest.Matchers.empty;
@@ -91,9 +90,6 @@ public class AlchemyTestRunnerTest
         @GenerateDate(GenerateDate.Type.FUTURE)
         private Date futureDate;
         
-        @GenerateInstant
-        private Instant instant;
-        
         @GeneratePojo
         private SamplePojo pojo;
         
@@ -129,7 +125,6 @@ public class AlchemyTestRunnerTest
             assertThat(integer, greaterThan(0));
             assertThat(futureDate, notNullValue());
             assertThat(futureDate.after(new Date()), is(true));
-            assertThat(instant, notNullValue());
             assertThat(pojo, notNullValue());
             assertThat(pojo.name, not(isEmptyOrNullString()));
             assertThat(pojo.number, greaterThan(0));

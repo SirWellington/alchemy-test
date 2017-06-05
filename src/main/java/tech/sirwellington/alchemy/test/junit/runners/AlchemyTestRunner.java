@@ -15,13 +15,9 @@
  */
 package tech.sirwellington.alchemy.test.junit.runners;
 
-import java.util.function.Supplier;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;
-import org.junit.runners.model.FrameworkMethod;
-import org.junit.runners.model.InitializationError;
-import org.junit.runners.model.Statement;
-import org.junit.runners.model.TestClass;
+import org.junit.runners.model.*;
 import org.mockito.*;
 import org.mockito.internal.junit.UnnecessaryStubbingsReporter;
 import org.mockito.internal.runners.util.FailureDetector;
@@ -57,9 +53,9 @@ public class AlchemyTestRunner extends BlockJUnit4ClassRunner
     }
 
     @Override
-    protected Statement withBefores(FrameworkMethod method, Object target, Statement statement)
+    protected Statement withBefores(FrameworkMethod method, final Object target, Statement statement)
     {
-        Statement superStatement = super.withBefores(method, target, statement);
+        final Statement superStatement = super.withBefores(method, target, statement);
 
         return new Statement()
         {
@@ -79,10 +75,18 @@ public class AlchemyTestRunner extends BlockJUnit4ClassRunner
     }
 
     @Override
-    protected Statement methodBlock(FrameworkMethod method)
+    protected Statement methodBlock(final FrameworkMethod method)
     {
         int timesToRun = determineTimesToRun(method);
-        Supplier<Statement> statementFactory = () -> super.methodBlock(method);
+
+        Provider<Statement> statementFactory = new Provider<Statement>()
+        {
+            @Override
+            public Statement get()
+            {
+                return AlchemyTestRunner.super.methodBlock(method);
+            }
+        };
 
         return new RepeatStatement(timesToRun, statementFactory, method);
     }

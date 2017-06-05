@@ -16,6 +16,7 @@
 
 package tech.sirwellington.alchemy.test.mockito;
 
+import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
@@ -75,16 +76,22 @@ public final class MoreAnswers
      *
      * @see #returnFirst()
      */
-    public static <T> Answer<T> returnArgumentAtIndex(int index)
+    public static <T> Answer<T> returnArgumentAtIndex(final int index)
     {
         checkThat(index >= 0, "Index is out of bounds.");
-        return (i) ->
+
+        return new Answer<T>()
         {
-            if (index >= i.getArguments().length)
+            @Override
+            public T answer(InvocationOnMock invocation) throws Throwable
             {
-                throw new IllegalArgumentException("Received an index of " + index + " but only " + i.getArguments().length + " arguments");
+                if (index >= invocation.getArguments().length)
+                {
+                    throw new IllegalArgumentException("Received an index of " + index + " but only " + invocation.getArguments().length + " arguments");
+                }
+
+                return (T) invocation.getArguments()[index];
             }
-            return (T) i.getArguments()[index];
         };
     }
 }

@@ -17,6 +17,7 @@
 package tech.sirwellington.alchemy.test.junit.runners;
 
 import java.lang.annotation.Annotation;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,15 +25,14 @@ import org.mockito.runners.MockitoJUnitRunner;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
-import static tech.sirwellington.alchemy.generator.AlchemyGenerator.one;
+import static org.junit.Assert.assertThat;
+import static tech.sirwellington.alchemy.generator.AlchemyGenerator.Get.one;
 import static tech.sirwellington.alchemy.generator.EnumGenerators.enumValueOf;
 import static tech.sirwellington.alchemy.generator.NumberGenerators.doubles;
-import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
+import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.*;
 import static tech.sirwellington.alchemy.test.junit.runners.GenerateDouble.Type.RANGE;
 
 /**
- *
  * @author SirWellington
  */
 @RunWith(MockitoJUnitRunner.class)
@@ -54,13 +54,11 @@ public class GenerateDoubleTest
         annotation = new GenerateDoubleInstance(type, min, max);
     }
 
-    @Test
-    public void testCannotInstatiate()
+    @Test(expected = IllegalAccessException.class)
+    public void testCannotInstantiate() throws IllegalAccessException, InstantiationException
     {
         System.out.println("testCannotInstatiate");
-
-        assertThrows(() -> GenerateDouble.Values.class.newInstance())
-            .isInstanceOf(IllegalAccessException.class);
+        GenerateDouble.Values.class.newInstance();
     }
 
     @Test
@@ -94,24 +92,36 @@ public class GenerateDoubleTest
 
     }
 
-    @Test
-    public void testValuesEdgeCases()
+    @Test(expected = IllegalArgumentException.class)
+    public void testValuesEdgeCases1() throws Exception
     {
-        System.out.println("testValuesEdgeCases");
+        System.out.println("testValuesEdgeCases1");
 
-        assertThrows(() -> GenerateDouble.Values.createGeneratorFor(null))
-            .isInstanceOf(IllegalArgumentException.class);
+        GenerateDouble.Values.createGeneratorFor(null);
+
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testValuesEdgeCases2() throws Exception
+    {
+        System.out.println("testValuesEdgeCases1");
+
 
         annotation = new GenerateDoubleInstance(null, min, max);
-        assertThrows(() -> GenerateDouble.Values.createGeneratorFor(annotation))
-            .isInstanceOf(IllegalArgumentException.class);
+        GenerateDouble.Values.createGeneratorFor(annotation);
+
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testValuesEdgeCases3() throws Exception
+    {
+        System.out.println("testValuesEdgeCases1");
 
         double badMin = max;
         double badMax = min;
         type = RANGE;
         annotation = new GenerateDoubleInstance(type, badMin, badMax);
-        assertThrows(() -> GenerateDouble.Values.createGeneratorFor(annotation))
-            .isInstanceOf(IllegalArgumentException.class);
+        GenerateDouble.Values.createGeneratorFor(annotation);
 
     }
 

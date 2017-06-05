@@ -17,6 +17,7 @@
 package tech.sirwellington.alchemy.test.junit.runners;
 
 import java.lang.annotation.Annotation;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,15 +25,13 @@ import org.mockito.runners.MockitoJUnitRunner;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
-import static tech.sirwellington.alchemy.generator.AlchemyGenerator.one;
+import static org.junit.Assert.assertThat;
+import static tech.sirwellington.alchemy.generator.AlchemyGenerator.Get.one;
 import static tech.sirwellington.alchemy.generator.EnumGenerators.enumValueOf;
 import static tech.sirwellington.alchemy.generator.NumberGenerators.longs;
-import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
 import static tech.sirwellington.alchemy.test.junit.runners.GenerateLong.Type.RANGE;
 
 /**
- *
  * @author SirWellington
  */
 @RunWith(MockitoJUnitRunner.class)
@@ -54,13 +53,12 @@ public class GenerateLongTest
         annotation = new GenerateLongInstance(type, min, max);
     }
 
-    @Test
-    public void testCannotInstatiate()
+    @Test(expected = IllegalAccessException.class)
+    public void testCannotInstatiate() throws IllegalAccessException, InstantiationException
     {
-        System.out.println("testCannotInstatiate");
+        System.out.println("testCannotInstantiate");
 
-        assertThrows(() -> GenerateLong.Values.class.newInstance())
-            .isInstanceOf(IllegalAccessException.class);
+        GenerateLong.Values.class.newInstance();
     }
 
     @Test
@@ -94,26 +92,37 @@ public class GenerateLongTest
 
     }
 
-    @Test
-    public void testValuesEdgeCases()
+    @Test(expected = IllegalArgumentException.class)
+    public void testValuesEdgeCases1()
     {
         System.out.println("testValuesEdgeCases");
 
-        assertThrows(() -> GenerateLong.Values.createGeneratorFor(null))
-            .isInstanceOf(IllegalArgumentException.class);
+        GenerateLong.Values.createGeneratorFor(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testValuesEdgeCases2()
+    {
+        System.out.println("testValuesEdgeCases");
 
         annotation = new GenerateLongInstance(null, min, max);
-        assertThrows(() -> GenerateLong.Values.createGeneratorFor(annotation))
-            .isInstanceOf(IllegalArgumentException.class);
+        GenerateLong.Values.createGeneratorFor(annotation);
+    }
+
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testValuesEdgeCases3()
+    {
+        System.out.println("testValuesEdgeCases");
 
         long badMin = max;
         long badMax = min;
         type = RANGE;
         annotation = new GenerateLongInstance(type, badMin, badMax);
-        assertThrows(() -> GenerateLong.Values.createGeneratorFor(annotation))
-            .isInstanceOf(IllegalArgumentException.class);
+        GenerateLong.Values.createGeneratorFor(annotation);
 
     }
+
 
     private static class GenerateLongInstance implements GenerateLong
     {

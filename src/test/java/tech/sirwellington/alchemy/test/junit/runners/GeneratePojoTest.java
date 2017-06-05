@@ -18,22 +18,18 @@ package tech.sirwellington.alchemy.test.junit.runners;
 
 import java.lang.annotation.Annotation;
 import java.util.Date;
+
 import org.junit.Before;
 import org.junit.Test;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.isEmptyOrNullString;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
-import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
 
 /**
- *
  * @author SirWellington
  */
-public class GeneratePojoTest 
+public class GeneratePojoTest
 {
     private GeneratePojoInstance annotation;
 
@@ -42,46 +38,49 @@ public class GeneratePojoTest
     {
         annotation = new GeneratePojoInstance();
     }
-    
-    @Test
-    public void testCannotInstantiate()
+
+    @Test(expected = IllegalAccessException.class)
+    public void testCannotInstantiate() throws IllegalAccessException, InstantiationException
     {
         System.out.println("testCannotInstantiate");
-        
-        assertThrows(() -> GeneratePojo.Values.class.newInstance())
-            .isInstanceOf(IllegalAccessException.class);
+
+        GeneratePojo.Values.class.newInstance();
     }
 
     @Test
     public void testValues()
     {
         System.out.println("testValues");
-        
+
         AlchemyGenerator<SamplePojo> generator = GeneratePojo.Values.createGeneratorFor(annotation, SamplePojo.class);
         assertThat(generator, notNullValue());
-        
+
         SamplePojo result = generator.get();
         assertThat(result, notNullValue());
         assertThat(result.name, not(isEmptyOrNullString()));
         assertThat(result.age, greaterThan(0));
         assertThat(result.balance, greaterThan(0L));
         assertThat(result.birthday, notNullValue());
-        
-    }
-    
-    @Test
-    public void testValuesEdgeCases()
-    {
-        System.out.println("testValuesEdgeCases");
-        
-        assertThrows(() -> GeneratePojo.Values.createGeneratorFor(annotation, null))
-            .isInstanceOf(IllegalArgumentException.class);
-        
-        assertThrows(() -> GeneratePojo.Values.createGeneratorFor(null, SamplePojo.class))
-            .isInstanceOf(IllegalArgumentException.class);
+
     }
 
-    
+    @Test(expected = IllegalArgumentException.class)
+    public void testValuesEdgeCases1()
+    {
+        System.out.println("testValuesEdgeCases");
+
+        GeneratePojo.Values.createGeneratorFor(null, SamplePojo.class);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testValuesEdgeCases2()
+    {
+        System.out.println("testValuesEdgeCases");
+
+        GeneratePojo.Values.createGeneratorFor(annotation, null);
+    }
+
+
     private static class SamplePojo
     {
         private String name;
@@ -89,7 +88,7 @@ public class GeneratePojoTest
         private Date birthday;
         private long balance;
     }
-    
+
     private static class GeneratePojoInstance implements GeneratePojo
     {
 
@@ -98,6 +97,6 @@ public class GeneratePojoTest
         {
             return GeneratePojo.class;
         }
-        
+
     }
 }

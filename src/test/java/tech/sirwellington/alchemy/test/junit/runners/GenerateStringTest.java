@@ -17,6 +17,7 @@
 package tech.sirwellington.alchemy.test.junit.runners;
 
 import java.lang.annotation.Annotation;
+
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,19 +26,14 @@ import org.mockito.runners.MockitoJUnitRunner;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 import tech.sirwellington.alchemy.generator.EnumGenerators;
 
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.isEmptyOrNullString;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
-import static tech.sirwellington.alchemy.generator.AlchemyGenerator.one;
+import static tech.sirwellington.alchemy.generator.AlchemyGenerator.Get.one;
 import static tech.sirwellington.alchemy.generator.NumberGenerators.integers;
 import static tech.sirwellington.alchemy.generator.NumberGenerators.negativeIntegers;
-import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
 import static tech.sirwellington.alchemy.test.junit.runners.GenerateString.Type.UUID;
 
 /**
- *
  * @author SirWellington
  */
 @RunWith(MockitoJUnitRunner.class)
@@ -56,20 +52,19 @@ public class GenerateStringTest
 
     }
 
-    @Test
-    public void testCannotInstatiate()
+    @Test(expected = IllegalAccessException.class)
+    public void testCannotInstantiate() throws IllegalAccessException, InstantiationException
     {
         System.out.println("testCannotInstatiate");
-        
-        assertThrows(() -> GenerateString.Values.class.newInstance())
-            .isInstanceOf(IllegalAccessException.class);
+
+        GenerateString.Values.class.newInstance();
     }
 
     @Test
     public void testValues()
     {
         System.out.println("testValues");
-        
+
         AlchemyGenerator<String> result = GenerateString.Values.createGeneratorFor(annotation);
         assertThat(result, notNullValue());
 
@@ -101,24 +96,37 @@ public class GenerateStringTest
         }
 
     }
-    
-    @Test
-    public void testValuesEdgeCases()
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testValuesEdgeCases1()
     {
         System.out.println("testValuesEdgeCases");
-        
-        assertThrows(() -> GenerateString.Values.createGeneratorFor(null))
-            .isInstanceOf(IllegalArgumentException.class);
-        
+
+        GenerateString.Values.createGeneratorFor(null);
+
+    }
+
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testValuesEdgeCases2()
+    {
+        System.out.println("testValuesEdgeCases");
+
         int badLength = one(negativeIntegers());
         annotation = new GenerateStringInstance(type, badLength);
-        assertThrows(() -> GenerateString.Values.createGeneratorFor(annotation))
-            .isInstanceOf(IllegalArgumentException.class);
-            
-        annotation = new GenerateStringInstance(null, length);
-        assertThrows(() -> GenerateString.Values.createGeneratorFor(annotation))
-            .isInstanceOf(IllegalArgumentException.class);
+        GenerateString.Values.createGeneratorFor(annotation);
     }
+
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testValuesEdgeCases3()
+    {
+        System.out.println("testValuesEdgeCases");
+
+        annotation = new GenerateStringInstance(null, length);
+        GenerateString.Values.createGeneratorFor(annotation);
+    }
+
 
     private static class GenerateStringInstance implements GenerateString
     {
