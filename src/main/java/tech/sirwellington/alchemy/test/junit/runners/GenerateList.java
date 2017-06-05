@@ -98,15 +98,22 @@ public @interface GenerateList
         static AlchemyGenerator<List<?>> createGeneratorFor(GenerateList annotation) throws IllegalArgumentException
         {
             checkNotNull(annotation, "missing annotation");
-            int size = annotation.size();
+            final int size = annotation.size();
             checkThat(size > 0, "size must be > 0");
 
             Class<?> genericType = annotation.value();
             checkNotNull(genericType, "annotation is missing generic type information");
 
-            AlchemyGenerator<?> generator = determineGeneratorFor(genericType);
+            final AlchemyGenerator<?> generator = determineGeneratorFor(genericType);
 
-            return () -> listOf(generator, size);
+            return new AlchemyGenerator<List<?>>()
+            {
+                @Override
+                public List<?> get()
+                {
+                    return listOf(generator, size);
+                }
+            };
         }
 
         private static AlchemyGenerator<?> determineGeneratorFor(Class<?> genericType)
