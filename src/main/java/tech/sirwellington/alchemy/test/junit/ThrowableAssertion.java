@@ -17,20 +17,16 @@ package tech.sirwellington.alchemy.test.junit;
 
 import tech.sirwellington.alchemy.annotations.designs.FluidAPIDesign;
 
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.isA;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
 
 /**
  * Makes it easier syntactically using Java 8 to assert an Exception is thrown by a section of code.
  * You can also perform additional verification on the exception that is thrown.
- *
+ * <p>
  * Example:
- *
+ * <p>
  * <pre>
  * {@code
  * assertThrows(() -> someFunctionThatThrows())
@@ -49,9 +45,7 @@ public final class ThrowableAssertion
      * Assert that a function throws an exception.
      *
      * @param operation The Lambda function that encapsulates code you expect to throw an exception.
-     *
      * @return
-     *
      * @throws ExceptionNotThrownException If no exception is thrown.
      */
     public static ThrowableAssertion assertThrows(ExceptionOperation operation) throws ExceptionNotThrownException
@@ -87,7 +81,6 @@ public final class ThrowableAssertion
      * Check that the Exception is of a particular type.
      *
      * @param exceptionClass The expected type of the Exception.
-     *
      * @return
      */
     public ThrowableAssertion isInstanceOf(Class<? extends Throwable> exceptionClass)
@@ -100,7 +93,6 @@ public final class ThrowableAssertion
      * Checks to make sure the exception contains a certain message.
      *
      * @param expectedMessage The exact message expected
-     *
      * @return
      */
     public ThrowableAssertion hasMessage(String expectedMessage)
@@ -113,7 +105,6 @@ public final class ThrowableAssertion
      * Assert that the exception contains a string in its message.
      *
      * @param messageString The partial message to expected.
-     *
      * @return
      */
     public ThrowableAssertion containsInMessage(String messageString)
@@ -137,7 +128,6 @@ public final class ThrowableAssertion
      * Asserts that the Exception has a cause of a particular type.
      *
      * @param exceptionClass The type expected.
-     *
      * @return
      */
     public ThrowableAssertion hasCauseInstanceOf(Class<? extends Throwable> exceptionClass)

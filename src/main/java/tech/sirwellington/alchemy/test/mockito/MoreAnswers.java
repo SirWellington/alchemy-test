@@ -19,6 +19,7 @@ package tech.sirwellington.alchemy.test.mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
+
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
 
 /**
@@ -34,11 +35,11 @@ public final class MoreAnswers
     {
         throw new IllegalAccessException("cannot instantiate class");
     }
-    
-    
+
+
     /**
      * For example:
-     *
+     * <p>
      * <pre>
      *
      * {@code
@@ -48,9 +49,7 @@ public final class MoreAnswers
      * </pre>
      *
      * @param <T>
-     *
      * @return
-     *
      * @see #returnArgumentAtIndex(int)
      */
     public static <T> Answer<T> returnFirst()
@@ -60,7 +59,7 @@ public final class MoreAnswers
 
     /**
      * An answer that returns one of the parameters as the return value.
-     *
+     * <p>
      * Example:
      * <pre>
      * when(someMock.call(anyString(), anyString()).then(returnArgumentAtIndex(1));
@@ -71,9 +70,7 @@ public final class MoreAnswers
      *
      * @param <T>
      * @param index zero-based index which determines which parameter to return as an answer.
-     *
      * @return
-     *
      * @see #returnFirst()
      */
     public static <T> Answer<T> returnArgumentAtIndex(final int index)

@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2015 SirWellington Tech.
  *
@@ -34,7 +33,6 @@ import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
 
 /**
- *
  * @author SirWellington
  */
 @Internal
@@ -55,31 +53,31 @@ final class TestClassInjectors
         {
             inflateString(field, target);
         }
-        
+
         //@GenerateBoolean
         List<FrameworkField> booleanGeneratedFields = testClass.getAnnotatedFields(GenerateBoolean.class);
         for (FrameworkField field : booleanGeneratedFields)
         {
             inflateBoolean(field, target);
         }
-        
+
         //@GenerateInteger
         List<FrameworkField> integerGeneratedFields = testClass.getAnnotatedFields(GenerateInteger.class);
         for (FrameworkField field : integerGeneratedFields)
         {
             inflateInteger(field, target);
         }
-        
+
         //@GenerateLong
         List<FrameworkField> longGeneratedFields = testClass.getAnnotatedFields(GenerateLong.class);
         for (FrameworkField field : longGeneratedFields)
         {
             inflateLong(field, target);
         }
-        
+
         //@GenerateDouble
         List<FrameworkField> doubleGeneratedFields = testClass.getAnnotatedFields(GenerateDouble.class);
-        for(FrameworkField field : doubleGeneratedFields)
+        for (FrameworkField field : doubleGeneratedFields)
         {
             inflateDouble(field, target);
         }
@@ -97,7 +95,7 @@ final class TestClassInjectors
         {
             inflateUrl(field, target);
         }
-        
+
         //@GeneratePojo
         List<FrameworkField> pojoGeneratedFields = testClass.getAnnotatedFields(GeneratePojo.class);
         for (FrameworkField field : pojoGeneratedFields)
@@ -135,12 +133,12 @@ final class TestClassInjectors
     {
         GenerateBoolean annotation = field.getAnnotation(GenerateBoolean.class);
         checkNotNull(annotation, "missing annotation: @GenerateBoolean");
-        
+
         AlchemyGenerator<Boolean> generator = GenerateBoolean.Values.createGeneratorFor(annotation);
         Boolean value = generator.get();
         inflate(field, target, value);
     }
-    
+
     private static void inflateInteger(FrameworkField field, Object target) throws IllegalArgumentException,
                                                                                    IllegalAccessException
     {
@@ -215,7 +213,7 @@ final class TestClassInjectors
         Object value = generator.get();
         inflate(field, target, value);
     }
-    
+
     private static void inflateList(FrameworkField field, Object target) throws IllegalArgumentException, IllegalAccessException
     {
         Class<?> typeOfField = field.getType();
@@ -246,6 +244,5 @@ final class TestClassInjectors
         }
     }
 
- 
 
 }

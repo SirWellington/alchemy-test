@@ -19,17 +19,14 @@ package tech.sirwellington.alchemy.test.junit.runners;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.util.UUID;
+
 import tech.sirwellington.alchemy.annotations.access.Internal;
 import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static tech.sirwellington.alchemy.generator.StringGenerators.alphabeticString;
-import static tech.sirwellington.alchemy.generator.StringGenerators.alphanumericString;
-import static tech.sirwellington.alchemy.generator.StringGenerators.hexadecimalString;
-import static tech.sirwellington.alchemy.generator.StringGenerators.numericString;
-import static tech.sirwellington.alchemy.generator.StringGenerators.uuids;
+import static tech.sirwellington.alchemy.generator.StringGenerators.*;
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
 
@@ -48,26 +45,28 @@ import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
  * 
  * </pre>
  */
+
 /**
- * Used in with the {@link AlchemyTestRunner}, this Annotations allows the 
+ * Used in with the {@link AlchemyTestRunner}, this Annotations allows the
  * Runtime Injection of Generated Strings from the {@link AlchemyGenerator} library.
  * <p>
  * Example:
  * <pre>
- * {@code 
+ * {@code
  * `@RunWith(AlchemyTestRunner.class)
  * public class ExampleTest
  * {
  *   `@GenerateString(HEXADECIMAL)
  *   private String username;
- * 
+ *
  * }
  * }
  * </pre>
- * 
- * Note, '`' (ticks) used to escape Javadocs. 
- * @see GenerateInteger
+ * <p>
+ * Note, '`' (ticks) used to escape Javadocs.
+ *
  * @author SirWellington
+ * @see GenerateInteger
  */
 @Target(FIELD)
 @Retention(RUNTIME)
@@ -77,15 +76,18 @@ public @interface GenerateString
     /*
      * Named value because it allows for @StringGenerator(ALPHABETIC) instead of @StringGenerator(type = ALPHABETIC)
      */
+
     /**
      * The type of String to Generate
-     * @return 
+     *
+     * @return
      */
     Type value() default Type.ALPHABETIC;
 
     /**
-     * The length of the string, must be {@code > 0}. 
-     * @return 
+     * The length of the string, must be {@code > 0}.
+     *
+     * @return
      */
     int length() default 10;
 

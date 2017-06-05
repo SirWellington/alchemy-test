@@ -16,34 +16,22 @@
 package tech.sirwellington.alchemy.test.junit.runners;
 
 import java.net.URL;
-import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.JUnitCore;
-import org.junit.runner.Result;
-import org.junit.runner.RunWith;
+
+import org.junit.*;
+import org.junit.runner.*;
 import org.junit.runners.model.InitializationError;
 import org.mockito.Mock;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.isEmptyOrNullString;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
- *
  * @author SirWellington
  */
 public class AlchemyTestRunnerTest
@@ -83,25 +71,25 @@ public class AlchemyTestRunnerTest
 
         @GenerateString
         private String string;
-        
+
         @GenerateInteger(GenerateInteger.Type.POSITIVE)
         private int integer;
-        
+
         @GenerateDate(GenerateDate.Type.FUTURE)
         private Date futureDate;
-        
+
         @GeneratePojo
         private SamplePojo pojo;
-        
+
         @GenerateEnum
         private TimeUnit timeUnit;
-        
+
         @GenerateList(Date.class)
         private List<Date> dates;
-        
+
         @GenerateURL
         private URL url;
-        
+
         @Mock
         private AlchemyGenerator<?> object;
 
@@ -229,7 +217,7 @@ public class AlchemyTestRunnerTest
             assertThat(totalRuns, is(1));
         }
     }
-    
+
     private static class SamplePojo
     {
         private String name;

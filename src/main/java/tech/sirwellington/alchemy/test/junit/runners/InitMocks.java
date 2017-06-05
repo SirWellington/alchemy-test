@@ -19,6 +19,7 @@ package tech.sirwellington.alchemy.test.junit.runners;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -30,7 +31,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * {@link AlchemyTestRunner} inits your Mockito {@linkplain Mock Mocks} for you, exactly the same
  * way as {@link MockitoJUnitRunner} does. Apply this annotation with a value of {@code false} to
  * your Test Class to disable this behavior.
- * 
+ *
  * @author SirWellington
  */
 @Retention(RUNTIME)

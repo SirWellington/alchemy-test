@@ -26,17 +26,17 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Alchemy Test Runner Features:
- *
+ * <p>
  * <ul>
  * <li> Initializes Mockito {@linkplain Mock @Mocks}
  * <li> Prints out the testName to the console using {@code System.out.println()}
  * <li> Can repeat your tests using the {@linkplain  Repeat @Repeat} annotation
  * <li> Initialize generated Data Using {@link GenerateString}, {@link GenerateInteger}, etc..
- *
+ * <p>
  * </ul>
  *
- * @see <a href="https://github.com/SirWellington/alchemy-test">https://github.com/SirWellington/alchemy-test</a>
  * @author SirWellington
+ * @see <a href="https://github.com/SirWellington/alchemy-test">https://github.com/SirWellington/alchemy-test</a>
  */
 public class AlchemyTestRunner extends BlockJUnit4ClassRunner
 {
@@ -66,9 +66,9 @@ public class AlchemyTestRunner extends BlockJUnit4ClassRunner
                 {
                     MockitoAnnotations.initMocks(target);
                 }
-                
+
                 TestClassInjectors.populateGeneratedFields(getTestClass(), target);
-                
+
                 superStatement.evaluate();
             }
         };

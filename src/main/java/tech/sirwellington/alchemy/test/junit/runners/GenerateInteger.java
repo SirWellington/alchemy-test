@@ -18,24 +18,23 @@ package tech.sirwellington.alchemy.test.junit.runners;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+
 import tech.sirwellington.alchemy.annotations.access.Internal;
 import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static tech.sirwellington.alchemy.generator.NumberGenerators.integers;
-import static tech.sirwellington.alchemy.generator.NumberGenerators.negativeIntegers;
-import static tech.sirwellington.alchemy.generator.NumberGenerators.positiveIntegers;
+import static tech.sirwellington.alchemy.generator.NumberGenerators.*;
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
 import static tech.sirwellington.alchemy.test.junit.runners.GenerateInteger.Type.POSITIVE;
 import static tech.sirwellington.alchemy.test.junit.runners.GenerateInteger.Type.RANGE;
 
 /**
- * Used in with the {@link AlchemyTestRunner}, this Annotations allows the 
+ * Used in with the {@link AlchemyTestRunner}, this Annotations allows the
  * Runtime Injection of Generated Integers from the {@link AlchemyGenerator} library.
- * 
+ * <p>
  * Example:
  * <pre>
  * {@code
@@ -44,18 +43,17 @@ import static tech.sirwellington.alchemy.test.junit.runners.GenerateInteger.Type
  * {
  *   `@GenerateInteger(POSITIVE)
  *    private int size;
- * 
+ *
  *    ...
  * }
  * }
  * </pre>
  * Note, ticks (`) used to escape Javadocs.
- * 
+ *
+ * @author SirWellington
  * @see GenerateString
  * @see GenerateLong
  * @see GenerateDouble
- * 
- * @author SirWellington
  */
 @Target(FIELD)
 @Retention(RUNTIME)

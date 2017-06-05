@@ -16,8 +16,6 @@
 package tech.sirwellington.alchemy.test.junit.runners;
 
 import java.util.Random;
-import java.util.function.Supplier;
-import javax.swing.plaf.nimbus.State;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -31,13 +29,9 @@ import static org.hamcrest.Matchers.isEmptyOrNullString;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
+import static org.mockito.Mockito.*;
 
 /**
- *
  * @author SirWellington
  */
 @RunWith(MockitoJUnitRunner.class)
@@ -184,7 +178,7 @@ public class RepeatStatementTest
     public void testEvaluate() throws Exception, Throwable
     {
         instance.evaluate();
-        
+
         //+1 to include the call made during the constructor
         verify(statementFactory, times(timesToRepeat + 1)).get();
         verify(statement, times(timesToRepeat)).evaluate();

@@ -19,6 +19,7 @@ package tech.sirwellington.alchemy.test.junit.runners;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+
 import tech.sirwellington.alchemy.annotations.access.Internal;
 import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
@@ -30,14 +31,13 @@ import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
 
 
 /**
- *
  * @author SirWellington
  */
 @Target(FIELD)
 @Retention(RUNTIME)
-public @interface GeneratePojo 
+public @interface GeneratePojo
 {
-    
+
     @Internal
     @NonInstantiable
     static class Values
@@ -46,12 +46,12 @@ public @interface GeneratePojo
         {
             throw new IllegalAccessException("cannot instantiate");
         }
-        
+
         static <POJO> AlchemyGenerator<POJO> createGeneratorFor(GeneratePojo annotation, Class<POJO> classOfPojo)
         {
             checkNotNull(classOfPojo, "missing classOfPojo");
             checkNotNull(annotation, "missing annotation");
-            
+
             return ObjectGenerators.pojos(classOfPojo);
         }
     }

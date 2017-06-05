@@ -18,6 +18,7 @@ package tech.sirwellington.alchemy.test.junit.runners;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+
 import tech.sirwellington.alchemy.annotations.access.Internal;
 import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
@@ -30,7 +31,7 @@ import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
 /**
  * Used in with the {@link AlchemyTestRunner}, this Annotations allows the Runtime Injection of Enum values, using
  * {@link EnumGenerators} from the {@link AlchemyGenerator} library.
- *
+ * <p>
  * Example:
  * <pre>
  * {@code
@@ -53,10 +54,9 @@ import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
  * }
  * </pre> Note, ticks (`) used to escape Javadocs.
  *
+ * @author SirWellington
  * @see GenerateString
  * @see GenerateInstant
- *
- * @author SirWellington
  */
 @Target(FIELD)
 @Retention(RUNTIME)

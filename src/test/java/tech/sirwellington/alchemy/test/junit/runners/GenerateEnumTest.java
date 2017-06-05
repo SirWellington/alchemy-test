@@ -17,19 +17,18 @@
 package tech.sirwellington.alchemy.test.junit.runners;
 
 import java.lang.annotation.Annotation;
+
 import org.junit.Before;
 import org.junit.Test;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
-import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
 
 /**
- *
  * @author SirWellington
  */
-public class GenerateEnumTest 
+public class GenerateEnumTest
 {
 
     private enum Role
@@ -40,9 +39,9 @@ public class GenerateEnumTest
         OWNER,
         ARCHITECT
     }
-    
+
     private GenerateEnum annotation;
-    
+
     @Before
     public void setUp()
     {
@@ -62,16 +61,16 @@ public class GenerateEnumTest
     public void testValues()
     {
         System.out.println("testValues");
-        
+
         AlchemyGenerator<Role> generator = GenerateEnum.Values.createGeneratorFor(annotation, Role.class);
-        
+
         assertThat(generator, notNullValue());
-        
+
         Role result = generator.get();
         assertThat(result, notNullValue());
     }
-    
-    
+
+
     @Test(expected = IllegalArgumentException.class)
     public void testValuesWithBadArgs()
     {
@@ -87,7 +86,7 @@ public class GenerateEnumTest
         {
             return GenerateEnum.class;
         }
-        
+
     }
-    
+
 }

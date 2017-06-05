@@ -18,6 +18,7 @@ package tech.sirwellington.alchemy.test.junit.runners;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+
 import tech.sirwellington.alchemy.annotations.access.Internal;
 import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
@@ -32,9 +33,9 @@ import static tech.sirwellington.alchemy.test.junit.runners.GenerateDouble.Type.
 import static tech.sirwellington.alchemy.test.junit.runners.GenerateDouble.Type.RANGE;
 
 /**
- * Used in with the {@link AlchemyTestRunner}, this Annotations allows the 
+ * Used in with the {@link AlchemyTestRunner}, this Annotations allows the
  * Runtime Injection of Generated Doubles from the {@link AlchemyGenerator} library.
- * 
+ * <p>
  * Example:
  * <pre>
  * {@code
@@ -43,18 +44,17 @@ import static tech.sirwellington.alchemy.test.junit.runners.GenerateDouble.Type.
  * {
  *   `@GenerateDouble(POSITIVE)
  *    private double percentage;
- * 
+ *
  *    ...
  * }
  * }
  * </pre>
  * Note, ticks (`) used to escape Javadocs.
- * 
+ *
+ * @author SirWellington
  * @see GenerateInteger
  * @see GenerateLong
  * @see GenerateString
- * 
- * @author SirWellington
  */
 @Target(FIELD)
 @Retention(RUNTIME)

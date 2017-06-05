@@ -19,6 +19,7 @@ package tech.sirwellington.alchemy.test.junit.runners;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.net.URL;
+
 import tech.sirwellington.alchemy.annotations.access.Internal;
 import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
@@ -44,34 +45,35 @@ import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
  * 
  * </pre>
  */
+
 /**
- * Used in with the {@link AlchemyTestRunner}, this Annotations allows the 
+ * Used in with the {@link AlchemyTestRunner}, this Annotations allows the
  * Runtime Injection of Generated Strings from the {@link AlchemyGenerator} library.
  * <p>
  * Example:
  * <pre>
- * {@code 
+ * {@code
  * `@RunWith(AlchemyTestRunner.class)
  * public class ExampleTest
  * {
  *   `@GenerateURL
  *   private URL weblink;
- * 
+ *
  * }
  * }
  * </pre>
- * 
- * Note, '`' (ticks) used to escape Javadocs. 
- * @see GenerateString
- * 
+ * <p>
+ * Note, '`' (ticks) used to escape Javadocs.
+ *
  * @author SirWellington
+ * @see GenerateString
  */
 @Target(FIELD)
 @Retention(RUNTIME)
 public @interface GenerateURL
 {
 
-   String protocol() default "http";
+    String protocol() default "http";
 
     @Internal
     @NonInstantiable
@@ -86,11 +88,11 @@ public @interface GenerateURL
         static AlchemyGenerator<URL> createGeneratorFor(GenerateURL annotation)
         {
             checkNotNull(annotation, "annotation is missing");
-            
+
             String protocol = annotation.protocol();
             checkNotNull(protocol, "protocol cannot be null");
             checkThat(!protocol.isEmpty(), "protocol is empty");
-            
+
             return NetworkGenerators.urlsWithProtocol(protocol);
         }
     }

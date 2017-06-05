@@ -22,15 +22,10 @@ import java.nio.ByteBuffer;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
+
 import tech.sirwellington.alchemy.annotations.access.Internal;
 import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
-import tech.sirwellington.alchemy.generator.AlchemyGenerator;
-import tech.sirwellington.alchemy.generator.BinaryGenerators;
-import tech.sirwellington.alchemy.generator.BooleanGenerators;
-import tech.sirwellington.alchemy.generator.CollectionGenerators;
-import tech.sirwellington.alchemy.generator.DateGenerators;
-import tech.sirwellington.alchemy.generator.NumberGenerators;
-import tech.sirwellington.alchemy.generator.TimeGenerators;
+import tech.sirwellington.alchemy.generator.*;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -45,7 +40,7 @@ import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
 /**
  * Used in with the {@link AlchemyTestRunner}, this Annotations allows the Runtime Injection of {@link List} values, using
  * {@link CollectionGenerators} from the {@link AlchemyGenerator} library.
- *
+ * <p>
  * Example:
  * <pre>
  * {@code
@@ -61,10 +56,9 @@ import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
  * }
  * </pre> Note, ticks (`) used to escape Javadocs.
  *
+ * @author SirWellington
  * @see GenerateEnum
  * @see GeneratePojo
- *
- * @author SirWellington
  */
 @Target(FIELD)
 @Retention(RUNTIME)
@@ -127,7 +121,7 @@ public @interface GenerateList
             {
                 return positiveIntegers();
             }
-            
+
             if (genericType == Long.class)
             {
                 return positiveLongs();

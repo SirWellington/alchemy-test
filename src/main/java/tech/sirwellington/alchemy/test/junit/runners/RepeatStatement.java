@@ -24,7 +24,6 @@ import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
 
 /**
- *
  * @author SirWellington
  */
 @Internal

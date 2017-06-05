@@ -17,7 +17,6 @@
 package tech.sirwellington.alchemy.test.junit;
 
 /**
- *
  * @author SirWellington
  */
 public class ExceptionNotThrownException extends AssertionError
