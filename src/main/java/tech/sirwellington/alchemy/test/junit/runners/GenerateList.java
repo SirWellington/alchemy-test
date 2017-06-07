@@ -33,7 +33,7 @@ import static tech.sirwellington.alchemy.generator.CollectionGenerators.listOf;
 import static tech.sirwellington.alchemy.generator.NumberGenerators.positiveIntegers;
 import static tech.sirwellington.alchemy.generator.NumberGenerators.positiveLongs;
 import static tech.sirwellington.alchemy.generator.ObjectGenerators.pojos;
-import static tech.sirwellington.alchemy.generator.StringGenerators.alphanumericString;
+import static tech.sirwellington.alchemy.generator.StringGenerators.alphanumericStrings;
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
 
@@ -114,7 +114,7 @@ public @interface GenerateList
         {
             if (genericType == String.class)
             {
-                return alphanumericString();
+                return alphanumericStrings();
             }
 
             if (genericType == Integer.class)

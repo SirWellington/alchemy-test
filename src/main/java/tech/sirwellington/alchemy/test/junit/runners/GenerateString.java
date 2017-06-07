@@ -128,17 +128,17 @@ public @interface GenerateString
             switch (type)
             {
                 case ALPHABETIC:
-                    return alphabeticString(length);
+                    return alphabeticStrings(length);
                 case ALPHANUMERIC:
-                    return alphanumericString(length);
+                    return alphanumericStrings(length);
                 case HEXADECIMAL:
                     return hexadecimalString(length);
                 case NUMERIC:
-                    return numericString(length);
+                    return numericStrings(length);
                 case UUID:
                     return uuids;
                 default:
-                    return alphabeticString(length);
+                    return alphabeticStrings(length);
             }
 
         }
