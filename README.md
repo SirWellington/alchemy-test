@@ -13,44 +13,6 @@ Alchemy Test
 We write so many tests in our day; it should be easier.
 Part of the [Alchemy Collection](https://github.com/SirWellington/alchemy), **Alchemy Test** is a Unit Test Library that makes it easier to test your code by providing syntactic sugar for unit-testing and mocking.
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
-
-- [Download](#download)
-  - [Release](#release)
-  - [Snapshot](#snapshot)
-- [[Javadocs](http://www.javadoc.io/doc/tech.sirwellington.alchemy/alchemy-test/)](#javadocshttpwwwjavadociodoctechsirwellingtonalchemyalchemy-test)
-- [API](#api)
-- [Throwable Assertions](#throwable-assertions)
-- [Alchemy Test Runner](#alchemy-test-runner)
-      - ["Let's take some of the drudgery out of Unit Testing"](#lets-take-some-of-the-drudgery-out-of-unit-testing)
-  - [Free Print Statements](#free-print-statements)
-  - [Test Synopsis](#test-synopsis)
-  - [Automatic Data Generation](#automatic-data-generation)
-    - [Supported Generators](#supported-generators)
-  - [Repeat Tests](#repeat-tests)
-  - [Mockito Initialization](#mockito-initialization)
-- [Mockito Answers](#mockito-answers)
-  - [Returning arguments back](#returning-arguments-back)
-- [More coming soon...](#more-coming-soon)
-- [Requirements](#requirements)
-- [Building](#building)
-- [Feature Requests](#feature-requests)
-- [Release Notes](#release-notes)
-  - [1.5](#15)
-  - [1.4](#14)
-  - [1.3](#13)
-  - [1.2](#12)
-  - [1.1](#11)
-  - [1.0.3](#103)
-  - [1.0.2](#102)
-  - [1.0.1](#101)
-  - [1.0.0](#100)
-- [License](#license)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 
 # Download
 
@@ -61,7 +23,7 @@ To use, simply add the following maven dependency.
 <dependency>
 	<groupId>tech.sirwellington.alchemy</groupId>
 	<artifactId>alchemy-test</artifactId>
-	<version>2.1</version>
+	<version>2.1.1</version>
 </dependency>
 ```
 
