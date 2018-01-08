@@ -51,7 +51,6 @@ import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
  *
  * @author SirWellington
  * @see GenerateString
- * @see GenerateInstant
  */
 @Target(FIELD)
 @Retention(RUNTIME)
