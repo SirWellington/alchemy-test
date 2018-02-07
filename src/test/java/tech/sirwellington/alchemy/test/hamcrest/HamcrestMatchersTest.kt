@@ -17,7 +17,6 @@ package tech.sirwellington.alchemy.test.hamcrest
  */
 
 import com.natpryce.hamkrest.isEmpty
-import com.natpryce.hamkrest.isEmptyString
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -56,60 +55,92 @@ class HamcrestMatchersTest
     @Test
     fun testIsNull()
     {
-        var result = isNull.asPredicate()(nullReference)
-        assertTrue(result)
-
-        result = isNull.asPredicate()(string)
-        assertFalse(result)
+        val matcher = isNull.asPredicate()
+        assertTrue(matcher(nullReference))
+        assertFalse(matcher(string))
     }
 
     @Test
     fun testNotNull()
     {
-        var result = notNull.asPredicate()(string)
-        assertTrue(result)
-
-        result = notNull.asPredicate()(nullReference)
-        assertFalse(result)
+        val matcher = notNull.asPredicate()
+        assertFalse(matcher(null))
+        assertFalse(matcher(nullReference))
+        assertTrue(matcher(string))
     }
 
     @Test
     fun testIsEmptyCollection()
     {
-        var result = isEmpty.asPredicate()(emptyCollection)
-        assertTrue(result)
+        val matcher = isEmpty.asPredicate()
 
-        result = isEmpty.asPredicate()(strings)
-        assertFalse(result)
+        assertTrue(matcher(emptyCollection))
+        assertFalse(matcher(strings))
+    }
+
+    @Test
+    fun testIsNullOrEmptyCollection()
+    {
+        val matcher = isNullOrEmpty.asPredicate()
+
+        assertTrue(matcher(null))
+        assertTrue(matcher(emptyCollection))
+        assertFalse(matcher(strings))
     }
 
     @Test
     fun testNonEmptyCollection()
     {
-        var result = notEmpty.asPredicate()(strings)
-        assertTrue(result)
+        val matcher = notEmpty.asPredicate()
 
-        result = notEmpty.asPredicate()(emptyCollection)
-        assertFalse(result)
+        assertTrue(matcher(strings))
+        assertFalse(matcher(emptyCollection))
     }
 
     @Test
-    fun testIsEmptyString()
+    fun testNotNullOrEmptyCollection()
     {
-        var result = emptyString.asPredicate()("")
-        assertTrue(result)
+        val matcher = notNullOrEmpty.asPredicate()
 
-        result = isEmptyString.asPredicate()(string)
-        assertFalse(result)
+        assertTrue(matcher(strings))
+        assertFalse(matcher(null))
+        assertFalse(matcher(emptyCollection))
+    }
+
+    @Test
+    fun testEmptyString()
+    {
+        val matcher = emptyString.asPredicate()
+
+        assertTrue(matcher(""))
+        assertFalse(matcher(string))
+    }
+
+    @Test
+    fun testIsNullOrEmptyString()
+    {
+        val matcher = isNullOrEmptyString.asPredicate()
+
+        assertTrue(matcher(null))
+        assertTrue(matcher(""))
+        assertFalse(matcher(string))
     }
 
     @Test
     fun testNonEmptyString()
     {
-        var result = nonEmptyString.asPredicate()(string)
-        assertTrue(result)
+        val matcher = nonEmptyString.asPredicate()
+        assertTrue(matcher(string))
+        assertFalse(matcher(""))
+    }
 
-        result = nonEmptyString.asPredicate()("")
-        assertFalse(result)
+    @Test
+    fun testNotNullOrEmptyString()
+    {
+        val matcher = notNullOrEmptyString.asPredicate()
+
+        assertTrue(matcher(string))
+        assertFalse(matcher(null))
+        assertFalse(matcher(""))
     }
 }
