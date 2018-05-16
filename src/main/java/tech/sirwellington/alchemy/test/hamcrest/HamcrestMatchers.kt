@@ -19,13 +19,10 @@
 package tech.sirwellington.alchemy.test.hamcrest
 
 import com.natpryce.hamkrest.Matcher
-import com.natpryce.hamkrest.and
 import com.natpryce.hamkrest.isEmpty
 import com.natpryce.hamkrest.isEmptyString
-import com.natpryce.hamkrest.isNullOrEmptyString
 import com.natpryce.hamkrest.or
 import com.natpryce.hamkrest.present
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match
 import java.util.Objects
 
 
@@ -38,6 +35,7 @@ val isNull: Matcher<Any?> = Matcher(Objects::isNull)
 
 /**
  * Fails if the object is `null`.
+ *
  * @author SirWellington
  */
 val notNull: Matcher<Any?> = !isNull
@@ -45,6 +43,7 @@ val notNull: Matcher<Any?> = !isNull
 
 /**
  * Fails if the collection is empty and has no elements in it.
+ *
  * @author SirWellington
  */
 val notEmpty: Matcher<Collection<Any>> = present(!isEmpty)
@@ -52,12 +51,14 @@ val notEmpty: Matcher<Collection<Any>> = present(!isEmpty)
 
 /**
  * Fails if the collection is not empty (has elements present).
+ *
  * @author SirWellington
  */
 val isNullOrEmpty: Matcher<Collection<Any>?> = isNull.or(isEmpty as Matcher<Collection<Any>?>)
 
 /**
  * Fails if the collection is null or empty.
+ *
  * @author SirWellington
  */
 val notNullOrEmpty: Matcher<Collection<Any>?> = present(notEmpty)
@@ -65,6 +66,7 @@ val notNullOrEmpty: Matcher<Collection<Any>?> = present(notEmpty)
 
 /**
  * Fails if the string is empty or `null`.
+ *
  * @author SirWellington
  */
 
@@ -73,6 +75,7 @@ val emptyString: Matcher<CharSequence> = isEmptyString
 
 /**
  * Fails if the string is empty or null.
+ *
  * @author SirWellington
  */
 val nonEmptyString: Matcher<CharSequence> = !emptyString
