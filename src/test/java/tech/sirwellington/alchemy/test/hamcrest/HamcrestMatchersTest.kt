@@ -129,6 +129,7 @@ class HamcrestMatchersTest
 
         assertTrue(matcher(""))
         assertFalse(matcher(string))
+        assertFalse(matcher(null))
     }
 
     @Test
@@ -147,6 +148,7 @@ class HamcrestMatchersTest
         val matcher = nonEmptyString.asPredicate()
         assertTrue(matcher(string))
         assertFalse(matcher(""))
+        assertFalse(matcher(null))
     }
 
     @Test

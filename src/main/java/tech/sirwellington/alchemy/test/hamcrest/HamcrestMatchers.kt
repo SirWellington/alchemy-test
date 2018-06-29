@@ -47,7 +47,7 @@ val notNull: Matcher<Any?> = !isNull
  *
  * @author SirWellington
  */
-val notEmpty: Matcher<Collection<Any>> = present(!isEmpty)
+val notEmpty: Matcher<Collection<Any>?> = present(!isEmpty)
 
 
 /**
@@ -71,7 +71,7 @@ val notNullOrEmpty: Matcher<Collection<Any>?> = present(notEmpty)
  * @author SirWellington
  */
 
-val emptyString: Matcher<CharSequence> = isEmptyString
+val emptyString: Matcher<CharSequence?> = notNull and isEmptyString as Matcher<CharSequence?>
 
 
 /**
@@ -79,10 +79,10 @@ val emptyString: Matcher<CharSequence> = isEmptyString
  *
  * @author SirWellington
  */
-val nonEmptyString: Matcher<CharSequence> = !emptyString
+val nonEmptyString: Matcher<CharSequence?> = notNull and !emptyString
 
 
-val isNullOrEmptyString: Matcher<CharSequence?> = isNull.or(isEmptyString as Matcher<CharSequence?>)
+val isNullOrEmptyString: Matcher<CharSequence?> = isNull or (isEmptyString as Matcher<CharSequence?>)
 
 val notNullOrEmptyString: Matcher<CharSequence?> = !tech.sirwellington.alchemy.test.hamcrest.isNullOrEmptyString
 
