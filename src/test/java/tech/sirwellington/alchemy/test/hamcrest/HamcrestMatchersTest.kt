@@ -165,6 +165,7 @@ class HamcrestMatchersTest
         val matcher = isTrue.asPredicate()
         assertTrue(matcher(true))
         assertFalse(matcher(false))
+        assertFalse(matcher(null))
     }
 
     @Test
@@ -173,6 +174,7 @@ class HamcrestMatchersTest
         val matcher = isFalse.asPredicate()
         assertTrue(matcher(false))
         assertFalse(matcher(true))
+        assertFalse(matcher(null))
     }
 
 }

@@ -18,6 +18,7 @@
 package tech.sirwellington.alchemy.test.hamcrest
 
 import com.natpryce.hamkrest.Matcher
+import com.natpryce.hamkrest.and
 import com.natpryce.hamkrest.equalTo
 import com.natpryce.hamkrest.isEmpty
 import com.natpryce.hamkrest.isEmptyString
@@ -88,9 +89,9 @@ val notNullOrEmptyString: Matcher<CharSequence?> = !tech.sirwellington.alchemy.t
 /**
  * Fails if the [Boolean] value is `false`.
  */
-val isTrue: Matcher<Boolean> = equalTo(true)
+val isTrue: Matcher<Boolean?> = notNull and equalTo(true)
 
 /**
  * Fails if the [Boolean] value is `true`.
  */
-val isFalse: Matcher<Boolean> = equalTo(false)
+val isFalse: Matcher<Boolean?> = notNull and equalTo(false)
