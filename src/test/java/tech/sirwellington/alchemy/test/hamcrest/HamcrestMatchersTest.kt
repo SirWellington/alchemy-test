@@ -158,4 +158,21 @@ class HamcrestMatchersTest
         assertFalse(matcher(null))
         assertFalse(matcher(""))
     }
+
+    @Test
+    fun testIsTrue()
+    {
+        val matcher = isTrue.asPredicate()
+        assertTrue(matcher(true))
+        assertFalse(matcher(false))
+    }
+
+    @Test
+    fun testIsFalse()
+    {
+        val matcher = isFalse.asPredicate()
+        assertTrue(matcher(false))
+        assertFalse(matcher(true))
+    }
+
 }
