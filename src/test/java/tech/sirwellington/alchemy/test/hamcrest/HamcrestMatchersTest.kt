@@ -179,4 +179,15 @@ class HamcrestMatchersTest
         assertFalse(matcher(null))
     }
 
+    @Test
+    fun testCollectionHasSize()
+    {
+        val list = strings
+        val actualSize = list.size
+
+        assertTrue(hasSize(actualSize).asPredicate()(list))
+        assertFalse(hasSize(0).asPredicate()(list))
+        assertTrue(hasSize(actualSize).asPredicate()(null as Collection<*>?))
+    }
+
 }
