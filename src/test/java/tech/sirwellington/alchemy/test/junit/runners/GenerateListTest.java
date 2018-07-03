@@ -21,6 +21,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
+import tech.sirwellington.alchemy.generator.StringGenerators;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
@@ -37,14 +38,18 @@ public class GenerateListTest
     private GenerateListAnnotation annotation;
 
     private int size;
-
     private final Class<String> genericType = String.class;
+    private final Class<? extends AlchemyGenerator<?>> customGenerator = CustomStringGenerator.class;
+
+    private static String randomString = "";
 
     @Before
     public void setUp()
     {
         size = one(integers(5, 100));
-        annotation = new GenerateListAnnotation(genericType, size);
+        annotation = new GenerateListAnnotation(genericType, size, null);
+
+        randomString = StringGenerators.alphanumericStrings().get();
     }
 
     @Test(expected = IllegalAccessException.class)
@@ -73,8 +78,29 @@ public class GenerateListTest
         }
     }
 
+    @Test
+    public void testValuesWithCustomGenerator() throws Exception
+    {
+        System.out.println("testValuesWithCustomGenerator");
+
+        annotation.customGenerator = this.customGenerator;
+
+        AlchemyGenerator<List<?>> generator = GenerateList.Values.createGeneratorFor(annotation);
+        assertThat(generator, notNullValue());
+
+        List<?> list = generator.get();
+        assertThat(list, notNullValue());
+        assertThat(list, not(empty()));
+
+        for (Object element: list)
+        {
+            assertThat(element, instanceOf(String.class));
+            assertThat(element.toString(), equalTo(randomString));
+        }
+    }
+
     @Test(expected = IllegalArgumentException.class)
-    public void testValuesEdgeCases1()
+    public void testValuesWithNullAnnotation()
     {
         System.out.println("testValuesEdgeCases1");
 
@@ -82,11 +108,21 @@ public class GenerateListTest
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testValuesEdgeCases2()
+    public void testValuesWithNegativeSize()
     {
         System.out.println("testValuesEdgeCases2");
 
         annotation.size = one(negativeIntegers());
+        GenerateList.Values.createGeneratorFor(annotation);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testValuesWithCustomGeneratorThatCannotBeInstantiated() throws Exception
+    {
+        System.out.println("testValuesWithCustomGeneratorThatCannotBeInstantiated");
+
+        annotation.customGenerator = GeneratorThatCannotBeInstantiated.class;
+
         GenerateList.Values.createGeneratorFor(annotation);
     }
 
@@ -95,11 +131,18 @@ public class GenerateListTest
 
         private Class<T> generictype;
         private int size;
+        private Class<? extends AlchemyGenerator<?>> customGenerator;
 
         private GenerateListAnnotation(Class<T> generictype, int size)
         {
+            this(generictype, size, null);
+        }
+
+        private GenerateListAnnotation(Class<T> generictype, int size, Class<? extends AlchemyGenerator<?>> customGenerator)
+        {
             this.generictype = generictype;
             this.size = size;
+            this.customGenerator = customGenerator;
         }
 
         @Override
@@ -121,11 +164,49 @@ public class GenerateListTest
         }
 
         @Override
-        public String toString()
+        public Class<? extends AlchemyGenerator<?>> customGenerator()
         {
-            return "GenerateListAnnotation{" + "generictype=" + generictype + ", size=" + size + '}';
+            return customGenerator;
         }
 
+        @Override
+        public String toString()
+        {
+            return "GenerateListAnnotation{" +
+                    "generictype=" + generictype +
+                    ", size=" + size +
+                    ", customGenerator=" + customGenerator +
+                    '}';
+        }
     }
+
+
+    private static class CustomStringGenerator implements AlchemyGenerator<String>
+    {
+        public CustomStringGenerator() {}
+
+        @Override
+        public String get()
+        {
+            return randomString;
+        }
+    }
+
+    private static class GeneratorThatCannotBeInstantiated implements AlchemyGenerator<String>
+    {
+        private String string;
+
+        public GeneratorThatCannotBeInstantiated(String string)
+        {
+            this.string = string;
+        }
+
+        @Override
+        public String get()
+        {
+            return string;
+        }
+    }
+
 
 }

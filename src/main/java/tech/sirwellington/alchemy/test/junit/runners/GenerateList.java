@@ -78,10 +78,27 @@ public @interface GenerateList
      */
     int size() default 10;
 
+    /**
+     * Provide a custom {@linkplain AlchemyGenerator Generator} to use to generate each item.
+     *
+     * @return
+     */
+    Class<? extends AlchemyGenerator<?>> customGenerator() default Values.NoOpGenerator.class;
+
+
     @Internal
     @NonInstantiable
-    static class Values
+    class Values
     {
+        @Internal
+        private class NoOpGenerator implements AlchemyGenerator<String>
+        {
+            @Override
+            public String get()
+            {
+                return "";
+            }
+        }
 
         private Values() throws IllegalAccessException
         {
@@ -94,10 +111,7 @@ public @interface GenerateList
             final int size = annotation.size();
             checkThat(size > 0, "size must be > 0");
 
-            Class<?> genericType = annotation.value();
-            checkNotNull(genericType, "annotation is missing generic type information");
-
-            final AlchemyGenerator<?> generator = determineGeneratorFor(genericType);
+            final AlchemyGenerator<?> generator = determineGeneratorFor(annotation);
 
             return new AlchemyGenerator<List<?>>()
             {
@@ -109,8 +123,19 @@ public @interface GenerateList
             };
         }
 
-        private static AlchemyGenerator<?> determineGeneratorFor(Class<?> genericType)
+        private static AlchemyGenerator<?> determineGeneratorFor(GenerateList annotation)
         {
+            Class<? extends AlchemyGenerator<?>> customGeneratorClass = annotation.customGenerator();
+
+            if (customGeneratorClass != null && customGeneratorClass != NoOpGenerator.class)
+            {
+                checkThat(canInstantiate(customGeneratorClass), "cannot instantiate custom generator: " + customGeneratorClass.getName());
+                return instantiateGeneratorFrom(customGeneratorClass);
+            }
+
+            Class<?> genericType = annotation.value();
+            checkNotNull(genericType, "annotation is missing generic type information");
+
             if (genericType == String.class)
             {
                 return alphanumericStrings();
@@ -152,6 +177,31 @@ public @interface GenerateList
             }
 
             return pojos(genericType);
+        }
+
+        private static boolean canInstantiate(Class<? extends AlchemyGenerator<?>> customGeneratorClass)
+        {
+            try
+            {
+                AlchemyGenerator<?> generator = customGeneratorClass.newInstance();
+                return generator != null;
+            }
+            catch (Throwable ex)
+            {
+                return false;
+            }
+        }
+
+        private static AlchemyGenerator<?> instantiateGeneratorFrom(Class<? extends AlchemyGenerator<?>> customGeneratorClass)
+        {
+            try
+            {
+                return customGeneratorClass.newInstance();
+            }
+            catch (Throwable ex)
+            {
+                throw new IllegalArgumentException("Cannot instantiate Alchemy Generator: " + customGeneratorClass.getName());
+            }
         }
     }
 
