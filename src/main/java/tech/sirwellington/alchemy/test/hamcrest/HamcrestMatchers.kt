@@ -95,3 +95,13 @@ val isTrue: Matcher<Boolean?> = notNull and equalTo(true)
  * Fails if the [Boolean] value is `true`.
  */
 val isFalse: Matcher<Boolean?> = notNull and equalTo(false)
+
+/**
+ * Fails if the [Collection] does not have a size of [size].
+ */
+fun hasSize(size: Int): Matcher<Collection<*>> = Matcher(Collection<*>::hasSize, size)
+
+private fun Collection<*>?.hasSize(size: Int): Boolean
+{
+    return this?.size == size ?: false
+}
