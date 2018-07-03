@@ -53,6 +53,7 @@ import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
 @Retention(RUNTIME)
 public @interface GenerateCustom
 {
+
     /**
      * Specify the type of object that is created.
      * This is necessary since the type information is erased at Runtime.
@@ -63,7 +64,7 @@ public @interface GenerateCustom
      * Specify the Java Class to use to generate values. This class must
      * be an {@link AlchemyGenerator}.
      */
-    Class<AlchemyGenerator<?>> generator();
+    Class<? extends AlchemyGenerator<?>> generator();
 
     @Internal
     @NonInstantiable
@@ -82,14 +83,14 @@ public @interface GenerateCustom
             Class<?> type = annotation.type();
             checkNotNull(type, "annotation is missing type information");
 
-            Class<AlchemyGenerator<?>> generatorClass = annotation.generator();
+            Class<? extends AlchemyGenerator<?>> generatorClass = annotation.generator();
 
             final AlchemyGenerator<?> generator = tryToInstantiate(generatorClass);
 
             return generator;
         }
 
-        private static AlchemyGenerator<?> tryToInstantiate(Class<AlchemyGenerator<?>> generatorClass)
+        private static AlchemyGenerator<?> tryToInstantiate(Class<? extends AlchemyGenerator<?>> generatorClass)
         {
             try
             {

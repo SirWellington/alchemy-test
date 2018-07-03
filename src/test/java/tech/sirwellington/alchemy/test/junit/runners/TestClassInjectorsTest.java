@@ -16,16 +16,17 @@
 package tech.sirwellington.alchemy.test.junit.runners;
 
 import java.net.URL;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.model.TestClass;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import tech.sirwellington.alchemy.annotations.testing.IntegrationTest;
+import tech.sirwellington.alchemy.generator.AlchemyGenerator;
+import tech.sirwellington.alchemy.generator.StringGenerators;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
@@ -82,7 +83,7 @@ public class TestClassInjectorsTest
     {
     }
 
-    private static class FakeTestClass
+    public static class FakeTestClass
     {
 
         private static final int STRING_LENGTH = 346;
@@ -135,6 +136,10 @@ public class TestClassInjectorsTest
         @GenerateURL
         private URL url;
 
+        @GenerateCustom(type = Book.class, generator = BookGenerator.class)
+        private Book book;
+
+
         @Before
         public void setUp()
         {
@@ -159,8 +164,6 @@ public class TestClassInjectorsTest
             Date now = new Date();
             assertThat(pastDate.before(now), is(true));
 
-            checkPojo(pojo);
-
             assertThat(timeUnit, notNullValue());
 
             assertThat(names, notNullValue());
@@ -172,6 +175,10 @@ public class TestClassInjectorsTest
 
             assertThat(url, notNullValue());
 
+            assertThat(book, notNullValue());
+            checkBook();
+
+            checkPojo(pojo);
         }
 
         private void checkPojo(SamplePojo pojo)
@@ -181,6 +188,14 @@ public class TestClassInjectorsTest
             assertThat(pojo.birthday, notNullValue());
             assertThat(pojo.age, greaterThan(0));
             assertThat(pojo.balance, greaterThan(0L));
+        }
+
+        @Test
+        public void checkBook()
+        {
+            assertThat(book, notNullValue());
+            assertThat(book.author, not(isEmptyOrNullString()));
+            assertThat(book.title, not(isEmptyOrNullString()));
         }
 
         private static class SamplePojo
@@ -215,5 +230,53 @@ public class TestClassInjectorsTest
             assertThat(object, nullValue());
         }
     }
+
+    private static class Book
+    {
+        private String title;
+        private String author;
+
+        @Override
+        public boolean equals(Object o)
+        {
+            if (this == o)
+            {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass())
+            {
+                return false;
+            }
+            Book book = (Book) o;
+            return Objects.equals(title, book.title) &&
+                    Objects.equals(author, book.author);
+        }
+
+        @Override
+        public int hashCode()
+        {
+            return Objects.hash(title, author);
+        }
+    }
+
+    private static class BookGenerator implements AlchemyGenerator<Book>
+    {
+        public BookGenerator()
+        {
+        }
+
+        @Override
+        public Book get()
+        {
+            String title = StringGenerators.alphanumericStrings().get();
+            String author = StringGenerators.alphanumericStrings().get();
+            Book book = new Book();
+            book.title = title;
+            book.author = author;
+
+            return book;
+        }
+    }
+
 
 }
