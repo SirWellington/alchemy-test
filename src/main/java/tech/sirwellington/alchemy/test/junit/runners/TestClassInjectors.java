@@ -110,10 +110,17 @@ final class TestClassInjectors
         }
 
         //@GenerateList
-        List<FrameworkField> listGeneratedfields = testClass.getAnnotatedFields(GenerateList.class);
-        for (FrameworkField field : listGeneratedfields)
+        List<FrameworkField> listGeneratedFields = testClass.getAnnotatedFields(GenerateList.class);
+        for (FrameworkField field : listGeneratedFields)
         {
             inflateList(field, target);
+        }
+
+        //@GenerateCustom
+        List<FrameworkField> customGeneratedFields = testClass.getAnnotatedFields(GenerateCustom.class);
+        for (FrameworkField field : customGeneratedFields)
+        {
+            inflateCustom(field, target);
         }
     }
 
@@ -221,6 +228,15 @@ final class TestClassInjectors
         GenerateList annotation = field.getAnnotation(GenerateList.class);
 
         AlchemyGenerator<?> generator = GenerateList.Values.createGeneratorFor(annotation);
+        Object value = generator.get();
+        inflate(field, target, value);
+    }
+
+    private static void inflateCustom(FrameworkField field, Object target) throws IllegalArgumentException, IllegalAccessException
+    {
+        GenerateCustom annotation = field.getAnnotation(GenerateCustom.class);
+
+        AlchemyGenerator<?> generator = GenerateCustom.Values.createGeneratorFor(annotation);
         Object value = generator.get();
         inflate(field, target, value);
     }
