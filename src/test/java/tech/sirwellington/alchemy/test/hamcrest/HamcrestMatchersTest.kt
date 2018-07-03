@@ -187,7 +187,7 @@ class HamcrestMatchersTest
 
         assertTrue(hasSize(actualSize).asPredicate()(list))
         assertFalse(hasSize(0).asPredicate()(list))
-        assertTrue(hasSize(actualSize).asPredicate()(null as Collection<*>?))
+        assertFalse(hasSize(actualSize).asPredicate()(null as Collection<*>?))
     }
 
 }
