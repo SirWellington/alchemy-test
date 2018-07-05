@@ -36,7 +36,7 @@ public class GenerateCustomTest
     @Before
     public void setup()
     {
-        annotation = new GenerateCustomAnnotation(Person.class, PersonGenerator.class);
+        annotation = new GenerateCustomAnnotation(PersonGenerator.class);
     }
 
     @Test(expected = IllegalAccessException.class)
@@ -121,23 +121,15 @@ public class GenerateCustomTest
 
     private static class GenerateCustomAnnotation implements GenerateCustom
     {
-        private Class<?> type;
         private Class<? extends AlchemyGenerator<?>> generator;
 
-        GenerateCustomAnnotation(Class<?> type, Class<? extends AlchemyGenerator<?>> generator)
+        GenerateCustomAnnotation(Class<? extends AlchemyGenerator<?>> generator)
         {
-            this.type = type;
             this.generator = generator;
         }
 
         @Override
-        public Class<?> type()
-        {
-            return this.type;
-        }
-
-        @Override
-        public Class<? extends AlchemyGenerator<?>> generator()
+        public Class<? extends AlchemyGenerator<?>> value()
         {
             return this.generator;
         }
@@ -152,8 +144,7 @@ public class GenerateCustomTest
         public String toString()
         {
             return "GenerateCustomAnnotation{" +
-                    "type=" + type +
-                    ", generator=" + generator +
+                    "generator=" + generator +
                     '}';
         }
     }

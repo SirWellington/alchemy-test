@@ -136,7 +136,7 @@ public class TestClassInjectorsTest
         @GenerateURL
         private URL url;
 
-        @GenerateCustom(type = Book.class, generator = BookGenerator.class)
+        @GenerateCustom(BookGenerator.class)
         private Book book;
 
 

@@ -55,16 +55,10 @@ public @interface GenerateCustom
 {
 
     /**
-     * Specify the type of object that is created.
-     * This is necessary since the type information is erased at Runtime.
-     */
-    Class<?> type();
-
-    /**
      * Specify the Java Class to use to generate values. This class must
      * be an {@link AlchemyGenerator}.
      */
-    Class<? extends AlchemyGenerator<?>> generator();
+    Class<? extends AlchemyGenerator<?>> value();
 
     @Internal
     @NonInstantiable
@@ -80,10 +74,7 @@ public @interface GenerateCustom
         {
             checkNotNull(annotation, "missing annotation");
 
-            Class<?> type = annotation.type();
-            checkNotNull(type, "annotation is missing type information");
-
-            Class<? extends AlchemyGenerator<?>> generatorClass = annotation.generator();
+            Class<? extends AlchemyGenerator<?>> generatorClass = annotation.value();
 
             final AlchemyGenerator<?> generator = tryToInstantiate(generatorClass);
 
