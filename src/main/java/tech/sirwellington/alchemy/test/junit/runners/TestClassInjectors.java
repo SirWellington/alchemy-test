@@ -74,6 +74,13 @@ final class TestClassInjectors
             inflateLong(field, target);
         }
 
+        //@GenerateFloat
+        List<FrameworkField> floatGeneratedFields = testClass.getAnnotatedFields(GenerateFloat.class);
+        for (FrameworkField field : floatGeneratedFields)
+        {
+            inflateFloat(field, target);
+        }
+
         //@GenerateDouble
         List<FrameworkField> doubleGeneratedFields = testClass.getAnnotatedFields(GenerateDouble.class);
         for (FrameworkField field : doubleGeneratedFields)
@@ -164,6 +171,16 @@ final class TestClassInjectors
 
         AlchemyGenerator<Long> generator = GenerateLong.Values.createGeneratorFor(annotation);
         Long value = generator.get();
+        inflate(field, target, value);
+    }
+
+    private static void inflateFloat(FrameworkField field, Object target) throws IllegalAccessException
+    {
+        GenerateFloat annotation = field.getAnnotation(GenerateFloat.class);
+        checkNotNull(annotation, "missing annotation");
+
+        AlchemyGenerator<Float> generator = GenerateFloat.Values.createGeneratorFor(annotation);
+        Float value = generator.get();
         inflate(field, target, value);
     }
 

@@ -94,6 +94,9 @@ public class TestClassInjectorsTest
         private static final long MIN_LONG = -19532L;
         private static final long MAX_LONG = 394813391439L;
 
+        private static final float MIN_FLOAT = -29582891.4958f;
+        private static final float MAX_FLOAT = 4054582.39295029f;
+
         private static final double MIN_DOUBLE = -39341.1983123153;
         private static final double MAX_DOUBLE = 29414.5329;
 
@@ -112,8 +115,11 @@ public class TestClassInjectorsTest
         @GenerateLong(value = GenerateLong.Type.RANGE, min = MIN_LONG, max = MAX_LONG)
         private long lon;
 
+        @GenerateFloat(value = GenerateFloat.Type.RANGE, min = MIN_FLOAT, max = MAX_FLOAT)
+        private float floatNumber;
+
         @GenerateDouble(value = GenerateDouble.Type.RANGE, min = MIN_DOUBLE, max = MAX_DOUBLE)
-        private double decimal;
+        private double doubleNumber;
 
         @GenerateDate(value = GenerateDate.Type.RANGE, startDate = START_TIME, endDate = END_TIME)
         private Date date;
@@ -154,8 +160,11 @@ public class TestClassInjectorsTest
             assertThat(lon, greaterThanOrEqualTo(MIN_LONG));
             assertThat(lon, lessThan(MAX_LONG));
 
-            assertThat(decimal, greaterThan(MIN_DOUBLE));
-            assertThat(decimal, lessThan(MAX_DOUBLE));
+            assertThat(floatNumber, greaterThan(MIN_FLOAT));
+            assertThat(floatNumber, lessThan(MAX_FLOAT));
+
+            assertThat(doubleNumber, greaterThan(MIN_DOUBLE));
+            assertThat(doubleNumber, lessThan(MAX_DOUBLE));
 
             assertThat(date, notNullValue());
             assertThat(date.getTime(), greaterThanOrEqualTo(START_TIME));
