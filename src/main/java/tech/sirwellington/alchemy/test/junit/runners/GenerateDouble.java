@@ -24,8 +24,7 @@ import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static tech.sirwellington.alchemy.generator.NumberGenerators.doubles;
-import static tech.sirwellington.alchemy.generator.NumberGenerators.positiveDoubles;
+import static tech.sirwellington.alchemy.generator.NumberGenerators.*;
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
 import static tech.sirwellington.alchemy.test.junit.runners.GenerateDouble.Type.POSITIVE;
@@ -105,9 +104,9 @@ public @interface GenerateDouble
                 case POSITIVE:
                     return positiveDoubles();
                 case NEGATIVE:
-                    return doubles(-Double.MAX_VALUE, -Double.MAX_VALUE);
+                    return negativeDoubles();
                 default:
-                    return doubles(-Double.MAX_VALUE, Double.MAX_VALUE);
+                    return anyDoubles();
             }
         }
 
