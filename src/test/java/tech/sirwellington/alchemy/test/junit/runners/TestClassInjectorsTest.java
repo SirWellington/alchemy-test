@@ -16,6 +16,7 @@
 package tech.sirwellington.alchemy.test.junit.runners;
 
 import java.net.URL;
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -127,6 +128,12 @@ public class TestClassInjectorsTest
         @GenerateDate(GenerateDate.Type.PAST)
         private Date pastDate;
 
+        @GenerateDate
+        private Timestamp timestamp;
+
+        @GenerateDate
+        private java.sql.Date sqlDate;
+
         @GeneratePojo
         private SamplePojo pojo;
 
@@ -169,6 +176,9 @@ public class TestClassInjectorsTest
             assertThat(date, notNullValue());
             assertThat(date.getTime(), greaterThanOrEqualTo(START_TIME));
             assertThat(date.getTime(), lessThan(END_TIME));
+
+            assertThat(timestamp, notNullValue());
+            assertThat(sqlDate, notNullValue());
 
             Date now = new Date();
             assertThat(pastDate.before(now), is(true));

@@ -17,6 +17,7 @@ package tech.sirwellington.alchemy.test.junit.runners;
 
 import java.lang.reflect.Field;
 import java.net.URL;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import tech.sirwellington.alchemy.annotations.access.Internal;
 import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
+import tech.sirwellington.alchemy.generator.DateGeneratorsKt;
 
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
@@ -200,7 +202,24 @@ final class TestClassInjectors
         checkNotNull(annotation, "missing annotation");
 
         AlchemyGenerator<Date> generator = GenerateDate.Values.createGeneratorFor(annotation);
-        Date value = generator.get();
+
+        Object value;
+
+        if (field.getType() == java.sql.Timestamp.class)
+        {
+            AlchemyGenerator<Timestamp> timestampGenerator = DateGeneratorsKt.asSqlTimestampGenerator(generator);
+            value = timestampGenerator.get();
+        }
+        else if (field.getType() == java.sql.Date.class)
+        {
+            AlchemyGenerator<java.sql.Date> sqlGenerator = DateGeneratorsKt.asSqlDateGenerator(generator);
+            value = sqlGenerator.get();
+        }
+        else
+        {
+            value = generator.get();
+        }
+
         inflate(field, target, value);
     }
 
