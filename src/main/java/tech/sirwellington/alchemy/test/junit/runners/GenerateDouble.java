@@ -62,9 +62,9 @@ public @interface GenerateDouble
 
     Type value() default POSITIVE;
 
-    double min() default 0;
+    double min() default 0.0;
 
-    double max() default 0;
+    double max() default 1.0;
 
     public enum Type
     {
