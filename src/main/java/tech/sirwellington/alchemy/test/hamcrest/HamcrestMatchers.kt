@@ -1,5 +1,5 @@
 /*
- * Copyright © 2018. Sir Wellington.
+ * Copyright © 2019. Sir Wellington.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  *
@@ -17,13 +17,7 @@
 
 package tech.sirwellington.alchemy.test.hamcrest
 
-import com.natpryce.hamkrest.Matcher
-import com.natpryce.hamkrest.and
-import com.natpryce.hamkrest.equalTo
-import com.natpryce.hamkrest.isEmpty
-import com.natpryce.hamkrest.isEmptyString
-import com.natpryce.hamkrest.or
-import com.natpryce.hamkrest.present
+import com.natpryce.hamkrest.*
 import java.util.Objects
 
 
