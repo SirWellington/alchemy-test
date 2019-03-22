@@ -97,7 +97,7 @@ fun hasSize(size: Int): Matcher<Collection<*>?> = Matcher(Collection<*>?::hasSiz
 
 private fun Collection<*>?.hasSize(size: Int): Boolean
 {
-    return this?.size == size ?: false
+    return this?.size == size
 }
 
 /**
