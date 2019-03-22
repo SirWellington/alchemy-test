@@ -37,6 +37,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import tech.sirwellington.alchemy.generator.CollectionGenerators
+import tech.sirwellington.alchemy.generator.StringGenerators
 import tech.sirwellington.alchemy.generator.StringGenerators.Companion.alphabeticStrings
 import tech.sirwellington.alchemy.generator.one
 
@@ -188,6 +189,35 @@ class HamcrestMatchersTest
         assertTrue(hasSize(actualSize).asPredicate()(list))
         assertFalse(hasSize(0).asPredicate()(list))
         assertFalse(hasSize(actualSize).asPredicate()(null as Collection<*>?))
+    }
+
+    @Test
+    fun testIsContainedInWhenTrue()
+    {
+        val list = strings
+        val element = list.random()
+
+        val result = isContainedIn(list).asPredicate()(element)
+        kotlin.test.assertTrue { result }
+    }
+
+    @Test
+    fun testIsContainedInWhenFalse()
+    {
+        val list = strings
+        val element = StringGenerators.strings().get()
+
+        val result = isContainedIn(list).asPredicate()(element)
+        kotlin.test.assertFalse { result }
+    }
+
+    @Test
+    fun testIsContainedInWhenArgumentNull()
+    {
+        val list = strings
+
+        val result = isContainedIn(list).asPredicate()(null)
+        kotlin.test.assertFalse { result }
     }
 
 }

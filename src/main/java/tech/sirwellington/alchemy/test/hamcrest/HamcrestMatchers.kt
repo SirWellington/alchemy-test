@@ -99,3 +99,25 @@ private fun Collection<*>?.hasSize(size: Int): Boolean
 {
     return this?.size == size ?: false
 }
+
+/**
+ * Fails if the element is not in the [collection].
+ */
+fun <T> isContainedIn(collection: Collection<T>) = object : Matcher.Primitive<T?>()
+{
+    override fun invoke(actual: T?) = match(actual in collection) {"${describe(actual)} was not in ${describe(collection)}"}
+    override val description: String get() = "is in ${describe(collection)}"
+    override val negatedDescription: String get() = "is not in ${describe(collection)}"
+}
+
+private fun match(comparisonResult: Boolean, describeMismatch: () -> String): MatchResult
+{
+    return if (comparisonResult)
+    {
+        MatchResult.Match
+    }
+    else
+    {
+        MatchResult.Mismatch(describeMismatch())
+    }
+}
