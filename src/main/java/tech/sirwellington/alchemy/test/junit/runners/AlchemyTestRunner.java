@@ -1,4 +1,4 @@
-/*
+ /*
  * Copyright © 2019. Sir Wellington.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
  */
 package tech.sirwellington.alchemy.test.junit.runners;
 
+import org.junit.runner.Runner;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.*;
@@ -43,12 +44,15 @@ public class AlchemyTestRunner extends BlockJUnit4ClassRunner
     private final static Logger LOG = LoggerFactory.getLogger(AlchemyTestRunner.class);
 
     //If false, we won't initialize Mockito's mocks
-    private boolean shouldInitMocks = true;
+    protected boolean shouldInitMocks = true;
+    protected Runner delegate = null;
+    protected boolean skipSuper = true;
 
-    public AlchemyTestRunner(Class<?> klass) throws InitializationError
+    public AlchemyTestRunner(Class<?> klass) throws InitializationError, InstantiationException, IllegalAccessException
     {
         super(klass);
         shouldInitMocks = shouldInitMockitoMocks();
+        readDelegate();
     }
 
     @Override
@@ -111,7 +115,19 @@ public class AlchemyTestRunner extends BlockJUnit4ClassRunner
             }
         }
 
-        super.run(notifier);
+        if (delegate != null)
+        {
+            delegate.run(notifier);
+
+            if (!skipSuper)
+            {
+                super.run(notifier);
+            }
+        }
+        else
+        {
+            super.run(notifier);
+        }
     }
 
     private int determineTimesToRun(FrameworkMethod method)
@@ -168,6 +184,19 @@ public class AlchemyTestRunner extends BlockJUnit4ClassRunner
         }
 
         return true;
+    }
+
+    private void readDelegate() throws IllegalAccessException, InstantiationException
+    {
+        TestClass testClass = this.getTestClass();
+        DelegateTo delegates = testClass.getAnnotation(DelegateTo.class);
+        if (delegates == null)
+        {
+            return;
+        }
+
+        delegate = delegates.delegate().newInstance();
+        skipSuper = delegates.skipSuper();
     }
 
 }

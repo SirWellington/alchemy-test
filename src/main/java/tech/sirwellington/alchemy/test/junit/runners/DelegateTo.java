@@ -19,23 +19,35 @@ package tech.sirwellington.alchemy.test.junit.runners;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import org.mockito.Mock;
+import org.junit.runner.Runner;
+import org.junit.runners.BlockJUnit4ClassRunner;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 
 /**
- * {@link AlchemyTestRunner} inits your Mockito {@linkplain Mock Mocks} for you, exactly the same
- * way as {@link org.mockito.junit.MockitoJUnitRunner} does.
- * Apply this annotation with a value of {@code false} to
- * your Test Class to disable this behavior.
+ * Helps to configure the {@link AlchemyTestRunner}.
  *
  * @author SirWellington
  */
 @Retention(RUNTIME)
 @Target({TYPE})
-public @interface InitMocks
+public @interface DelegateTo
 {
-    boolean value() default true;
+    /**
+     * Specifies the {@link Runner} to delegate to after initialization.
+     *
+     * @return
+     */
+    Class<? extends Runner> delegate() default BlockJUnit4ClassRunner.class;
+
+    /**
+     * If set to true, the {@link AlchemyTestRunner} will run the specified delegate without calling super.
+     * If set to false, the {@link AlchemyTestRunner} will run both the delegate and the super.
+     *
+     * Defaults to {@code true}.
+     */
+    boolean skipSuper() default true;
+
 }
