@@ -47,6 +47,7 @@ public class AlchemyTestRunner extends BlockJUnit4ClassRunner
     protected boolean shouldInitMocks = true;
     protected Runner delegate = null;
     protected boolean skipSuper = true;
+    protected boolean skipDelegate = false;
 
     public AlchemyTestRunner(Class<?> klass) throws InitializationError, InstantiationException, IllegalAccessException
     {
@@ -115,7 +116,7 @@ public class AlchemyTestRunner extends BlockJUnit4ClassRunner
             }
         }
 
-        if (delegate != null)
+        if (delegate != null && !skipDelegate)
         {
             delegate.run(notifier);
 
