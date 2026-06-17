@@ -21,11 +21,10 @@
     <parent>
         <groupId>tech.sirwellington.alchemy</groupId>
         <artifactId>alchemy</artifactId>
-        <version>2.12</version>
+        <version>3.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>alchemy-test</artifactId>
-    <version>2.6.3-SNAPSHOT</version>
     <name>${project.artifactId}</name>
     <packaging>jar</packaging>
 
@@ -56,13 +55,12 @@
 
     <dependencies>
 
-
         <!--=======================-->
         <!--UNIT TESTING-->
         <!--=======================-->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
             <scope>compile</scope>
         </dependency>
 
@@ -83,26 +81,19 @@
             <artifactId>slf4j-api</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.natpryce</groupId>
-            <artifactId>hamkrest</artifactId>
-            <scope>compile</scope>
-        </dependency>
-
-
         <!--=======================-->
         <!--ALCHEMY-->
         <!--=======================-->
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>tech.sirwellington.alchemy</groupId>
             <artifactId>alchemy-annotations</artifactId>
-            <version>2.2</version>
+            <version>${parent.version}</version>
         </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>alchemy-generator</artifactId>
-            <version>2.4</version>
+            <version>${parent.version}</version>
         </dependency>
 
 
@@ -116,42 +107,15 @@
             <scope>test</scope>
         </dependency>
 
-
-        <!--=======================-->
-        <!--KOTLIN-->
-        <!--=======================-->
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib-jdk7</artifactId>
-            <version>${kotlin.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-test-junit</artifactId>
-            <version>${kotlin.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-
     </dependencies>
 
     <build>
         <plugins>
-
-            <!--Inherited from Parent-->
-            <plugin>
-                <groupId>org.jetbrains.kotlin</groupId>
-                <artifactId>kotlin-maven-plugin</artifactId>
-            </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
             </plugin>
-
         </plugins>
-
     </build>
 
 </project>
