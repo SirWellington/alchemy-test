@@ -18,6 +18,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
+import tech.sirwellington.alchemy.test.internal.Checks;
 
 /**
  * @author SirWellington

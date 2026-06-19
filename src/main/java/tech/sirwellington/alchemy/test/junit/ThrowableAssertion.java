@@ -14,11 +14,16 @@
  */
 package tech.sirwellington.alchemy.test.junit;
 
+import tech.sirwellington.alchemy.annotations.arguments.Required;
 import tech.sirwellington.alchemy.annotations.designs.FluidAPIDesign;
+
+import java.util.Objects;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
+import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
 
 /**
  * Makes it easier syntactically using Java 8 to assert an Exception is thrown by a section of code.
@@ -37,39 +42,33 @@ import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
  * @author SirWellington
  */
 @FluidAPIDesign
-public final class ThrowableAssertion
-{
+public final class ThrowableAssertion {
+
+    private Throwable caught;
+    private final ExceptionOperation operation;
 
     /**
      * Assert that a function throws an exception.
      *
      * @param operation The Lambda function that encapsulates code you expect to throw an exception.
-     * @return
      * @throws ExceptionNotThrownException If no exception is thrown.
      */
-    public static ThrowableAssertion assertThrows(ExceptionOperation operation) throws ExceptionNotThrownException
-    {
+    public static ThrowableAssertion assertThrows(
+        @Required ExceptionOperation operation
+    ) throws ExceptionNotThrownException {
         checkNotNull(operation, "missing operation");
         return new ThrowableAssertion(operation)
-                .execute();
+            .execute();
     }
 
-    private Throwable caught;
-    private final ExceptionOperation operation;
-
-    private ThrowableAssertion(ExceptionOperation operation)
-    {
-        this.operation = operation;
+    private ThrowableAssertion(ExceptionOperation operation) {
+        this.operation = Objects.requireNonNull(operation);
     }
 
-    private ThrowableAssertion execute() throws ExceptionNotThrownException
-    {
-        try
-        {
+    private ThrowableAssertion execute() throws ExceptionNotThrownException {
+        try {
             operation.call();
-        }
-        catch (Throwable ex)
-        {
+        } catch (Throwable ex) {
             this.caught = ex;
             return this;
         }
@@ -80,11 +79,12 @@ public final class ThrowableAssertion
      * Check that the Exception is of a particular type.
      *
      * @param exceptionClass The expected type of the Exception.
-     * @return
      */
-    public ThrowableAssertion isInstanceOf(Class<? extends Throwable> exceptionClass)
-    {
-        assertThat(caught, isA((Class<Throwable>) exceptionClass));
+    public ThrowableAssertion isInstanceOf(
+        Class<? extends Throwable> exceptionClass
+    ) {
+        checkNotNull(exceptionClass);
+        assertThat(caught, isA(exceptionClass));
         return this;
     }
 
@@ -92,10 +92,8 @@ public final class ThrowableAssertion
      * Checks to make sure the exception contains a certain message.
      *
      * @param expectedMessage The exact message expected
-     * @return
      */
-    public ThrowableAssertion hasMessage(String expectedMessage)
-    {
+    public ThrowableAssertion hasMessage(String expectedMessage) {
         assertThat(caught.getMessage(), is(expectedMessage));
         return this;
     }
@@ -104,21 +102,16 @@ public final class ThrowableAssertion
      * Assert that the exception contains a string in its message.
      *
      * @param messageString The partial message to expected.
-     * @return
      */
-    public ThrowableAssertion containsInMessage(String messageString)
-    {
+    public ThrowableAssertion containsInMessage(String messageString) {
         assertThat(caught.getMessage(), containsString(messageString));
         return this;
     }
 
     /**
      * Assert that the exception has no causing exception
-     *
-     * @return
      */
-    public ThrowableAssertion hasNoCause()
-    {
+    public ThrowableAssertion hasNoCause() {
         assertThat(caught.getCause(), nullValue());
         return this;
     }
@@ -127,10 +120,8 @@ public final class ThrowableAssertion
      * Asserts that the Exception has a cause of a particular type.
      *
      * @param exceptionClass The type expected.
-     * @return
      */
-    public ThrowableAssertion hasCauseInstanceOf(Class<? extends Throwable> exceptionClass)
-    {
+    public ThrowableAssertion hasCauseInstanceOf(Class<? extends Throwable> exceptionClass) {
         assertThat(caught.getCause(), notNullValue());
         assertThat(caught.getCause(), isA((Class<Throwable>) exceptionClass));
         return this;

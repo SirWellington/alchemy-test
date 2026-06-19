@@ -16,19 +16,16 @@
 package tech.sirwellington.alchemy.test.junit;
 
 /**
- * Intended to be used in conjunction with {@link ThrowableAssertion} and Lambdas to make asserting Throwables much
- * easier syntactically.
+ * Intended to be used in conjunction with {@link ThrowableAssertion} and Lambdas
+ * to make asserting Throwables much easier syntactically.
  *
  * @author SirWellington
  */
 @FunctionalInterface
-public interface ExceptionOperation
-{
+public interface ExceptionOperation {
 
     /**
-     * Calls the code that may throw an exception.
-     *
-     * @throws Throwable
+     * Executable code that may throw an exception.
      */
     void call() throws Throwable;
 }
