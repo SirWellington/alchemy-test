@@ -72,7 +72,7 @@
 
         <dependency>
             <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-library</artifactId>
+            <artifactId>hamcrest</artifactId>
             <scope>compile</scope>
         </dependency>
 
@@ -95,7 +95,6 @@
             <artifactId>alchemy-generator</artifactId>
             <version>${parent.version}</version>
         </dependency>
-
     </dependencies>
 
     <build>
