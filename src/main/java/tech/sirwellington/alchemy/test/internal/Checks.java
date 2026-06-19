@@ -26,7 +26,7 @@ import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
  */
 @Internal
 @NonInstantiable
-final class Checks {
+public final class Checks {
     private final static Logger LOG = LoggerFactory.getLogger(Checks.class);
 
     Checks() throws IllegalAccessException {

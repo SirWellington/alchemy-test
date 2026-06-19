@@ -15,11 +15,10 @@
 
 package tech.sirwellington.alchemy.test.mockito;
 
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
 
-import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
+import static tech.sirwellington.alchemy.test.internal.Checks.checkThat;
 
 /**
  * This class contains a variety of useful answers for use in combination with Mockito.
@@ -27,14 +26,11 @@ import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
  * @author SirWellington
  */
 @NonInstantiable
-public final class MoreAnswers
-{
+public final class MoreAnswers {
 
-    MoreAnswers() throws IllegalAccessException
-    {
+    MoreAnswers() throws IllegalAccessException {
         throw new IllegalAccessException("cannot instantiate class");
     }
-
 
     /**
      * For example:
@@ -47,12 +43,9 @@ public final class MoreAnswers
      * Will return the {@code "firstArg"} string when it is called.
      * </pre>
      *
-     * @param <T>
-     * @return
      * @see #returnArgumentAtIndex(int)
      */
-    public static <T> Answer<T> returnFirst()
-    {
+    public static <T> Answer<T> returnFirst() {
         return returnArgumentAtIndex(0);
     }
 
@@ -72,22 +65,16 @@ public final class MoreAnswers
      * @return
      * @see #returnFirst()
      */
-    public static <T> Answer<T> returnArgumentAtIndex(final int index)
-    {
+    public static <T> Answer<T> returnArgumentAtIndex(final int index) {
         checkThat(index >= 0, "Index is out of bounds.");
 
-        return new Answer<T>()
-        {
-            @Override
-            public T answer(InvocationOnMock invocation) throws Throwable
-            {
-                if (index >= invocation.getArguments().length)
-                {
-                    throw new IllegalArgumentException("Received an index of " + index + " but only " + invocation.getArguments().length + " arguments");
-                }
-
-                return (T) invocation.getArguments()[index];
+        return invocation -> {
+            if (index >= invocation.getArguments().length) {
+                throw new IllegalArgumentException(
+                    "Received an index of " + index + " but only " + invocation.getArguments().length + " arguments");
             }
+
+            return (T) invocation.getArguments()[index];
         };
     }
 }
