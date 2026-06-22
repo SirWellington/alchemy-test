@@ -19,7 +19,7 @@ import org.junit.Assert.fail
 import org.junit.Test
 import org.junit.runner.RunWith
 import tech.sirwellington.alchemy.test.junit.ExceptionNotThrownException
-import tech.sirwellington.alchemy.test.junit.runners.AlchemyTestRunner
+import tech.sirwellington.alchemy.test.junit.generation.AlchemyTestRunner
 
 @RunWith(AlchemyTestRunner::class)
 class ThrowableAssertionsPlusKtTest
