@@ -15,19 +15,19 @@
 
 package tech.sirwellington.alchemy.test.junit.runners;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-import java.net.URL;
-
 import tech.sirwellington.alchemy.annotations.access.Internal;
 import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 import tech.sirwellington.alchemy.generator.NetworkGenerators;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+import java.net.URL;
+
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
-import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
+import static tech.sirwellington.alchemy.test.internal.Checks.checkNotNull;
+import static tech.sirwellington.alchemy.test.internal.Checks.checkThat;
 
 /*
  * <pre>
@@ -69,26 +69,22 @@ import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
  */
 @Target(FIELD)
 @Retention(RUNTIME)
-public @interface GenerateURL
-{
+public @interface GenerateURL {
 
     String protocol() default "http";
 
     @Internal
     @NonInstantiable
-    static class Values
-    {
+    class Values {
 
-        private Values() throws IllegalAccessException
-        {
+        private Values() throws IllegalAccessException {
             throw new IllegalAccessException("cannot instantiate");
         }
 
-        static AlchemyGenerator<URL> createGeneratorFor(GenerateURL annotation)
-        {
+        static AlchemyGenerator<URL> createGeneratorFor(GenerateURL annotation) {
             checkNotNull(annotation, "annotation is missing");
 
-            String protocol = annotation.protocol();
+            var protocol = annotation.protocol();
             checkNotNull(protocol, "protocol cannot be null");
             checkThat(!protocol.isEmpty(), "protocol is empty");
 

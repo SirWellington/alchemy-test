@@ -20,10 +20,7 @@ import tech.sirwellington.alchemy.annotations.designs.FluidAPIDesign;
 import java.util.Objects;
 
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
-import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
+import static tech.sirwellington.alchemy.test.internal.Checks.checkNotNull;
 
 /**
  * Makes it easier syntactically using Java 8 to assert an Exception is thrown by a section of code.

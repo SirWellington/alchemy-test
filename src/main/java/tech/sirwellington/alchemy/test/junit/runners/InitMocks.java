@@ -35,7 +35,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Retention(RUNTIME)
 @Target({TYPE})
-public @interface InitMocks
-{
+public @interface InitMocks {
     boolean value() default true;
 }

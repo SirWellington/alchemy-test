@@ -15,19 +15,19 @@
 
 package tech.sirwellington.alchemy.test.junit.runners;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-import java.util.UUID;
-
 import tech.sirwellington.alchemy.annotations.access.Internal;
 import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+import java.util.UUID;
+
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static tech.sirwellington.alchemy.generator.StringGenerators.*;
-import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
-import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
+import static tech.sirwellington.alchemy.test.internal.Checks.checkNotNull;
+import static tech.sirwellington.alchemy.test.internal.Checks.checkThat;
 
 /*
  * <pre>
@@ -46,7 +46,7 @@ import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
  */
 
 /**
- * Used in with the {@link AlchemyTestRunner}, this Annotations allows the
+ * Used in conjunction with the {@link AlchemyTestRunner}, this Annotations allows the
  * Runtime Injection of Generated Strings from the {@link AlchemyGenerator} library.
  * <p>
  * Example:
@@ -69,8 +69,7 @@ import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
  */
 @Target(FIELD)
 @Retention(RUNTIME)
-public @interface GenerateString
-{
+public @interface GenerateString {
 
     /*
      * Named value because it allows for @StringGenerator(ALPHABETIC) instead of @StringGenerator(type = ALPHABETIC)
@@ -78,20 +77,15 @@ public @interface GenerateString
 
     /**
      * The type of String to Generate
-     *
-     * @return
      */
     Type value() default Type.ALPHABETIC;
 
     /**
      * The length of the string, must be {@code > 0}.
-     *
-     * @return
      */
     int length() default 10;
 
-    public static enum Type
-    {
+    enum Type {
         ALPHABETIC,
         ALPHANUMERIC,
         HEXADECIMAL,
@@ -100,45 +94,34 @@ public @interface GenerateString
          * For UUIDS, the {@link #length() } property will be ignored, and instead the standard UUID size from {@link UUID#randomUUID()
          * } is used.
          */
-        UUID;
+        UUID
 
     }
 
     @Internal
     @NonInstantiable
-    static class Values
-    {
+    class Values {
 
-        private Values() throws IllegalAccessException
-        {
+        private Values() throws IllegalAccessException {
             throw new IllegalAccessException("cannot instantiate");
         }
 
-        static AlchemyGenerator<String> createGeneratorFor(GenerateString annotation)
-        {
+        static AlchemyGenerator<String> createGeneratorFor(GenerateString annotation) {
             checkNotNull(annotation, "annotation is missing");
 
-            int length = annotation.length();
+            var length = annotation.length();
             checkThat(length > 0, "Invalid @GenerateString use, length must be positive");
 
-            Type type = annotation.value();
+            var type = annotation.value();
             checkNotNull(type, "@GenerateString Annotation missing type");
 
-            switch (type)
-            {
-                case ALPHABETIC:
-                    return alphabeticStrings(length);
-                case ALPHANUMERIC:
-                    return alphanumericStrings(length);
-                case HEXADECIMAL:
-                    return hexadecimalString(length);
-                case NUMERIC:
-                    return numericStrings(length);
-                case UUID:
-                    return uuids;
-                default:
-                    return alphabeticStrings(length);
-            }
+            return switch (type) {
+                case ALPHABETIC   -> alphabeticStrings(length);
+                case ALPHANUMERIC -> alphanumericStrings(length);
+                case HEXADECIMAL  -> hexadecimalString(length);
+                case NUMERIC      -> numericStrings(length);
+                case UUID         -> UUIDS;
+            };
 
         }
     }

@@ -33,7 +33,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({TYPE, METHOD})
 @Documented
 @Inherited
-public @interface Repeat
-{
+public @interface Repeat {
     int value() default 100;
 }

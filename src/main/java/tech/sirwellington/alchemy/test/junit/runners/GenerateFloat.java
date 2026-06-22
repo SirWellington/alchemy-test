@@ -15,21 +15,21 @@
 
 package tech.sirwellington.alchemy.test.junit.runners;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-
 import tech.sirwellington.alchemy.annotations.access.Internal;
 import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static tech.sirwellington.alchemy.generator.NumberGenerators.*;
-import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
-import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
+import static tech.sirwellington.alchemy.test.internal.Checks.checkNotNull;
+import static tech.sirwellington.alchemy.test.internal.Checks.checkThat;
 
 /**
- * Used in with the {@link AlchemyTestRunner}, this Annotations allows the
+ * Used with the {@link AlchemyTestRunner}, this Annotations allows the
  * Runtime Injection of Generated Doubles from the {@link AlchemyGenerator} library.
  * <p>
  * Example:
@@ -54,8 +54,7 @@ import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
  */
 @Target(FIELD)
 @Retention(RUNTIME)
-public @interface GenerateFloat
-{
+public @interface GenerateFloat {
 
     Type value() default Type.POSITIVE;
 
@@ -63,8 +62,7 @@ public @interface GenerateFloat
 
     float max() default 1.0f;
 
-    enum Type
-    {
+    enum Type {
         POSITIVE,
         NEGATIVE,
         ANY,
@@ -73,49 +71,34 @@ public @interface GenerateFloat
 
     @Internal
     @NonInstantiable
-    class Values
-    {
+    class Values {
 
-        private Values() throws IllegalAccessException
-        {
+        private Values() throws IllegalAccessException {
             throw new IllegalAccessException("cannot instantiate");
         }
 
-        static AlchemyGenerator<Float> createGeneratorFor(GenerateFloat annotation)
-        {
+        static AlchemyGenerator<Float> createGeneratorFor(GenerateFloat annotation) {
             checkNotNull(annotation, "missing annotation");
 
             Type type = annotation.value();
             checkNotNull(type, "@GenerateDouble missing value");
 
-            if (type == Type.RANGE)
-            {
+            if (type == Type.RANGE) {
                 float min = annotation.min();
                 float max = annotation.max();
                 checkThat(min < max, "@GenerateDouble: min must be less than max");
 
-                final AlchemyGenerator<Double> doubles = doubles(min, max);
+                final var doubles = doubles(min, max);
 
-                return new AlchemyGenerator<Float>()
-                {
-                    @Override
-                    public Float get()
-                    {
-                        return doubles.get().floatValue();
-                    }
-                };
+                return () -> doubles.get().floatValue();
             }
 
             //Cover remaining cases
-            switch (type)
-            {
-                case POSITIVE:
-                    return positiveFloats();
-                case NEGATIVE:
-                    return negativeFloats();
-                default:
-                    return anyFloats();
-            }
+            return switch (type) {
+                case POSITIVE -> positiveFloats();
+                case NEGATIVE -> negativeFloats();
+                default       -> anyFloats();
+            };
         }
 
     }

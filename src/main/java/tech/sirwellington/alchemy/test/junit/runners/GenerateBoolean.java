@@ -27,10 +27,10 @@ import tech.sirwellington.alchemy.generator.BooleanGenerators;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
+import static tech.sirwellington.alchemy.test.internal.Checks.checkNotNull;
 
 /**
- * Used in with the {@link AlchemyTestRunner}, this Annotations allows the
+ * Used in conjunction with the {@link AlchemyTestRunner}, this Annotations allows the
  * Runtime Injection of Generated Booleans from the {@link AlchemyGenerator} library.
  * <p>
  * Example:
@@ -53,20 +53,16 @@ import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
  */
 @Target(FIELD)
 @Retention(RUNTIME)
-public @interface GenerateBoolean
-{
+public @interface GenerateBoolean {
 
     @Internal
     @NonInstantiable
-    static class Values
-    {
-        private Values() throws IllegalAccessException
-        {
+    static class Values {
+        private Values() throws IllegalAccessException {
             throw new IllegalAccessException("cannot instantiate");
         }
 
-        static AlchemyGenerator<Boolean> createGeneratorFor(GenerateBoolean annotation)
-        {
+        static AlchemyGenerator<Boolean> createGeneratorFor(GenerateBoolean annotation) {
             checkNotNull(annotation, "annotation is null");
             return BooleanGenerators.booleans();
         }

@@ -16,17 +16,17 @@
 
 package tech.sirwellington.alchemy.test.junit.runners;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-
 import tech.sirwellington.alchemy.annotations.access.Internal;
 import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 import tech.sirwellington.alchemy.generator.ObjectGenerators;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
+import static tech.sirwellington.alchemy.test.internal.Checks.checkNotNull;
 
 
 /**
@@ -34,23 +34,18 @@ import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
  */
 @Target(FIELD)
 @Retention(RUNTIME)
-public @interface GeneratePojo
-{
+public @interface GeneratePojo {
 
     @Internal
     @NonInstantiable
-    static class Values
-    {
-        private Values() throws IllegalAccessException
-        {
+    class Values {
+        private Values() throws IllegalAccessException {
             throw new IllegalAccessException("cannot instantiate");
         }
 
-        static <POJO> AlchemyGenerator<POJO> createGeneratorFor(GeneratePojo annotation, Class<POJO> classOfPojo)
-        {
+        static <POJO> AlchemyGenerator<POJO> createGeneratorFor(GeneratePojo annotation, Class<POJO> classOfPojo) {
             checkNotNull(classOfPojo, "missing classOfPojo");
             checkNotNull(annotation, "missing annotation");
-
             return ObjectGenerators.pojos(classOfPojo);
         }
     }

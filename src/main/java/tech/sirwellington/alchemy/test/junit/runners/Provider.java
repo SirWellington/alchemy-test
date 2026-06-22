@@ -18,7 +18,6 @@ package tech.sirwellington.alchemy.test.junit.runners;
 /**
  * @author SirWellington
  */
-interface Provider<T>
-{
+interface Provider<T> {
     T get();
 }

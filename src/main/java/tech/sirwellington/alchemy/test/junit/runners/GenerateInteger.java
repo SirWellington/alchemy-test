@@ -25,13 +25,13 @@ import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static tech.sirwellington.alchemy.generator.NumberGenerators.*;
-import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
-import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
+import static tech.sirwellington.alchemy.test.internal.Checks.checkNotNull;
+import static tech.sirwellington.alchemy.test.internal.Checks.checkThat;
 import static tech.sirwellington.alchemy.test.junit.runners.GenerateInteger.Type.POSITIVE;
 import static tech.sirwellington.alchemy.test.junit.runners.GenerateInteger.Type.RANGE;
 
 /**
- * Used in with the {@link AlchemyTestRunner}, this Annotations allows the
+ * Used in conjunction with the {@link AlchemyTestRunner}, this Annotations allows the
  * Runtime Injection of Generated Integers from the {@link AlchemyGenerator} library.
  * <p>
  * Example:
@@ -56,8 +56,7 @@ import static tech.sirwellington.alchemy.test.junit.runners.GenerateInteger.Type
  */
 @Target(FIELD)
 @Retention(RUNTIME)
-public @interface GenerateInteger
-{
+public @interface GenerateInteger {
 
     Type value() default POSITIVE;
 
@@ -65,8 +64,7 @@ public @interface GenerateInteger
 
     int max() default 0;
 
-    public enum Type
-    {
+    enum Type {
         POSITIVE,
         NEGATIVE,
         ANY,
@@ -75,23 +73,19 @@ public @interface GenerateInteger
 
     @Internal
     @NonInstantiable
-    class Values
-    {
+    class Values {
 
-        private Values() throws IllegalAccessException
-        {
+        private Values() throws IllegalAccessException {
             throw new IllegalAccessException("cannot instantiate");
         }
 
-        static AlchemyGenerator<Integer> createGeneratorFor(GenerateInteger annotation)
-        {
+        static AlchemyGenerator<Integer> createGeneratorFor(GenerateInteger annotation) {
             checkNotNull(annotation, "missing annotation");
 
             Type type = annotation.value();
             checkNotNull(type, "@GenerateInteger missing value");
 
-            if (type == RANGE)
-            {
+            if (type == RANGE) {
                 int min = annotation.min();
                 int max = annotation.max();
                 checkThat(min < max, "@GenerateInteger: min must be less than max");
@@ -99,15 +93,11 @@ public @interface GenerateInteger
             }
 
             //Cover remaining cases
-            switch (type)
-            {
-                case POSITIVE:
-                    return positiveIntegers();
-                case NEGATIVE:
-                    return negativeIntegers();
-                default:
-                    return integers(Integer.MIN_VALUE, Integer.MAX_VALUE);
-            }
+            return switch (type) {
+                case POSITIVE -> positiveIntegers();
+                case NEGATIVE -> negativeIntegers();
+                default       -> integers(Integer.MIN_VALUE, Integer.MAX_VALUE);
+            };
         }
 
     }

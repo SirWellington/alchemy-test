@@ -16,19 +16,19 @@
 package tech.sirwellington.alchemy.test.junit.runners;
 
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-
 import tech.sirwellington.alchemy.annotations.access.Internal;
 import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
+import static tech.sirwellington.alchemy.test.internal.Checks.checkNotNull;
 
 /**
- * Used in with the {@link AlchemyTestRunner}, this Annotations allows the
+ * Used in conjunction with the {@link AlchemyTestRunner}, this Annotations allows the
  * Runtime Injection of Custom Objects using the {@link AlchemyGenerator} library.
  * <p>
  * Example:
@@ -47,12 +47,10 @@ import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
  * Note, '`' (ticks) used to escape Javadocs.
  *
  * @author SirWellington
- * @author SirWellington
  */
 @Target(FIELD)
 @Retention(RUNTIME)
-public @interface GenerateCustom
-{
+public @interface GenerateCustom {
 
     /**
      * Specify the Java Class to use to generate values. This class must
@@ -62,33 +60,22 @@ public @interface GenerateCustom
 
     @Internal
     @NonInstantiable
-    static class Values
-    {
+    class Values {
 
-        private Values() throws IllegalAccessException
-        {
+        private Values() throws IllegalAccessException {
             throw new IllegalAccessException("cannot instantiate");
         }
 
-        static AlchemyGenerator<?> createGeneratorFor(GenerateCustom annotation) throws IllegalArgumentException
-        {
+        static AlchemyGenerator<?> createGeneratorFor(GenerateCustom annotation) throws IllegalArgumentException {
             checkNotNull(annotation, "missing annotation");
-
-            Class<? extends AlchemyGenerator<?>> generatorClass = annotation.value();
-
-            final AlchemyGenerator<?> generator = tryToInstantiate(generatorClass);
-
-            return generator;
+            var generatorClass = annotation.value();
+            return tryToInstantiate(generatorClass);
         }
 
-        private static AlchemyGenerator<?> tryToInstantiate(Class<? extends AlchemyGenerator<?>> generatorClass)
-        {
-            try
-            {
-                return generatorClass.newInstance();
-            }
-            catch (Throwable ex)
-            {
+        private static AlchemyGenerator<?> tryToInstantiate(Class<? extends AlchemyGenerator<?>> generatorClass) {
+            try {
+                return generatorClass.getDeclaredConstructor().newInstance();
+            } catch (Throwable ex) {
                 throw new IllegalArgumentException("Cannot instantiate Alchemy Generator | " + generatorClass, ex);
             }
         }

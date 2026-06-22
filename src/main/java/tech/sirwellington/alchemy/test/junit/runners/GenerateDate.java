@@ -15,22 +15,22 @@
 
 package tech.sirwellington.alchemy.test.junit.runners;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-import java.util.Date;
-
 import tech.sirwellington.alchemy.annotations.access.Internal;
 import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 import tech.sirwellington.alchemy.generator.DateGenerators;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+import java.util.Date;
+
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
-import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
+import static tech.sirwellington.alchemy.test.internal.Checks.checkNotNull;
+import static tech.sirwellington.alchemy.test.internal.Checks.checkThat;
 
 /**
- * Used in with the {@link AlchemyTestRunner}, this Annotations allows the Runtime Injection of Generated {@linkplain Date Dates}
+ * Used in conjunction with the {@link AlchemyTestRunner}, this Annotations allows the Runtime Injection of Generated {@linkplain Date Dates}
  * using {@link DateGenerators} from the {@link AlchemyGenerator} library.
  * <p>
  * Example:
@@ -53,27 +53,21 @@ import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
  */
 @Target(FIELD)
 @Retention(RUNTIME)
-public @interface GenerateDate
-{
+public @interface GenerateDate {
 
     Type value() default Type.ANYTIME;
 
     /**
      * If using the {@link Type#RANGE} type, specify a beginning date, in Epoch Millis.
-     *
-     * @return
      */
     long startDate() default 0;
 
     /**
      * If using the {@link Type#RANGE} type, specify an end date, in Epoch Millis.
-     *
-     * @return
      */
     long endDate() default 0;
 
-    public enum Type
-    {
+    enum Type {
         PAST,
         PRESENT,
         FUTURE,
@@ -83,42 +77,28 @@ public @interface GenerateDate
 
     @Internal
     @NonInstantiable
-    static class Values
-    {
+    class Values {
 
-        private Values() throws IllegalAccessException
-        {
+        private Values() throws IllegalAccessException {
             throw new IllegalAccessException("cannot instantiate");
         }
 
-        static AlchemyGenerator<Date> createGeneratorFor(GenerateDate annotation) throws IllegalArgumentException
-        {
+        static AlchemyGenerator<Date> createGeneratorFor(GenerateDate annotation) throws IllegalArgumentException {
             checkNotNull(annotation, "missing annotation");
 
-            switch (annotation.value())
-            {
-                case PAST:
-                    return DateGenerators.pastDates();
-                case PRESENT:
-                    return DateGenerators.presentDates();
-                case FUTURE:
-                    return DateGenerators.futureDates();
-                case ANYTIME:
-                    return DateGenerators.anyTime();
-                case RANGE:
-                    return datesInRange(annotation.startDate(), annotation.endDate());
-                default:
-                    return DateGenerators.anyTime();
-            }
+            return switch (annotation.value()) {
+                case PAST -> DateGenerators.pastDates();
+                case PRESENT -> DateGenerators.presentDates();
+                case FUTURE -> DateGenerators.futureDates();
+                case ANYTIME -> DateGenerators.anyTime();
+                case RANGE -> datesInRange(annotation.startDate(), annotation.endDate());
+            };
         }
 
-        private static AlchemyGenerator<Date> datesInRange(long startDate, long endDate)
-        {
+        private static AlchemyGenerator<Date> datesInRange(long startDate, long endDate) {
             checkThat(startDate < endDate, "startDate must come before endDate");
-
-            Date start = new Date(startDate);
-            Date end = new Date(endDate);
-
+            var start = new Date(startDate);
+            var end = new Date(endDate);
             return DateGenerators.datesBetween(start, end);
         }
     }

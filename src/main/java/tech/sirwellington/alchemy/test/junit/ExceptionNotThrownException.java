@@ -18,25 +18,20 @@ package tech.sirwellington.alchemy.test.junit;
 /**
  * @author SirWellington
  */
-public class ExceptionNotThrownException extends AssertionError
-{
+public class ExceptionNotThrownException extends AssertionError {
 
-    public ExceptionNotThrownException()
-    {
+    public ExceptionNotThrownException() {
     }
 
-    public ExceptionNotThrownException(String message)
-    {
+    public ExceptionNotThrownException(String message) {
         super(message);
     }
 
-    public ExceptionNotThrownException(String message, Throwable cause)
-    {
+    public ExceptionNotThrownException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public ExceptionNotThrownException(Throwable cause)
-    {
+    public ExceptionNotThrownException(Throwable cause) {
         super(cause);
     }
 

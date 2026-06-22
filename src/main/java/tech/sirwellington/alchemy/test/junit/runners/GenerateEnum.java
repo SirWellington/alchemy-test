@@ -15,20 +15,20 @@
 
 package tech.sirwellington.alchemy.test.junit.runners;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-
 import tech.sirwellington.alchemy.annotations.access.Internal;
 import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 import tech.sirwellington.alchemy.generator.EnumGenerators;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
+import static tech.sirwellington.alchemy.test.internal.Checks.checkNotNull;
 
 /**
- * Used in with the {@link AlchemyTestRunner}, this Annotations allows the Runtime Injection of Enum values, using
+ * Used in conjunction with the {@link AlchemyTestRunner}, this Annotations allows the Runtime Injection of Enum values, using
  * {@link EnumGenerators} from the {@link AlchemyGenerator} library.
  * <p>
  * Example:
@@ -55,25 +55,23 @@ import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
  *
  * @author SirWellington
  * @see GenerateString
- * @see GenerateInstant
  */
 @Target(FIELD)
 @Retention(RUNTIME)
-public @interface GenerateEnum
-{
+public @interface GenerateEnum {
 
     @Internal
     @NonInstantiable
-    static class Values
-    {
+    class Values {
 
-        private Values() throws IllegalAccessException
-        {
+        private Values() throws IllegalAccessException {
             throw new IllegalAccessException("cannot instantiate");
         }
 
-        static <E extends Enum> AlchemyGenerator<E> createGeneratorFor(GenerateEnum annotation, Class<E> enumClass) throws IllegalArgumentException
-        {
+        static <E extends Enum<E>> AlchemyGenerator<E> createGeneratorFor(
+            GenerateEnum annotation,
+            Class<E> enumClass
+        ) throws IllegalArgumentException {
             checkNotNull(annotation, "missing annotation");
             checkNotNull(enumClass, "missing enum class");
 

@@ -19,23 +19,21 @@ import org.junit.runners.model.Statement;
 import tech.sirwellington.alchemy.annotations.access.Internal;
 import tech.sirwellington.alchemy.annotations.concurrency.Immutable;
 
-import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
-import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
+import static tech.sirwellington.alchemy.test.internal.Checks.checkNotNull;
+import static tech.sirwellington.alchemy.test.internal.Checks.checkThat;
 
 /**
  * @author SirWellington
  */
 @Internal
 @Immutable
-class RepeatStatement extends Statement
-{
+class RepeatStatement extends Statement {
 
     private final int timesToRepeat;
     private final Provider<Statement> statementFactory;
     private final FrameworkMethod method;
 
-    public RepeatStatement(int timesToRepeat, Provider<Statement> statementFactory, FrameworkMethod method)
-    {
+    public RepeatStatement(int timesToRepeat, Provider<Statement> statementFactory, FrameworkMethod method) {
         checkThat(timesToRepeat > 0, "timesToRepeat must be > 0");
         checkNotNull(statementFactory);
         checkNotNull(statementFactory.get(), "statementFactory returned null");
@@ -47,36 +45,32 @@ class RepeatStatement extends Statement
     }
 
     @Override
-    public void evaluate() throws Throwable
-    {
+    public void evaluate() throws Throwable {
         //Print blank line
         System.out.println();
 
         //Print test name
-        String methodName = method.getName();
+        var methodName = method.getName();
         System.out.println(methodName + "()");
 
         //Time the test run
-        long start = System.currentTimeMillis();
-        for (int i = 0; i < timesToRepeat; ++i)
-        {
+        var start = System.currentTimeMillis();
+        for (int i = 0; i < timesToRepeat; ++i) {
             Statement delegateStatement = statementFactory.get();
             checkNotNull(delegateStatement, "statementFactory returned null Statement");
             delegateStatement.evaluate();
         }
-        long end = System.currentTimeMillis();
+        var end = System.currentTimeMillis();
 
         System.out.printf("  Duration: %dms\n", end - start);
 
-        if (timesToRepeat > 1)
-        {
+        if (timesToRepeat > 1) {
             System.out.printf("  Runs: %d\n", timesToRepeat);
         }
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "RepeatStatement{" + "timesToRepeat=" + timesToRepeat + ", statementFactory=" + statementFactory + ", method=" + method + '}';
     }
 

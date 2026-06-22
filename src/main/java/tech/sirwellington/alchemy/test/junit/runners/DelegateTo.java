@@ -33,19 +33,16 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Retention(RUNTIME)
 @Target({TYPE})
-public @interface DelegateTo
-{
+public @interface DelegateTo {
     /**
      * Specifies the {@link Runner} to delegate to after initialization.
-     *
-     * @return
      */
     Class<? extends Runner> delegate() default BlockJUnit4ClassRunner.class;
 
     /**
      * If set to true, the {@link AlchemyTestRunner} will run the specified delegate without calling super.
      * If set to false, the {@link AlchemyTestRunner} will run both the delegate and the super.
-     *
+     * <p>
      * Defaults to {@code true}.
      */
     boolean skipSuper() default true;

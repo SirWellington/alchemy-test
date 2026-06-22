@@ -26,13 +26,13 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static tech.sirwellington.alchemy.generator.NumberGenerators.longs;
 import static tech.sirwellington.alchemy.generator.NumberGenerators.positiveLongs;
-import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
-import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
+import static tech.sirwellington.alchemy.test.internal.Checks.checkNotNull;
+import static tech.sirwellington.alchemy.test.internal.Checks.checkThat;
 import static tech.sirwellington.alchemy.test.junit.runners.GenerateLong.Type.POSITIVE;
 import static tech.sirwellington.alchemy.test.junit.runners.GenerateLong.Type.RANGE;
 
 /**
- * Used in with the {@link AlchemyTestRunner}, this Annotations allows the
+ * Used in conjunction with the {@link AlchemyTestRunner}, this Annotations allows the
  * Runtime Injection of Generated Longs from the {@link AlchemyGenerator} library.
  * <p>
  * Example:
@@ -56,8 +56,7 @@ import static tech.sirwellington.alchemy.test.junit.runners.GenerateLong.Type.RA
  */
 @Target(FIELD)
 @Retention(RUNTIME)
-public @interface GenerateLong
-{
+public @interface GenerateLong {
 
     Type value() default POSITIVE;
 
@@ -65,8 +64,7 @@ public @interface GenerateLong
 
     long max() default 0;
 
-    public enum Type
-    {
+    enum Type {
         POSITIVE,
         NEGATIVE,
         ANY,
@@ -75,23 +73,19 @@ public @interface GenerateLong
 
     @Internal
     @NonInstantiable
-    class Values
-    {
+    class Values {
 
-        private Values() throws IllegalAccessException
-        {
+        private Values() throws IllegalAccessException {
             throw new IllegalAccessException("cannot instantiate");
         }
 
-        static AlchemyGenerator<Long> createGeneratorFor(GenerateLong annotation)
-        {
+        static AlchemyGenerator<Long> createGeneratorFor(GenerateLong annotation) {
             checkNotNull(annotation, "missing annotation");
 
             Type type = annotation.value();
             checkNotNull(type, "@GenerateLong missing value");
 
-            if (type == RANGE)
-            {
+            if (type == RANGE) {
                 long min = annotation.min();
                 long max = annotation.max();
                 checkThat(min < max, "@GenerateLong: min must be less than max");
@@ -99,15 +93,11 @@ public @interface GenerateLong
             }
 
             //Cover remaining cases
-            switch (type)
-            {
-                case POSITIVE:
-                    return positiveLongs();
-                case NEGATIVE:
-                    return longs(Long.MIN_VALUE, 0);
-                default:
-                    return longs(Long.MIN_VALUE, Long.MAX_VALUE);
-            }
+            return switch (type) {
+                case POSITIVE -> positiveLongs();
+                case NEGATIVE -> longs(Long.MIN_VALUE, 0);
+                default       -> longs(Long.MIN_VALUE, Long.MAX_VALUE);
+            };
         }
 
     }

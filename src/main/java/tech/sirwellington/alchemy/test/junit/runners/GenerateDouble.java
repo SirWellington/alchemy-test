@@ -15,23 +15,23 @@
 
 package tech.sirwellington.alchemy.test.junit.runners;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-
 import tech.sirwellington.alchemy.annotations.access.Internal;
 import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static tech.sirwellington.alchemy.generator.NumberGenerators.*;
-import static tech.sirwellington.alchemy.test.Checks.Internal.checkNotNull;
-import static tech.sirwellington.alchemy.test.Checks.Internal.checkThat;
+import static tech.sirwellington.alchemy.test.internal.Checks.checkNotNull;
+import static tech.sirwellington.alchemy.test.internal.Checks.checkThat;
 import static tech.sirwellington.alchemy.test.junit.runners.GenerateDouble.Type.POSITIVE;
 import static tech.sirwellington.alchemy.test.junit.runners.GenerateDouble.Type.RANGE;
 
 /**
- * Used in with the {@link AlchemyTestRunner}, this Annotations allows the
+ * Used in conjunction with the {@link AlchemyTestRunner}, this Annotations allows the
  * Runtime Injection of Generated Doubles from the {@link AlchemyGenerator} library.
  * <p>
  * Example:
@@ -56,8 +56,7 @@ import static tech.sirwellington.alchemy.test.junit.runners.GenerateDouble.Type.
  */
 @Target(FIELD)
 @Retention(RUNTIME)
-public @interface GenerateDouble
-{
+public @interface GenerateDouble {
 
     Type value() default POSITIVE;
 
@@ -65,33 +64,28 @@ public @interface GenerateDouble
 
     double max() default 1.0;
 
-    public enum Type
-    {
+    enum Type {
         POSITIVE,
         NEGATIVE,
         ANY,
-        RANGE;
+        RANGE
     }
 
     @Internal
     @NonInstantiable
-    class Values
-    {
+    class Values {
 
-        private Values() throws IllegalAccessException
-        {
+        private Values() throws IllegalAccessException {
             throw new IllegalAccessException("cannot instantiate");
         }
 
-        static AlchemyGenerator<Double> createGeneratorFor(GenerateDouble annotation)
-        {
+        static AlchemyGenerator<Double> createGeneratorFor(GenerateDouble annotation) {
             checkNotNull(annotation, "missing annotation");
 
-            Type type = annotation.value();
+            var type = annotation.value();
             checkNotNull(type, "@GenerateDouble missing value");
 
-            if (type == RANGE)
-            {
+            if (type == RANGE) {
                 double min = annotation.min();
                 double max = annotation.max();
                 checkThat(min < max, "@GenerateDouble: min must be less than max");
@@ -99,15 +93,11 @@ public @interface GenerateDouble
             }
 
             //Cover remaining cases
-            switch (type)
-            {
-                case POSITIVE:
-                    return positiveDoubles();
-                case NEGATIVE:
-                    return negativeDoubles();
-                default:
-                    return anyDoubles();
-            }
+            return switch (type) {
+                case POSITIVE -> positiveDoubles();
+                case NEGATIVE -> negativeDoubles();
+                default       -> anyDoubles();
+            };
         }
 
     }
