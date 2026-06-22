@@ -19,9 +19,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import tech.sirwellington.alchemy.generator.NumberGenerators
-import tech.sirwellington.alchemy.test.junit.generation.AlchemyTestRunner
 import tech.sirwellington.alchemy.test.junit.generation.GenerateDouble
-import tech.sirwellington.alchemy.test.junit.generation.Repeat
 
 @RunWith(AlchemyTestRunner::class)
 @Repeat(50)

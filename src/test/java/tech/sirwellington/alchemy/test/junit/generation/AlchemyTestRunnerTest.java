@@ -63,7 +63,6 @@ public class AlchemyTestRunnerTest
     }
 
     @RunWith(AlchemyTestRunner.class)
-    @Repeat(RUNS)
     public static class MockTestClass
     {
 
@@ -129,7 +128,6 @@ public class AlchemyTestRunnerTest
             ++firstTotalRuns;
         }
 
-        @Repeat(5)
         @Test
         public void runSecondTest()
         {
@@ -153,7 +151,6 @@ public class AlchemyTestRunnerTest
     }
 
     @RunWith(AlchemyTestRunner.class)
-    @Repeat(-10)
     public static class BadTest
     {
 
@@ -178,7 +175,6 @@ public class AlchemyTestRunnerTest
             ++firstTotalRuns;
         }
 
-        @Repeat(-5)
         @Test
         public void runSecondTest()
         {

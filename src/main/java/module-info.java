@@ -3,7 +3,6 @@ module tech.sirwellington.alchemy.test {
     requires org.junit.jupiter.api;
     requires org.junit.jupiter.engine;
     requires org.mockito;
-    requires org.hamcrest;
     requires org.slf4j;
     requires tech.sirwellington.alchemy.annotations;
     requires tech.sirwellington.alchemy.generator;

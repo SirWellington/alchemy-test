@@ -9,7 +9,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @ExtendWith({
-    MockitoExtension.class,          // Handles @Mock, @InjectMocks, & unnecessary stubbings
+    MockitoExtension.class,          // Handles @Mock, @InjectMocks, & unnecessary stubbing
     AlchemyDataExtension.class,      // Handles @GenerateString, @GenerateInteger, etc.
     AlchemyLoggingExtension.class    // Prints test name to console
 })

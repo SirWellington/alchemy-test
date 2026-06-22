@@ -17,9 +17,10 @@ package tech.sirwellington.alchemy.test.junit;
 import tech.sirwellington.alchemy.annotations.arguments.Required;
 import tech.sirwellington.alchemy.annotations.designs.FluidAPIDesign;
 
+import java.text.MessageFormat;
 import java.util.Objects;
 
-import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static tech.sirwellington.alchemy.test.internal.Checks.checkNotNull;
 
 /**
@@ -81,7 +82,7 @@ public final class ThrowableAssertion {
         Class<? extends Throwable> exceptionClass
     ) {
         checkNotNull(exceptionClass);
-        assertThat(caught, isA(exceptionClass));
+        assertInstanceOf(exceptionClass, caught);
         return this;
     }
 
@@ -91,7 +92,11 @@ public final class ThrowableAssertion {
      * @param expectedMessage The exact message expected
      */
     public ThrowableAssertion hasMessage(String expectedMessage) {
-        assertThat(caught.getMessage(), is(expectedMessage));
+        checkNotNull(expectedMessage);
+        assertNotNull(caught, "No exception was thrown");
+        var message = caught.getMessage();
+        assertNotNull(message, "No exception message was found");
+        assertEquals(expectedMessage, message);
         return this;
     }
 
@@ -101,7 +106,15 @@ public final class ThrowableAssertion {
      * @param messageString The partial message to expected.
      */
     public ThrowableAssertion containsInMessage(String messageString) {
-        assertThat(caught.getMessage(), containsString(messageString));
+        checkNotNull(messageString);
+        var message = caught.getMessage();
+        assertNotNull(message, "No exception message was found");
+        var errorMessage = MessageFormat.format(
+            "Exception message does not contain [{0}]. Full message: [{1}]",
+            message,
+            message
+        );
+        assertTrue(message.contains(messageString), errorMessage);
         return this;
     }
 
@@ -109,7 +122,11 @@ public final class ThrowableAssertion {
      * Assert that the exception has no causing exception
      */
     public ThrowableAssertion hasNoCause() {
-        assertThat(caught.getCause(), nullValue());
+        var errorMessage = MessageFormat.format(
+          "Expected no cause, but got: [{0}]",
+          caught.getCause()
+        );
+        assertNull(caught.getCause(), errorMessage);
         return this;
     }
 
@@ -119,8 +136,14 @@ public final class ThrowableAssertion {
      * @param exceptionClass The type expected.
      */
     public ThrowableAssertion hasCauseInstanceOf(Class<? extends Throwable> exceptionClass) {
-        assertThat(caught.getCause(), notNullValue());
-        assertThat(caught.getCause(), isA((Class<Throwable>) exceptionClass));
+        var cause = caught.getCause();
+        assertNotNull(cause, "No cause exception found in: " + caught);
+        var errorMessage = MessageFormat.format(
+            "Expected cause exception of type [{0}], but is [{1}]",
+            exceptionClass,
+            cause
+        );
+        assertInstanceOf(exceptionClass, cause, errorMessage);
         return this;
     }
 }
