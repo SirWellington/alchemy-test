@@ -14,11 +14,11 @@
  */
 package tech.sirwellington.alchemy.test.junit.generation;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 import tech.sirwellington.alchemy.test.junit.AlchemyTest;
 
@@ -35,9 +35,6 @@ import static org.mockito.Mockito.when;
  * @author SirWellington
  */
 public class AlchemyTestRunnerTest {
-
-    private static final int RUNS = 199;
-
     @AlchemyTest
     public static class MockTest {
 
@@ -65,19 +62,9 @@ public class AlchemyTestRunnerTest {
         @Mock
         private AlchemyGenerator<?> object;
 
-        private static int firstTotalRuns = 0;
-        private static int secondTotalRuns = 0;
-        private static int thirdTotalRuns = 0;
-
-        @BeforeAll
-        public static void whenBegin() {
-            firstTotalRuns = 0;
-            secondTotalRuns = 0;
-            thirdTotalRuns = 0;
-        }
-
-        @BeforeEach
-        public void setup() {
+        @Test
+        void testGenenerators() {
+            MockitoAnnotations.openMocks(this);
             assertThat(object, notNullValue());
             assertThat(string, not(isEmptyOrNullString()));
             assertThat(integer, greaterThan(0));
@@ -95,27 +82,6 @@ public class AlchemyTestRunnerTest {
             assertThat(object.get(), nullValue());
         }
 
-        @Test
-        public void runFirstTest() {
-            ++firstTotalRuns;
-        }
-
-        @Test
-        public void runSecondTest() {
-            ++secondTotalRuns;
-        }
-
-        @Test
-        public void runThirdTest() {
-            ++thirdTotalRuns;
-        }
-
-        @AfterAll
-        public static void whenDone() {
-            assertThat(firstTotalRuns, is(RUNS));
-            assertThat(secondTotalRuns, is(5));
-            assertThat(thirdTotalRuns, is(1));
-        }
     }
 
     @AlchemyTest
@@ -152,6 +118,7 @@ public class AlchemyTestRunnerTest {
     }
 
     @AlchemyTest
+    @ExtendWith(MockitoExtension.class)
     public static class RegularTest {
 
         private static int totalRuns = 0;

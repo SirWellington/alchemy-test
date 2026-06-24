@@ -62,9 +62,8 @@ public class GenerateCustomTest {
         assertThat(person.age, greaterThan(0));
     }
 
-    private record Person(String name, int age) {}
-
-    private static class PersonGenerator implements AlchemyGenerator<Person> {
+    record Person(String name, int age) {}
+    static class PersonGenerator implements AlchemyGenerator<Person> {
         @Override
         public Person get() {
             var name = PeopleGenerators.fullNames().get();

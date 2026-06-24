@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import tech.sirwellington.alchemy.annotations.testing.IntegrationTest;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 import tech.sirwellington.alchemy.generator.StringGenerators;
+import tech.sirwellington.alchemy.test.junit.AlchemyTest;
 import tech.sirwellington.alchemy.test.junit.generation.AlchemyDataExtension.TestClassInjectors;
 
 import java.net.URL;
@@ -71,10 +72,7 @@ public class TestClassInjectorsTest {
         ).isInstanceOf(IllegalArgumentException.class);
     }
 
-    @Test
-    public void testInflateString() throws Exception {
-    }
-
+    @AlchemyTest
     public static class FakeTestClass {
 
         private static final int STRING_LENGTH = 346;
@@ -141,7 +139,6 @@ public class TestClassInjectorsTest {
 
         @GenerateCustom(BookGenerator.class)
         private Book book;
-
 
         @BeforeEach
         public void setUp() {

@@ -91,7 +91,6 @@ public class GenerateFloatTest {
         System.out.println("testValuesEdgeCases1");
 
         annotation = new GenerateFloatInstance(null, min, max);
-        GenerateFloat.Values.createGeneratorFor(annotation);
         assertThrows(
             () -> GenerateFloat.Values.createGeneratorFor(annotation)
         ).isInstanceOf(IllegalArgumentException.class);
