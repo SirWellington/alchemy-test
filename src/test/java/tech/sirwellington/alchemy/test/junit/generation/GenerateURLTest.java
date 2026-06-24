@@ -15,106 +15,82 @@
 
 package tech.sirwellington.alchemy.test.junit.generation;
 
-import java.lang.annotation.Annotation;
-import java.net.URL;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
-import tech.sirwellington.alchemy.generator.AlchemyGenerator;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import tech.sirwellington.alchemy.generator.StringGenerators;
 
+import java.lang.annotation.Annotation;
+
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.startsWith;
-import static org.junit.Assert.assertThat;
 import static tech.sirwellington.alchemy.generator.AlchemyGenerator.Get.one;
 import static tech.sirwellington.alchemy.generator.StringGenerators.hexadecimalString;
+import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
 
 /**
  * @author SirWellington
  */
-@RunWith(MockitoJUnitRunner.class)
-public class GenerateURLTest
-{
+public class GenerateURLTest {
 
     private GenerateURL annotation;
     private String protocol;
 
-    @Before
-    public void setUp()
-    {
+    @BeforeEach
+    public void setUp() {
         protocol = StringGenerators.stringsFromFixedList("http", "https", "ftp", "file").get();
-
         annotation = new GenerateURLInstance(protocol);
-
-    }
-
-    @Test(expected = IllegalAccessException.class)
-    public void testCannotInstatiate() throws IllegalAccessException, InstantiationException
-    {
-        System.out.println("testCannotInstatiate");
-        GenerateURL.Values.class.newInstance();
     }
 
     @Test
-    public void testValues()
-    {
+    public void testCannotInstatiate() throws IllegalAccessException, InstantiationException {
+        System.out.println("testCannotInstatiate");
+        assertThrows(
+            () -> GenerateURL.Values.class.newInstance()
+        ).isInstanceOf(IllegalAccessException.class);
+    }
+
+    @Test
+    public void testValues() {
         System.out.println("testValues");
 
-        AlchemyGenerator<URL> result = GenerateURL.Values.createGeneratorFor(annotation);
+        var result = GenerateURL.Values.createGeneratorFor(annotation);
         assertThat(result, notNullValue());
 
-        URL url = result.get();
+        var url = result.get();
         assertThat(url.toString(), startsWith(protocol));
     }
 
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testValuesEdgeCases1() throws Exception
-    {
-        GenerateURL.Values.createGeneratorFor(null);
+    @Test
+    public void testValuesEdgeCases1() throws Exception {
+        assertThrows(
+            () -> GenerateURL.Values.createGeneratorFor(null)
+        ).isInstanceOf(IllegalArgumentException.class);
     }
 
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testValuesEdgeCases2() throws Exception
-    {
+    @Test
+    public void testValuesEdgeCases2() throws Exception {
         annotation = new GenerateURLInstance("");
-        GenerateURL.Values.createGeneratorFor(annotation);
+        assertThrows(
+            () -> GenerateURL.Values.createGeneratorFor(annotation)
+        ).isInstanceOf(IllegalArgumentException.class);
     }
 
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testValuesEdgeCases3() throws Exception
-    {
-        String badProtocol = one(hexadecimalString(3));
+    @Test
+    public void testValuesEdgeCases3() throws Exception {
+        var badProtocol = one(hexadecimalString(3));
         annotation = new GenerateURLInstance(badProtocol);
-        GenerateURL.Values.createGeneratorFor(annotation);
+        assertThrows(
+            () -> GenerateURL.Values.createGeneratorFor(annotation)
+        ).isInstanceOf(IllegalArgumentException.class);
     }
 
-    private static class GenerateURLInstance implements GenerateURL
-    {
-
-        private final String protocol;
-
-        private GenerateURLInstance(String protocol)
-        {
-            this.protocol = protocol;
-        }
+    private record GenerateURLInstance(String protocol) implements GenerateURL {
 
         @Override
-        public String protocol()
-        {
-            return protocol;
-        }
-
-        @Override
-        public Class<? extends Annotation> annotationType()
-        {
+        public Class<? extends Annotation> annotationType() {
             return GenerateURL.class;
         }
-
     }
 
 }

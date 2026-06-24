@@ -15,77 +15,65 @@
 
 package tech.sirwellington.alchemy.test.junit.generation;
 
-import java.net.URL;
-import java.sql.Timestamp;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.model.TestClass;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import tech.sirwellington.alchemy.annotations.testing.IntegrationTest;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 import tech.sirwellington.alchemy.generator.StringGenerators;
+import tech.sirwellington.alchemy.test.junit.generation.AlchemyDataExtension.TestClassInjectors;
 
+import java.net.URL;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
+
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
+import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
 
 /**
  * @author SirWellington
  */
 @IntegrationTest
-@RunWith(MockitoJUnitRunner.class)
-public class TestClassInjectorsTest
-{
+public class TestClassInjectorsTest {
 
-    @Before
-    public void setUp()
-    {
+    @BeforeEach
+    public void setUp() {
     }
 
     @Test
-    public void testPopulateGeneratedFields() throws Exception
-    {
+    public void testPopulateGeneratedFields() throws Exception {
         System.out.println("testPopulateGeneratedFields");
 
-        TestClass testClass = new TestClass(FakeTestClass.class);
-        FakeTestClass instance = new FakeTestClass();
+        var instance = new FakeTestClass();
 
-        TestClassInjectors.populateGeneratedFields(testClass, instance);
+        TestClassInjectors.populateGeneratedFields(instance);
         instance.setUp();
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testPopulateGeneratedFieldsWithBadEnum() throws Exception
-    {
+    @Test
+    public void testPopulateGeneratedFieldsWithBadEnum() throws Exception {
         System.out.println("testPopulateGeneratedFieldsWithBadEnum");
-
-        TestClass testClass = new TestClass(BadEnumTest.class);
-        BadEnumTest instance = new BadEnumTest();
-
-        TestClassInjectors.populateGeneratedFields(testClass, instance);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testPopulateGeneratedFieldsWithBadList() throws Exception
-    {
-        System.out.println("testPopulateGeneratedFieldsWithBadList");
-
-        TestClass testClass = new TestClass(BadListTest.class);
-        BadListTest instance = new BadListTest();
-
-        TestClassInjectors.populateGeneratedFields(testClass, instance);
+        var instance = new BadEnumTest();
+        TestClassInjectors.populateGeneratedFields(instance);
     }
 
     @Test
-    public void testInflateString() throws Exception
-    {
+    public void testPopulateGeneratedFieldsWithBadList() throws Exception {
+        System.out.println("testPopulateGeneratedFieldsWithBadList");
+        var instance = new BadListTest();
+        assertThrows(
+            () -> TestClassInjectors.populateGeneratedFields(instance)
+        ).isInstanceOf(IllegalArgumentException.class);
     }
 
-    public static class FakeTestClass
-    {
+    @Test
+    public void testInflateString() throws Exception {
+    }
+
+    public static class FakeTestClass {
 
         private static final int STRING_LENGTH = 346;
 
@@ -153,9 +141,8 @@ public class TestClassInjectorsTest
         private Book book;
 
 
-        @Before
-        public void setUp()
-        {
+        @BeforeEach
+        public void setUp() {
             assertThat(string, not(isEmptyOrNullString()));
             assertThat(string.length(), is(STRING_LENGTH));
 
@@ -200,8 +187,7 @@ public class TestClassInjectorsTest
             checkPojo(pojo);
         }
 
-        private void checkPojo(SamplePojo pojo)
-        {
+        private void checkPojo(SamplePojo pojo) {
             assertThat(pojo, notNullValue());
             assertThat(pojo.name, not(isEmptyOrNullString()));
             assertThat(pojo.birthday, notNullValue());
@@ -210,15 +196,13 @@ public class TestClassInjectorsTest
         }
 
         @Test
-        public void checkBook()
-        {
+        public void checkBook() {
             assertThat(book, notNullValue());
             assertThat(book.author, not(isEmptyOrNullString()));
             assertThat(book.title, not(isEmptyOrNullString()));
         }
 
-        private static class SamplePojo
-        {
+        private static class SamplePojo {
             private String name;
             private Date birthday;
             private int age;
@@ -226,67 +210,55 @@ public class TestClassInjectorsTest
         }
     }
 
-    private static class BadListTest
-    {
+    private static class BadListTest {
         @GenerateList(value = String.class, size = -1)
         private List<String> strings;
 
-        @Before
-        public void setUp()
-        {
+        @BeforeEach
+        public void setUp() {
             assertThat(strings, nullValue());
         }
     }
 
-    private static class BadEnumTest
-    {
+    private static class BadEnumTest {
         @GenerateEnum
         private Object object;
 
-        @Before
-        public void setUp()
-        {
+        @BeforeEach
+        public void setUp() {
             assertThat(object, nullValue());
         }
     }
 
-    private static class Book
-    {
+    private static class Book {
         private String title;
         private String author;
 
         @Override
-        public boolean equals(Object o)
-        {
-            if (this == o)
-            {
+        public boolean equals(Object o) {
+            if (this == o) {
                 return true;
             }
-            if (o == null || getClass() != o.getClass())
-            {
+            if (o == null || getClass() != o.getClass()) {
                 return false;
             }
             Book book = (Book) o;
             return Objects.equals(title, book.title) &&
-                    Objects.equals(author, book.author);
+                Objects.equals(author, book.author);
         }
 
         @Override
-        public int hashCode()
-        {
+        public int hashCode() {
             return Objects.hash(title, author);
         }
     }
 
-    private static class BookGenerator implements AlchemyGenerator<Book>
-    {
-        public BookGenerator()
-        {
+    private static class BookGenerator implements AlchemyGenerator<Book> {
+        public BookGenerator() {
         }
 
         @Override
-        public Book get()
-        {
+        public Book get() {
             String title = StringGenerators.alphanumericStrings().get();
             String author = StringGenerators.alphanumericStrings().get();
             Book book = new Book();
@@ -296,6 +268,5 @@ public class TestClassInjectorsTest
             return book;
         }
     }
-
 
 }

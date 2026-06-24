@@ -15,145 +15,105 @@
 
 package tech.sirwellington.alchemy.test.junit.generation;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import java.lang.annotation.Annotation;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
-import tech.sirwellington.alchemy.generator.AlchemyGenerator;
-
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
 import static tech.sirwellington.alchemy.generator.AlchemyGenerator.Get.one;
 import static tech.sirwellington.alchemy.generator.EnumGenerators.enumValueOf;
 import static tech.sirwellington.alchemy.generator.NumberGenerators.integers;
+import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
 import static tech.sirwellington.alchemy.test.junit.generation.GenerateInteger.Type.RANGE;
 
 /**
  * @author SirWellington
  */
-@RunWith(MockitoJUnitRunner.class)
-public class GenerateIntegerTest
-{
-
+public class GenerateIntegerTest {
     private GenerateInteger.Type type;
     private int min;
     private int max;
 
     private GenerateIntegerInstance annotation;
 
-    @Before
-    public void setUp()
-    {
+    @BeforeEach
+    public void setUp() {
         type = enumValueOf(GenerateInteger.Type.class).get();
         min = one(integers(-1000, 1000));
         max = one(integers(1000, 100_000));
         annotation = new GenerateIntegerInstance(type, min, max);
     }
 
-    @Test(expected = IllegalAccessException.class)
-    public void testCannotInstatiate() throws IllegalAccessException, InstantiationException
-    {
-        System.out.println("testCannotInstatiate");
+    @Test
+    public void testCannotInstantiate() throws IllegalAccessException, InstantiationException {
+        System.out.println("testCannotInstantiate");
 
-        GenerateInteger.Values.class.newInstance();
+        assertThrows(
+            () -> GenerateInteger.Values.class.getDeclaredConstructor().newInstance()
+        ).isInstanceOf(IllegalAccessException.class);
     }
 
     @Test
-    public void testValues()
-    {
+    public void testValues() {
         System.out.println("testValues");
 
-        AlchemyGenerator<Integer> result = GenerateInteger.Values.createGeneratorFor(annotation);
+        var result = GenerateInteger.Values.createGeneratorFor(annotation);
         assertThat(result, notNullValue());
 
-        Integer integer = result.get();
+        var integer = result.get();
         assertThat(integer, notNullValue());
 
-        if (type == RANGE)
-        {
+        if (type == RANGE) {
             assertThat(integer, greaterThanOrEqualTo(min));
             assertThat(integer, lessThan(max));
         }
-        else
-        {
-            switch (type)
-            {
-                case POSITIVE:
-                    assertThat(integer, greaterThan(0));
-                    break;
-                case NEGATIVE:
-                    assertThat(integer, lessThan(0));
-                    break;
+        else {
+            switch (type) {
+                case POSITIVE -> assertThat(integer, greaterThan(0));
+                case NEGATIVE -> assertThat(integer, lessThan(0));
             }
         }
 
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testValuesEdgeCases1() throws Exception
-    {
-        GenerateInteger.Values.createGeneratorFor(null);
+    @Test
+    public void testValuesEdgeCases1() throws Exception {
+        assertThrows(
+            () -> GenerateInteger.Values.createGeneratorFor(null)
+        ).isInstanceOf(IllegalArgumentException.class);
     }
 
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testValuesEdgeCases2() throws Exception
-    {
+    @Test
+    public void testValuesEdgeCases2() throws Exception {
         annotation = new GenerateIntegerInstance(null, min, max);
-        GenerateInteger.Values.createGeneratorFor(annotation);
+        assertThrows(
+            () -> GenerateInteger.Values.createGeneratorFor(annotation)
+        ).isInstanceOf(IllegalArgumentException.class);
     }
 
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testValuesEdgeCases3() throws Exception
-    {
-
+    @Test
+    public void testValuesEdgeCases3() throws Exception {
         int badMin = max;
         int badMax = min;
         type = RANGE;
         annotation = new GenerateIntegerInstance(type, badMin, badMax);
 
-        GenerateInteger.Values.createGeneratorFor(annotation);
+        assertThrows(
+            () -> GenerateInteger.Values.createGeneratorFor(annotation)
+        ).isInstanceOf(IllegalArgumentException.class);
     }
 
-
-    private static class GenerateIntegerInstance implements GenerateInteger
-    {
-
-        private final Type type;
-        private final int min;
-        private final int max;
-
-        private GenerateIntegerInstance(Type type, int min, int max)
-        {
-            this.type = type;
-            this.min = min;
-            this.max = max;
-        }
+    private record GenerateIntegerInstance(Type type, int min, int max) implements GenerateInteger {
 
         @Override
-        public Type value()
-        {
+        public Type value() {
             return type;
         }
 
         @Override
-        public int min()
-        {
-            return min;
-        }
-
-        @Override
-        public int max()
-        {
-            return max;
-        }
-
-        @Override
-        public Class<? extends Annotation> annotationType()
-        {
+        public Class<? extends Annotation> annotationType() {
             return GenerateInteger.class;
         }
     }

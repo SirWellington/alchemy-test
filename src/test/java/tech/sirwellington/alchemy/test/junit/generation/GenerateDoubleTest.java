@@ -15,27 +15,23 @@
 
 package tech.sirwellington.alchemy.test.junit.generation;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import java.lang.annotation.Annotation;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
-import tech.sirwellington.alchemy.generator.AlchemyGenerator;
-
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
 import static tech.sirwellington.alchemy.generator.AlchemyGenerator.Get.one;
 import static tech.sirwellington.alchemy.generator.EnumGenerators.enumValueOf;
 import static tech.sirwellington.alchemy.generator.NumberGenerators.doubles;
+import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
 import static tech.sirwellington.alchemy.test.junit.generation.GenerateDouble.Type.RANGE;
 
 /**
  * @author SirWellington
  */
-@RunWith(MockitoJUnitRunner.class)
-public class GenerateDoubleTest
-{
+public class GenerateDoubleTest {
 
     private GenerateDouble.Type type;
     private double min;
@@ -43,123 +39,105 @@ public class GenerateDoubleTest
 
     private GenerateDoubleInstance annotation;
 
-    @Before
-    public void setUp()
-    {
+    @BeforeEach
+    public void setUp() {
         type = enumValueOf(GenerateDouble.Type.class).get();
         min = one(doubles(Double.MIN_VALUE, 1000));
         max = one(doubles(1000, Double.MAX_VALUE));
         annotation = new GenerateDoubleInstance(type, min, max);
     }
 
-    @Test(expected = IllegalAccessException.class)
-    public void testCannotInstantiate() throws IllegalAccessException, InstantiationException
-    {
+    @Test
+    public void testCannotInstantiate() throws IllegalAccessException, InstantiationException {
         System.out.println("testCannotInstatiate");
-        GenerateDouble.Values.class.newInstance();
+        assertThrows(
+            () -> GenerateDouble.Values.class.newInstance()
+        ).isInstanceOf(IllegalAccessException.class);
     }
 
     @Test
-    public void testValues()
-    {
+    public void testValues() {
         System.out.println("testValues");
 
-        AlchemyGenerator<Double> result = GenerateDouble.Values.createGeneratorFor(annotation);
+        var result = GenerateDouble.Values.createGeneratorFor(annotation);
         assertThat(result, notNullValue());
 
-        Double value = result.get();
+        var value = result.get();
         assertThat(value, notNullValue());
 
-        if (type == RANGE)
-        {
+        if (type == RANGE) {
             assertThat(value, greaterThanOrEqualTo(min));
             assertThat(value, lessThan(max));
         }
-        else
-        {
-            switch (type)
-            {
-                case POSITIVE:
-                    assertThat(value, greaterThan(0.0));
-                    break;
-                case NEGATIVE:
-                    assertThat(value, lessThan(0.0));
-                    break;
+        else {
+            switch (type) {
+                case POSITIVE -> assertThat(value, greaterThan(0.0));
+                case NEGATIVE -> assertThat(value, lessThan(0.0));
             }
         }
-
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testValuesEdgeCases1() throws Exception
-    {
+    @Test
+    public void testValuesEdgeCases1() throws Exception {
         System.out.println("testValuesEdgeCases1");
 
-        GenerateDouble.Values.createGeneratorFor(null);
-
+        assertThrows(
+            () -> GenerateDouble.Values.createGeneratorFor(null)
+        ).isInstanceOf(IllegalArgumentException.class);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testValuesEdgeCases2() throws Exception
-    {
+    @Test
+    public void testValuesEdgeCases2() throws Exception {
         System.out.println("testValuesEdgeCases1");
-
 
         annotation = new GenerateDoubleInstance(null, min, max);
-        GenerateDouble.Values.createGeneratorFor(annotation);
-
+        assertThrows(
+            () -> GenerateDouble.Values.createGeneratorFor(annotation)
+        ).isInstanceOf(IllegalArgumentException.class);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testValuesEdgeCases3() throws Exception
-    {
+    @Test
+    public void testValuesEdgeCases3() throws Exception {
         System.out.println("testValuesEdgeCases1");
 
-        double badMin = max;
-        double badMax = min;
+        var badMin = max;
+        var badMax = min;
         type = RANGE;
         annotation = new GenerateDoubleInstance(type, badMin, badMax);
-        GenerateDouble.Values.createGeneratorFor(annotation);
-
+        assertThrows(
+            () -> GenerateDouble.Values.createGeneratorFor(annotation)
+        ).isInstanceOf(IllegalArgumentException.class);
     }
 
-    private static class GenerateDoubleInstance implements GenerateDouble
-    {
-
+    private static class GenerateDoubleInstance implements GenerateDouble {
         private final GenerateDouble.Type type;
         private final double min;
         private final double max;
 
-        private GenerateDoubleInstance(GenerateDouble.Type type, double min, double max)
-        {
+        private GenerateDoubleInstance(GenerateDouble.Type type, double min, double max) {
             this.type = type;
             this.min = min;
             this.max = max;
         }
 
         @Override
-        public GenerateDouble.Type value()
-        {
+        public GenerateDouble.Type value() {
             return type;
         }
 
         @Override
-        public double min()
-        {
+        public double min() {
             return min;
         }
 
         @Override
-        public double max()
-        {
+        public double max() {
             return max;
         }
 
         @Override
-        public Class<? extends Annotation> annotationType()
-        {
+        public Class<? extends Annotation> annotationType() {
             return GenerateDouble.class;
         }
     }
-
 }

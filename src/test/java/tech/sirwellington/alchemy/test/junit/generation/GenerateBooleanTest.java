@@ -17,70 +17,62 @@
 package tech.sirwellington.alchemy.test.junit.generation;
 
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import java.lang.annotation.Annotation;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
-import tech.sirwellington.alchemy.generator.AlchemyGenerator;
-
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertThat;
+import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
 
 /**
  * @author SirWellington
  */
-@RunWith(MockitoJUnitRunner.class)
-public class GenerateBooleanTest
-{
+public class GenerateBooleanTest {
     private GenerateBoolean annotation;
 
 
-    @Before
-    public void setUp()
-    {
+    @BeforeEach
+    public void setUp() {
         annotation = new BasicAnnotation();
     }
 
-    @Test(expected = IllegalAccessException.class)
-    public void testCannotInstantiate() throws IllegalAccessException, InstantiationException
-    {
+    @Test
+    public void testCannotInstantiate() throws IllegalAccessException, InstantiationException {
         System.out.println("testCannotInstantiate");
 
-        GenerateBoolean.Values.class.newInstance();
+        assertThrows(
+            () -> GenerateBoolean.Values.class.getDeclaredConstructor().newInstance()
+        ).isInstanceOf(IllegalAccessException.class);
     }
 
     @Test
-    public void testValues()
-    {
+    public void testValues() {
         System.out.println("testValues");
 
-        AlchemyGenerator<Boolean> generator = GenerateBoolean.Values.createGeneratorFor(annotation);
+        var generator = GenerateBoolean.Values.createGeneratorFor(annotation);
         assertThat(generator, notNullValue());
 
-        Boolean value = generator.get();
+        var value = generator.get();
         assertThat(value, notNullValue());
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testValuesEdgeCases()
-    {
+    @Test
+    public void testValuesEdgeCases() {
         System.out.println("testValuesEdgeCases");
 
-        GenerateBoolean.Values.createGeneratorFor(null);
+        assertThrows(
+            () -> GenerateBoolean.Values.createGeneratorFor(null)
+        ).isInstanceOf(IllegalArgumentException.class);
     }
 
-    private static class BasicAnnotation implements GenerateBoolean
-    {
+    private static class BasicAnnotation implements GenerateBoolean {
 
-        public BasicAnnotation()
-        {
-        }
+        public BasicAnnotation() { }
 
         @Override
-        public Class<? extends Annotation> annotationType()
-        {
+        public Class<? extends Annotation> annotationType() {
             return GenerateBoolean.class;
         }
     }

@@ -15,13 +15,10 @@
 
 package tech.sirwellington.alchemy.test.junit.generation;
 
-import java.lang.annotation.Annotation;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.junit.MockitoJUnitRunner;
-import tech.sirwellington.alchemy.generator.AlchemyGenerator;
-import tech.sirwellington.alchemy.test.junit.ThrowableAssertion;
+
+import java.lang.annotation.Annotation;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;

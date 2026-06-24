@@ -15,23 +15,21 @@
 
 package tech.sirwellington.alchemy.test.junit.generation;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import java.lang.annotation.Annotation;
 
-import org.junit.Before;
-import org.junit.Test;
-import tech.sirwellington.alchemy.generator.AlchemyGenerator;
-
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertThat;
+import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
 
 /**
  * @author SirWellington
  */
-public class GenerateEnumTest
-{
+public class GenerateEnumTest {
 
-    private enum Role
-    {
+    private enum Role {
         DEVELOPER,
         MANAGER,
         QA,
@@ -41,51 +39,46 @@ public class GenerateEnumTest
 
     private GenerateEnum annotation;
 
-    @Before
-    public void setUp()
-    {
+    @BeforeEach
+    public void setUp() {
         annotation = new FakeAnnotation();
     }
 
-    @Test(expected = IllegalAccessException.class)
-    public void testCannotInstantiate() throws IllegalAccessException, InstantiationException
-    {
-        System.out.println("testCannotInstatiate");
-
-        GenerateEnum.Values.class.newInstance();
+    @Test
+    public void testCannotInstantiate() throws IllegalAccessException, InstantiationException {
+        System.out.println("testCannotInstantiate");
+        assertThrows(
+            () -> GenerateEnum.Values.class.newInstance()
+        ).isInstanceOf(IllegalAccessException.class);
     }
 
 
     @Test
-    public void testValues()
-    {
+    public void testValues() {
         System.out.println("testValues");
 
-        AlchemyGenerator<Role> generator = GenerateEnum.Values.createGeneratorFor(annotation, Role.class);
+        var generator = GenerateEnum.Values.createGeneratorFor(annotation, Role.class);
 
         assertThat(generator, notNullValue());
 
-        Role result = generator.get();
+        var result = generator.get();
         assertThat(result, notNullValue());
     }
 
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testValuesWithBadArgs()
-    {
+    @Test
+    public void testValuesWithBadArgs() {
         System.out.println("testValuesWithBadArgs");
-        GenerateEnum.Values.createGeneratorFor(null, null);
+        assertThrows(
+            () -> GenerateEnum.Values.createGeneratorFor(null, null)
+        ).isInstanceOf(IllegalArgumentException.class);
     }
 
-    private static class FakeAnnotation implements GenerateEnum
-    {
+    private static class FakeAnnotation implements GenerateEnum {
 
         @Override
-        public Class<? extends Annotation> annotationType()
-        {
+        public Class<? extends Annotation> annotationType() {
             return GenerateEnum.class;
         }
 
     }
-
 }

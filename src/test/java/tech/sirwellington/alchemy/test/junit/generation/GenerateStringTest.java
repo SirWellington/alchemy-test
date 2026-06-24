@@ -15,148 +15,129 @@
 
 package tech.sirwellington.alchemy.test.junit.generation;
 
-import java.lang.annotation.Annotation;
-
-import org.apache.commons.lang3.StringUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
-import tech.sirwellington.alchemy.generator.AlchemyGenerator;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import tech.sirwellington.alchemy.generator.EnumGenerators;
 
+import java.lang.annotation.Annotation;
+
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static tech.sirwellington.alchemy.generator.AlchemyGenerator.Get.one;
 import static tech.sirwellington.alchemy.generator.NumberGenerators.integers;
 import static tech.sirwellington.alchemy.generator.NumberGenerators.negativeIntegers;
+import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
 import static tech.sirwellington.alchemy.test.junit.generation.GenerateString.Type.UUID;
 
 /**
  * @author SirWellington
  */
-@RunWith(MockitoJUnitRunner.class)
-public class GenerateStringTest
-{
+public class GenerateStringTest {
     private GenerateString annotation;
     private GenerateString.Type type;
     private int length;
 
-    @Before
-    public void setUp()
-    {
+    @BeforeEach
+    public void setUp() {
         type = EnumGenerators.enumValueOf(GenerateString.Type.class).get();
         length = one(integers(5, 500));
         annotation = new GenerateStringInstance(type, length);
 
     }
 
-    @Test(expected = IllegalAccessException.class)
-    public void testCannotInstantiate() throws IllegalAccessException, InstantiationException
-    {
-        System.out.println("testCannotInstatiate");
+    @Test
+    public void testCannotInstantiate() {
+        System.out.println("testCannotInstantiate");
 
-        GenerateString.Values.class.newInstance();
+        assertThrows(
+            () -> GenerateString.Values.class.getDeclaredConstructor().newInstance()
+        ).isInstanceOf(IllegalAccessException.class);
     }
 
     @Test
-    public void testValues()
-    {
+    public void testValues() {
         System.out.println("testValues");
 
-        AlchemyGenerator<String> result = GenerateString.Values.createGeneratorFor(annotation);
+        var result = GenerateString.Values.createGeneratorFor(annotation);
         assertThat(result, notNullValue());
 
-        String string = result.get();
+        var string = result.get();
         assertThat(string, not(isEmptyOrNullString()));
 
-        if (type == UUID)
-        {
+        if (type == UUID) {
             int uuidLength = java.util.UUID.randomUUID().toString().length();
             assertThat(string.length(), is(uuidLength));
         }
-        else
-        {
+        else {
             assertThat(string.length(), is(length));
         }
 
-        switch (type)
-        {
+        switch (type) {
             case ALPHABETIC:
-                assertThat(StringUtils.isAlpha(string), is(true));
+                assertTrue(isAlphabetic(string));
                 break;
             case ALPHANUMERIC:
-                assertThat(StringUtils.isAlphanumeric(string), is(true));
+                assertTrue(isAlphanumeric(string));
                 break;
             case HEXADECIMAL:
                 assertThat(string.matches("[A-Fa-f0-9]+"), is(true));
                 break;
-            //No additional assertions
         }
 
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testValuesEdgeCases1()
-    {
-        System.out.println("testValuesEdgeCases");
-
-        GenerateString.Values.createGeneratorFor(null);
-
+    private boolean isAlphabetic(String string) {
+        if (string == null) return false;
+        return string.chars().allMatch(Character::isAlphabetic);
     }
 
+    private boolean isAlphanumeric(String string) {
+        if (string == null) return false;
+        return string.chars().allMatch(Character::isLetterOrDigit);
+    }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testValuesEdgeCases2()
-    {
+    @Test
+    public void testValuesEdgeCases1() {
+        System.out.println("testValuesEdgeCases");
+        assertThrows(
+            () -> GenerateString.Values.createGeneratorFor(null)
+        ).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    public void testValuesEdgeCases2() {
         System.out.println("testValuesEdgeCases");
 
         int badLength = one(negativeIntegers());
         annotation = new GenerateStringInstance(type, badLength);
-        GenerateString.Values.createGeneratorFor(annotation);
+        assertThrows(
+            () -> GenerateString.Values.createGeneratorFor(annotation)
+        ).isInstanceOf(IllegalArgumentException.class);
     }
 
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testValuesEdgeCases3()
-    {
+    @Test
+    public void testValuesEdgeCases3() {
         System.out.println("testValuesEdgeCases");
 
         annotation = new GenerateStringInstance(null, length);
-        GenerateString.Values.createGeneratorFor(annotation);
+        assertThrows(
+            () -> GenerateString.Values.createGeneratorFor(annotation)
+        ).isInstanceOf(IllegalArgumentException.class);
     }
 
 
-    private static class GenerateStringInstance implements GenerateString
-    {
-
-        private final GenerateString.Type type;
-        private final int length;
-
-        public GenerateStringInstance(GenerateString.Type type, int length)
-        {
-            this.type = type;
-            this.length = length;
-        }
+    private record GenerateStringInstance(Type type, int length) implements GenerateString {
 
         @Override
-        public Type value()
-        {
-            return type;
-        }
+            public Type value() {
+                return type;
+            }
 
-        @Override
-        public int length()
-        {
-            return length;
+            @Override
+            public Class<? extends Annotation> annotationType() {
+                return GenerateString.class;
+            }
         }
-
-        @Override
-        public Class<? extends Annotation> annotationType()
-        {
-            return GenerateString.class;
-        }
-
-    }
 
 }

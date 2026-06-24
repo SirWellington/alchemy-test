@@ -21,7 +21,7 @@ public class AlchemyDataExtension implements BeforeEachCallback {
     public void beforeEach(ExtensionContext context) {
         var testInstance = context.getRequiredTestInstance();
         try {
-            TestClassInjectors.populateGeneratedFields(testInstance.getClass(), testInstance);
+            TestClassInjectors.populateGeneratedFields(testInstance);
         } catch (IllegalAccessException ex) {
             throw new RuntimeException("Failed to setup test: " + testInstance, ex);
         }
@@ -41,8 +41,7 @@ public class AlchemyDataExtension implements BeforeEachCallback {
                     .toList();
         }
         
-        static void populateGeneratedFields(Class<?> testClass, Object target) throws IllegalArgumentException,
-                                                                                      IllegalAccessException {
+        static void populateGeneratedFields(Object target) throws IllegalArgumentException, IllegalAccessException {
             //@GenerateString
             var stringGeneratedFields = getFieldsAnnotatedWith(GenerateString.class, target);
             for (Field field : stringGeneratedFields) {

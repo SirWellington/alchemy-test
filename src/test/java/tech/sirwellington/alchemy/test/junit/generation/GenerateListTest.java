@@ -18,22 +18,23 @@ package tech.sirwellington.alchemy.test.junit.generation;
 import java.lang.annotation.Annotation;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 import tech.sirwellington.alchemy.generator.StringGenerators;
+import tech.sirwellington.alchemy.test.junit.ThrowableAssertion;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
 import static tech.sirwellington.alchemy.generator.AlchemyGenerator.Get.one;
 import static tech.sirwellington.alchemy.generator.NumberGenerators.integers;
 import static tech.sirwellington.alchemy.generator.NumberGenerators.negativeIntegers;
+import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
 
 /**
  * @author SirWellington
  */
-public class GenerateListTest
-{
+public class GenerateListTest {
 
     private GenerateListAnnotation annotation;
 
@@ -43,167 +44,147 @@ public class GenerateListTest
 
     private static String randomString = "";
 
-    @Before
-    public void setUp()
-    {
+    @BeforeEach
+    public void setUp() {
         size = one(integers(5, 100));
         annotation = new GenerateListAnnotation(genericType, size, null);
-
         randomString = StringGenerators.alphanumericStrings().get();
     }
 
-    @Test(expected = IllegalAccessException.class)
-    public void testCannotInstantiate() throws IllegalAccessException, InstantiationException
-    {
+    @Test
+    public void testCannotInstantiate() {
         System.out.println("testCannotInstantiate");
 
-        GenerateList.Values.class.newInstance();
+        assertThrows(
+            () -> GenerateList.Values.class.getDeclaredConstructor().newInstance()
+        ).isInstanceOf(IllegalAccessException.class);
     }
 
     @Test
-    public void testValues()
-    {
+    public void testValues() {
         System.out.println("testValues");
-
-        AlchemyGenerator<List<?>> generator = GenerateList.Values.createGeneratorFor(annotation);
+        var generator = GenerateList.Values.createGeneratorFor(annotation);
         assertThat(generator, notNullValue());
 
-        List<?> list = generator.get();
+        var list = generator.get();
         assertThat(list, notNullValue());
         assertThat(list, not(empty()));
 
-        for (Object element : list)
-        {
+        for (Object element : list) {
             assertThat(element, is(instanceOf(genericType)));
         }
     }
 
     @Test
-    public void testValuesWithCustomGenerator() throws Exception
-    {
+    public void testValuesWithCustomGenerator() throws Exception {
         System.out.println("testValuesWithCustomGenerator");
 
         annotation.customGenerator = this.customGenerator;
 
-        AlchemyGenerator<List<?>> generator = GenerateList.Values.createGeneratorFor(annotation);
+        var generator = GenerateList.Values.createGeneratorFor(annotation);
         assertThat(generator, notNullValue());
 
-        List<?> list = generator.get();
+        var list = generator.get();
         assertThat(list, notNullValue());
         assertThat(list, not(empty()));
 
-        for (Object element: list)
-        {
+        for (Object element : list) {
             assertThat(element, instanceOf(String.class));
             assertThat(element.toString(), equalTo(randomString));
         }
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testValuesWithNullAnnotation()
-    {
+    @Test
+    public void testValuesWithNullAnnotation() {
         System.out.println("testValuesEdgeCases1");
 
-        GenerateList.Values.createGeneratorFor(null);
+        assertThrows(
+            () -> GenerateList.Values.createGeneratorFor(null)
+        ).isInstanceOf(IllegalArgumentException.class);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testValuesWithNegativeSize()
-    {
+    @Test
+    public void testValuesWithNegativeSize() {
         System.out.println("testValuesEdgeCases2");
 
         annotation.size = one(negativeIntegers());
-        GenerateList.Values.createGeneratorFor(annotation);
+        assertThrows(
+            () -> GenerateList.Values.createGeneratorFor(annotation)
+        ).isInstanceOf(IllegalArgumentException.class);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testValuesWithCustomGeneratorThatCannotBeInstantiated() throws Exception
-    {
+    @Test
+    public void testValuesWithCustomGeneratorThatCannotBeInstantiated() throws Exception {
         System.out.println("testValuesWithCustomGeneratorThatCannotBeInstantiated");
 
         annotation.customGenerator = GeneratorThatCannotBeInstantiated.class;
 
-        GenerateList.Values.createGeneratorFor(annotation);
+        assertThrows(
+            () -> GenerateList.Values.createGeneratorFor(annotation)
+        ).isInstanceOf(IllegalArgumentException.class);
     }
 
-    private static class GenerateListAnnotation<T> implements GenerateList
-    {
-
+    private static class GenerateListAnnotation<T> implements GenerateList {
         private Class<T> generictype;
         private int size;
         private Class<? extends AlchemyGenerator<?>> customGenerator;
 
-        private GenerateListAnnotation(Class<T> generictype, int size)
-        {
-            this(generictype, size, null);
-        }
-
-        private GenerateListAnnotation(Class<T> generictype, int size, Class<? extends AlchemyGenerator<?>> customGenerator)
-        {
+        private GenerateListAnnotation(
+            Class<T> generictype, int size, Class<? extends AlchemyGenerator<?>> customGenerator) {
             this.generictype = generictype;
             this.size = size;
             this.customGenerator = customGenerator;
         }
 
         @Override
-        public Class<? extends Annotation> annotationType()
-        {
+        public Class<? extends Annotation> annotationType() {
             return GenerateList.class;
         }
 
         @Override
-        public Class<?> value()
-        {
+        public Class<?> value() {
             return generictype;
         }
 
         @Override
-        public int size()
-        {
+        public int size() {
             return size;
         }
 
         @Override
-        public Class<? extends AlchemyGenerator<?>> customGenerator()
-        {
+        public Class<? extends AlchemyGenerator<?>> customGenerator() {
             return customGenerator;
         }
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return "GenerateListAnnotation{" +
-                    "generictype=" + generictype +
-                    ", size=" + size +
-                    ", customGenerator=" + customGenerator +
-                    '}';
+                "generictype=" + generictype +
+                ", size=" + size +
+                ", customGenerator=" + customGenerator +
+                '}';
         }
     }
 
-
-    private static class CustomStringGenerator implements AlchemyGenerator<String>
-    {
-        public CustomStringGenerator() {}
+    private static class CustomStringGenerator implements AlchemyGenerator<String> {
+        public CustomStringGenerator() {
+        }
 
         @Override
-        public String get()
-        {
+        public String get() {
             return randomString;
         }
     }
 
-    private static class GeneratorThatCannotBeInstantiated implements AlchemyGenerator<String>
-    {
+    private static class GeneratorThatCannotBeInstantiated implements AlchemyGenerator<String> {
         private String string;
 
-        public GeneratorThatCannotBeInstantiated(String string)
-        {
+        public GeneratorThatCannotBeInstantiated(String string) {
             this.string = string;
         }
 
         @Override
-        public String get()
-        {
+        public String get() {
             return string;
         }
     }

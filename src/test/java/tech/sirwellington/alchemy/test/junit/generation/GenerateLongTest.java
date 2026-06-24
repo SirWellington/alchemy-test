@@ -15,27 +15,23 @@
 
 package tech.sirwellington.alchemy.test.junit.generation;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import java.lang.annotation.Annotation;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
-import tech.sirwellington.alchemy.generator.AlchemyGenerator;
-
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
 import static tech.sirwellington.alchemy.generator.AlchemyGenerator.Get.one;
 import static tech.sirwellington.alchemy.generator.EnumGenerators.enumValueOf;
 import static tech.sirwellington.alchemy.generator.NumberGenerators.longs;
+import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
 import static tech.sirwellington.alchemy.test.junit.generation.GenerateLong.Type.RANGE;
 
 /**
  * @author SirWellington
  */
-@RunWith(MockitoJUnitRunner.class)
-public class GenerateLongTest
-{
+public class GenerateLongTest {
 
     private GenerateLong.Type type;
     private long min;
@@ -43,123 +39,89 @@ public class GenerateLongTest
 
     private GenerateLongInstance annotation;
 
-    @Before
-    public void setUp()
-    {
+    @BeforeEach
+    public void setUp() {
         type = enumValueOf(GenerateLong.Type.class).get();
         min = one(longs(Long.MIN_VALUE, 1000));
         max = one(longs(1000, Long.MAX_VALUE));
         annotation = new GenerateLongInstance(type, min, max);
     }
 
-    @Test(expected = IllegalAccessException.class)
-    public void testCannotInstatiate() throws IllegalAccessException, InstantiationException
-    {
+    @Test
+    public void testCannotInstantiate() throws IllegalAccessException, InstantiationException {
         System.out.println("testCannotInstantiate");
 
-        GenerateLong.Values.class.newInstance();
+        assertThrows(
+            () -> GenerateLong.Values.class.getDeclaredConstructor().newInstance()
+        ).isInstanceOf(IllegalAccessException.class);
     }
 
     @Test
-    public void testValues()
-    {
+    public void testValues() {
         System.out.println("testValues");
 
-        AlchemyGenerator<Long> result = GenerateLong.Values.createGeneratorFor(annotation);
+        var result = GenerateLong.Values.createGeneratorFor(annotation);
         assertThat(result, notNullValue());
 
-        Long value = result.get();
+        var value = result.get();
         assertThat(value, notNullValue());
 
-        if (type == RANGE)
-        {
+        if (type == RANGE) {
             assertThat(value, greaterThanOrEqualTo(min));
             assertThat(value, lessThan(max));
         }
-        else
-        {
-            switch (type)
-            {
-                case POSITIVE:
-                    assertThat(value, greaterThan(0L));
-                    break;
-                case NEGATIVE:
-                    assertThat(value, lessThan(0L));
-                    break;
+        else {
+            switch (type) {
+                case POSITIVE -> assertThat(value, greaterThan(0L));
+                case NEGATIVE -> assertThat(value, lessThan(0L));
             }
         }
 
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testValuesEdgeCases1()
-    {
+    @Test
+    public void testValuesEdgeCases1() {
         System.out.println("testValuesEdgeCases");
 
-        GenerateLong.Values.createGeneratorFor(null);
+        assertThrows(
+            () -> GenerateLong.Values.createGeneratorFor(null)
+        ).isInstanceOf(IllegalArgumentException.class);
+
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testValuesEdgeCases2()
-    {
+    @Test
+    public void testValuesEdgeCases2() {
         System.out.println("testValuesEdgeCases");
 
         annotation = new GenerateLongInstance(null, min, max);
-        GenerateLong.Values.createGeneratorFor(annotation);
+        assertThrows(
+            () -> GenerateLong.Values.createGeneratorFor(annotation)
+        ).isInstanceOf(IllegalArgumentException.class);
     }
 
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testValuesEdgeCases3()
-    {
+    @Test
+    public void testValuesEdgeCases3() {
         System.out.println("testValuesEdgeCases");
 
         long badMin = max;
         long badMax = min;
         type = RANGE;
         annotation = new GenerateLongInstance(type, badMin, badMax);
-        GenerateLong.Values.createGeneratorFor(annotation);
-
+        assertThrows(
+            () -> GenerateLong.Values.createGeneratorFor(annotation)
+        ).isInstanceOf(IllegalArgumentException.class);
     }
 
 
-    private static class GenerateLongInstance implements GenerateLong
-    {
-
-        private final GenerateLong.Type type;
-        private final long min;
-        private final long max;
-
-        private GenerateLongInstance(GenerateLong.Type type, long min, long max)
-        {
-            this.type = type;
-            this.min = min;
-            this.max = max;
-        }
-
+    private record GenerateLongInstance(Type type, long min, long max) implements GenerateLong {
         @Override
-        public GenerateLong.Type value()
-        {
+        public Type value() {
             return type;
         }
 
         @Override
-        public long min()
-        {
-            return min;
-        }
-
-        @Override
-        public long max()
-        {
-            return max;
-        }
-
-        @Override
-        public Class<? extends Annotation> annotationType()
-        {
+        public Class<? extends Annotation> annotationType() {
             return GenerateLong.class;
         }
     }
-
 }

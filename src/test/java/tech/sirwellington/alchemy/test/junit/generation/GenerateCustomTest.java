@@ -15,137 +15,87 @@
 
 package tech.sirwellington.alchemy.test.junit.generation;
 
-import java.lang.annotation.Annotation;
-import java.util.Objects;
-
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 import tech.sirwellington.alchemy.generator.PeopleGenerators;
+import tech.sirwellington.alchemy.test.junit.ThrowableAssertion;
 
+import java.lang.annotation.Annotation;
+
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
 
 /**
  * @author SirWellington
  */
-public class GenerateCustomTest
-{
+public class GenerateCustomTest {
     private GenerateCustomAnnotation annotation;
 
-    @Before
-    public void setup()
-    {
+    @BeforeEach
+    public void setup() {
         annotation = new GenerateCustomAnnotation(PersonGenerator.class);
     }
 
-    @Test(expected = IllegalAccessException.class)
-    public void testCannotInstantiateValues() throws Exception
-    {
+    @Test
+    public void testCannotInstantiateValues() throws Exception {
         System.out.println("testCannotInstantiateValues");
 
-        GenerateCustom.Values.class.newInstance();
+        ThrowableAssertion.assertThrows(
+            () -> GenerateCustom.Values.class.getDeclaredConstructor().newInstance()
+        ).isInstanceOf(IllegalAccessException.class);
     }
 
     @Test
-    public void testValues() throws Exception
-    {
+    public void testValues() throws Exception {
         System.out.println("testValues");
 
-        AlchemyGenerator<?> generator = GenerateCustom.Values.createGeneratorFor(annotation);
+        var generator = GenerateCustom.Values.createGeneratorFor(annotation);
         assertThat(generator, notNullValue());
 
-        Object object = generator.get();
+        var object = generator.get();
         assertThat(object, notNullValue());
         assertThat(object, instanceOf(Person.class));
 
-        Person person = (Person) object;
+        var person = (Person) object;
         assertThat(person.name, not(isEmptyOrNullString()));
         assertThat(person.age, greaterThan(0));
     }
 
-    private static class Person
-    {
-        private String name;
-        private int age;
+    private record Person(String name, int age) {}
 
-        Person(String name, int age)
-        {
-            this.name = name;
-            this.age = age;
-        }
-
+    private static class PersonGenerator implements AlchemyGenerator<Person> {
         @Override
-        public boolean equals(Object o)
-        {
-            if (this == o)
-            {
-                return true;
-            }
-            if (o == null || getClass() != o.getClass())
-            {
-                return false;
-            }
-            Person person = (Person) o;
-            return age == person.age &&
-                    Objects.equals(name, person.name);
-        }
-
-        @Override
-        public int hashCode()
-        {
-            return Objects.hash(name, age);
-        }
-
-        @Override
-        public String toString()
-        {
-            return "Person{" +
-                    "name='" + name + '\'' +
-                    ", age=" + age +
-                    '}';
-        }
-    }
-
-    static class PersonGenerator implements AlchemyGenerator<Person>
-    {
-        @Override
-        public Person get()
-        {
-            String name = PeopleGenerators.names().get();
-            int age = PeopleGenerators.ages().get();
+        public Person get() {
+            var name = PeopleGenerators.fullNames().get();
+            var age = PeopleGenerators.ages().get();
 
             return new Person(name, age);
         }
     }
 
-    private static class GenerateCustomAnnotation implements GenerateCustom
-    {
+    private static class GenerateCustomAnnotation implements GenerateCustom {
         private Class<? extends AlchemyGenerator<?>> generator;
 
-        GenerateCustomAnnotation(Class<? extends AlchemyGenerator<?>> generator)
-        {
+        GenerateCustomAnnotation(Class<? extends AlchemyGenerator<?>> generator) {
             this.generator = generator;
         }
 
         @Override
-        public Class<? extends AlchemyGenerator<?>> value()
-        {
+        public Class<? extends AlchemyGenerator<?>> value() {
             return this.generator;
         }
 
         @Override
-        public Class<? extends Annotation> annotationType()
-        {
+        public Class<? extends Annotation> annotationType() {
             return GenerateCustom.class;
         }
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return "GenerateCustomAnnotation{" +
-                    "generator=" + generator +
-                    '}';
+                "generator=" + generator +
+                '}';
         }
     }
 
