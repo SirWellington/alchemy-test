@@ -15,12 +15,13 @@
 
 package tech.sirwellington.alchemy.test.junit.generation;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-
 import tech.sirwellington.alchemy.annotations.access.Internal;
 import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
+import tech.sirwellington.alchemy.test.junit.AlchemyTest;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -31,7 +32,7 @@ import static tech.sirwellington.alchemy.test.junit.generation.GenerateInteger.T
 import static tech.sirwellington.alchemy.test.junit.generation.GenerateInteger.Type.RANGE;
 
 /**
- * Used in conjunction with the {@link AlchemyTestRunner}, this Annotations allows the
+ * Used in conjunction with the {@link AlchemyTest}, this Annotations allows the
  * Runtime Injection of Generated Integers from the {@link AlchemyGenerator} library.
  * <p>
  * Example:

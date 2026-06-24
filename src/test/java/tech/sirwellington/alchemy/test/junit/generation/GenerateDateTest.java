@@ -15,23 +15,24 @@
 
 package tech.sirwellington.alchemy.test.junit.generation;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import tech.sirwellington.alchemy.generator.DateGenerators;
+import tech.sirwellington.alchemy.generator.EnumGenerators;
+
 import java.lang.annotation.Annotation;
 import java.util.Date;
 
-import org.junit.Before;
-import org.junit.Test;
-import tech.sirwellington.alchemy.generator.*;
-
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
 import static tech.sirwellington.alchemy.generator.AlchemyGenerator.Get.one;
+import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
 import static tech.sirwellington.alchemy.test.junit.generation.GenerateDate.Type.RANGE;
 
 /**
  * @author SirWellington
  */
-public class GenerateDateTest
-{
+public class GenerateDateTest {
 
     private GenerateDate.Type type;
     private Date startDate;
@@ -39,9 +40,8 @@ public class GenerateDateTest
 
     private GenerateDate annotation;
 
-    @Before
-    public void setUp()
-    {
+    @BeforeEach
+    public void setUp() {
         type = EnumGenerators.enumValueOf(GenerateDate.Type.class).get();
         startDate = one(DateGenerators.pastDates());
         endDate = one(DateGenerators.after(startDate));
@@ -49,102 +49,89 @@ public class GenerateDateTest
         annotation = new GenerateDateInstance(type, startDate, endDate);
     }
 
-    @Test(expected = IllegalAccessException.class)
-    public void testCannotInstatiate() throws IllegalAccessException, InstantiationException
-    {
-        System.out.println("testCannotInstatiate");
-        GenerateDate.Values.class.newInstance();
+    @Test
+    public void testCannotInstantiate() throws IllegalAccessException, InstantiationException {
+        assertThrows(
+            () -> GenerateDate.Values.class.getDeclaredConstructor().newInstance()
+        ).isInstanceOf(IllegalAccessException.class);
     }
 
     @Test
-    public void testValue()
-    {
+    public void testValue() {
         System.out.println("testValue");
 
-        AlchemyGenerator<Date> generator = GenerateDate.Values.createGeneratorFor(annotation);
+        var generator = GenerateDate.Values.createGeneratorFor(annotation);
         assertThat(generator, notNullValue());
 
-        Date now = new Date();
-        Date result = generator.get();
+        var now = new Date();
+        var result = generator.get();
         assertThat(result, notNullValue());
 
-        switch (type)
-        {
-            case FUTURE:
-                assertThat(result.after(now), is(true));
-                break;
-            case PAST:
-                assertThat(result.before(now), is(true));
-                break;
-            case RANGE:
+        switch (type) {
+            case FUTURE -> assertThat(result.after(now), is(true));
+            case PAST -> assertThat(result.before(now), is(true));
+            case RANGE -> {
                 assertThat(result.getTime(), greaterThanOrEqualTo(startDate.getTime()));
                 assertThat(result.getTime(), lessThan(endDate.getTime()));
-                break;
-            case PRESENT:
+            }
+            case PRESENT -> {
                 long marginOfErrorMillis = 50;
                 assertThat(result.getTime(), greaterThanOrEqualTo(now.getTime() - marginOfErrorMillis));
                 assertThat(result.getTime(), lessThanOrEqualTo(now.getTime() + marginOfErrorMillis));
-                break;
+            }
         }
 
     }
 
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testValueEdgeCases1() throws Exception
-    {
+    @Test
+    public void testValueEdgeCases1() throws Exception {
         System.out.println("testValueEdgeCases1");
 
-        GenerateDate.Values.createGeneratorFor(null);
+        assertThrows(
+            () -> GenerateDate.Values.createGeneratorFor(null)
+        ).isInstanceOf(IllegalArgumentException.class);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testValueEdgeCases2() throws Exception
-    {
+    @Test
+    public void testValueEdgeCases2() throws Exception {
         System.out.println("testValueEdgeCases2");
 
         type = RANGE;
 
         annotation = new GenerateDateInstance(type, endDate, startDate);
-        GenerateDate.Values.createGeneratorFor(annotation);
+        assertThrows(
+            () -> GenerateDate.Values.createGeneratorFor(annotation)
+        ).isInstanceOf(IllegalArgumentException.class);
     }
 
-
-    private static class GenerateDateInstance implements GenerateDate
-    {
-
+    private static class GenerateDateInstance implements GenerateDate {
         private final Type type;
         private final Date startDate;
         private final Date endDate;
 
-        private GenerateDateInstance(Type type, Date startDate, Date endDate)
-        {
+        private GenerateDateInstance(Type type, Date startDate, Date endDate) {
             this.type = type;
             this.startDate = startDate;
             this.endDate = endDate;
         }
 
         @Override
-        public Type value()
-        {
+        public Type value() {
             return type;
         }
 
         @Override
-        public long startDate()
-        {
+        public long startDate() {
             return startDate.getTime();
         }
 
         @Override
-        public long endDate()
-        {
+        public long endDate() {
             return endDate.getTime();
         }
 
         @Override
-        public Class<? extends Annotation> annotationType()
-        {
+        public Class<? extends Annotation> annotationType() {
             return GenerateDate.class;
         }
 

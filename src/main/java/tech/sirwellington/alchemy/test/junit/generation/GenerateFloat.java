@@ -18,6 +18,7 @@ package tech.sirwellington.alchemy.test.junit.generation;
 import tech.sirwellington.alchemy.annotations.access.Internal;
 import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
+import tech.sirwellington.alchemy.test.junit.AlchemyTest;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -29,7 +30,7 @@ import static tech.sirwellington.alchemy.test.internal.Checks.checkNotNull;
 import static tech.sirwellington.alchemy.test.internal.Checks.checkThat;
 
 /**
- * Used with the {@link AlchemyTestRunner}, this Annotations allows the
+ * Used with the {@link AlchemyTest}, this Annotations allows the
  * Runtime Injection of Generated Doubles from the {@link AlchemyGenerator} library.
  * <p>
  * Example:

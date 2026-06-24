@@ -5,7 +5,7 @@
  *
  * You may obtain a copy of the License at
  *     http://www.apache.org/licenses/LICENSE-2.0
- *     
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,25 +17,24 @@ package tech.sirwellington.alchemy.test.junit.generation;
 
 import java.lang.annotation.Annotation;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.junit.MockitoJUnitRunner;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
+import tech.sirwellington.alchemy.test.junit.ThrowableAssertion;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
 import static tech.sirwellington.alchemy.generator.AlchemyGenerator.Get.one;
 import static tech.sirwellington.alchemy.generator.EnumGenerators.enumValueOf;
 import static tech.sirwellington.alchemy.generator.NumberGenerators.floats;
+import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
 import static tech.sirwellington.alchemy.test.junit.generation.GenerateFloat.Type.RANGE;
 
 /**
  * @author SirWellington
  */
-@RunWith(MockitoJUnitRunner.class)
-public class GenerateFloatTest
-{
+public class GenerateFloatTest {
 
     private GenerateFloat.Type type;
     private float min;
@@ -43,122 +42,106 @@ public class GenerateFloatTest
 
     private GenerateFloatInstance annotation;
 
-    @Before
-    public void setUp()
-    {
+    @BeforeEach
+    public void setUp() {
         type = enumValueOf(GenerateFloat.Type.class).get();
         min = one(floats(Float.MIN_VALUE, 1000));
         max = one(floats(1000, Float.MAX_VALUE));
         annotation = new GenerateFloatInstance(type, min, max);
     }
 
-    @Test(expected = IllegalAccessException.class)
-    public void testCannotInstantiate() throws IllegalAccessException, InstantiationException
-    {
+    @Test
+    public void testCannotInstantiate() throws IllegalAccessException, InstantiationException {
         System.out.println("testCannotInstantiate");
-
-        GenerateFloat.Values.class.newInstance();
+        assertThrows(
+            () -> GenerateFloat.Values.class.getDeclaredConstructor().newInstance()
+        ).isInstanceOf(IllegalAccessException.class);
     }
 
     @Test
-    public void testValues()
-    {
+    public void testValues() {
         System.out.println("testValues");
 
-        AlchemyGenerator<Float> result = GenerateFloat.Values.createGeneratorFor(annotation);
+        var result = GenerateFloat.Values.createGeneratorFor(annotation);
         assertThat(result, notNullValue());
 
-        Float value = result.get();
+        var value = result.get();
         assertThat(value, notNullValue());
 
-        if (type == RANGE)
-        {
+        if (type == RANGE) {
             assertThat(value, greaterThanOrEqualTo(min));
             assertThat(value, lessThan(max));
         }
-        else
-        {
-            switch (type)
-            {
-                case POSITIVE:
-                    assertThat(value, greaterThan(0.0f));
-                    break;
-                case NEGATIVE:
-                    assertThat(value, lessThan(0.0f));
-                    break;
+        else {
+            switch (type) {
+                case POSITIVE -> assertThat(value, greaterThan(0.0f));
+                case NEGATIVE -> assertThat(value, lessThan(0.0f));
             }
         }
 
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testValuesEdgeCases1() throws Exception
-    {
+    @Test
+    public void testValuesEdgeCases1() throws Exception {
         System.out.println("testValuesEdgeCases1");
-
-        GenerateFloat.Values.createGeneratorFor(null);
-
+        assertThrows(
+            () -> GenerateFloat.Values.createGeneratorFor(null)
+        ).isInstanceOf(IllegalArgumentException.class);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testValuesEdgeCases2() throws Exception
-    {
+    @Test
+    public void testValuesEdgeCases2() throws Exception {
         System.out.println("testValuesEdgeCases1");
-
 
         annotation = new GenerateFloatInstance(null, min, max);
         GenerateFloat.Values.createGeneratorFor(annotation);
-
+        assertThrows(
+            () -> GenerateFloat.Values.createGeneratorFor(annotation)
+        ).isInstanceOf(IllegalArgumentException.class);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testValuesEdgeCases3() throws Exception
-    {
+    @Test
+    public void testValuesEdgeCases3() throws Exception {
         System.out.println("testValuesEdgeCases1");
 
         float badMin = max;
         float badMax = min;
         type = RANGE;
         annotation = new GenerateFloatInstance(type, badMin, badMax);
-        GenerateFloat.Values.createGeneratorFor(annotation);
 
+        assertThrows(
+            () -> GenerateFloat.Values.createGeneratorFor(annotation)
+        ).isInstanceOf(IllegalArgumentException.class);
     }
 
-    private static class GenerateFloatInstance implements GenerateFloat
-    {
-
+    private static class GenerateFloatInstance implements GenerateFloat {
         private final Type type;
         private final float min;
         private final float max;
 
-        private GenerateFloatInstance(Type type, float min, float max)
-        {
+        private GenerateFloatInstance(Type type, float min, float max) {
             this.type = type;
             this.min = min;
             this.max = max;
         }
 
         @Override
-        public Type value()
-        {
+        public Type value() {
             return type;
         }
 
         @Override
-        public float min()
-        {
+        public float min() {
             return min;
         }
 
         @Override
-        public float max()
-        {
+        public float max() {
             return max;
         }
 
         @Override
-        public Class<? extends Annotation> annotationType()
-        {
+        public Class<? extends Annotation> annotationType() {
             return GenerateFloat.class;
         }
     }

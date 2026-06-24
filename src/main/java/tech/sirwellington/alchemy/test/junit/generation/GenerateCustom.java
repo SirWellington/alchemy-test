@@ -19,6 +19,7 @@ package tech.sirwellington.alchemy.test.junit.generation;
 import tech.sirwellington.alchemy.annotations.access.Internal;
 import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
+import tech.sirwellington.alchemy.test.junit.AlchemyTest;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -28,7 +29,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static tech.sirwellington.alchemy.test.internal.Checks.checkNotNull;
 
 /**
- * Used in conjunction with the {@link AlchemyTestRunner}, this Annotations allows the
+ * Used in conjunction with the {@link AlchemyTest}, this Annotations allows the
  * Runtime Injection of Custom Objects using the {@link AlchemyGenerator} library.
  * <p>
  * Example:

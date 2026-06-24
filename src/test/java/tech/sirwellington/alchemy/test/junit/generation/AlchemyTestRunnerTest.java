@@ -14,57 +14,32 @@
  */
 package tech.sirwellington.alchemy.test.junit.generation;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import tech.sirwellington.alchemy.generator.AlchemyGenerator;
+import tech.sirwellington.alchemy.test.junit.AlchemyTest;
+
 import java.net.URL;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import org.junit.runner.*;
-import org.junit.runners.model.InitializationError;
-import org.mockito.Mock;
-import tech.sirwellington.alchemy.generator.AlchemyGenerator;
-
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 /**
  * @author SirWellington
  */
-public class AlchemyTestRunnerTest
-{
+public class AlchemyTestRunnerTest {
 
     private static final int RUNS = 199;
 
-    @Before
-    public void setUp() throws InitializationError
-    {
-    }
-
-    @Test
-    public void testRun()
-    {
-        //Run an inner test
-        Result result;
-
-        result = JUnitCore.runClasses(MockTestClass.class);
-        assertTrue("Test runs failed: " + result.getFailures(),
-                   result.wasSuccessful());
-
-        result = JUnitCore.runClasses(BadTest.class);
-        assertTrue("Test runs failed: " + result.getFailures(),
-                   result.wasSuccessful());
-
-        result = JUnitCore.runClasses(RegularTest.class);
-        assertTrue("Test runs failed: " + result.getFailures(),
-                   result.wasSuccessful());
-
-    }
-
-    @RunWith(AlchemyTestRunner.class)
-    public static class MockTestClass
-    {
+    @AlchemyTest
+    public static class MockTest {
 
         @GenerateString
         private String string;
@@ -94,17 +69,15 @@ public class AlchemyTestRunnerTest
         private static int secondTotalRuns = 0;
         private static int thirdTotalRuns = 0;
 
-        @BeforeClass
-        public static void whenBegin()
-        {
+        @BeforeAll
+        public static void whenBegin() {
             firstTotalRuns = 0;
             secondTotalRuns = 0;
             thirdTotalRuns = 0;
         }
 
-        @Before
-        public void setup()
-        {
+        @BeforeEach
+        public void setup() {
             assertThat(object, notNullValue());
             assertThat(string, not(isEmptyOrNullString()));
             assertThat(integer, greaterThan(0));
@@ -123,75 +96,63 @@ public class AlchemyTestRunnerTest
         }
 
         @Test
-        public void runFirstTest()
-        {
+        public void runFirstTest() {
             ++firstTotalRuns;
         }
 
         @Test
-        public void runSecondTest()
-        {
+        public void runSecondTest() {
             ++secondTotalRuns;
         }
 
-        @DontRepeat
         @Test
-        public void runThirdTest()
-        {
+        public void runThirdTest() {
             ++thirdTotalRuns;
         }
 
-        @AfterClass
-        public static void whenDone()
-        {
+        @AfterAll
+        public static void whenDone() {
             assertThat(firstTotalRuns, is(RUNS));
             assertThat(secondTotalRuns, is(5));
             assertThat(thirdTotalRuns, is(1));
         }
     }
 
-    @RunWith(AlchemyTestRunner.class)
-    public static class BadTest
-    {
+    @AlchemyTest
+    public static class BadTest {
 
         private static int firstTotalRuns = 0;
         private static int secondTotalRuns = 0;
 
-        @BeforeClass
-        public static void whenBegin()
-        {
+        @BeforeAll
+        public static void whenBegin() {
             firstTotalRuns = 0;
             secondTotalRuns = 0;
         }
 
-        @Before
-        public void setup()
-        {
+        @BeforeEach
+        public void setup() {
         }
 
         @Test
-        public void runFirstTest()
-        {
+        public void runFirstTest() {
             ++firstTotalRuns;
         }
 
         @Test
-        public void runSecondTest()
-        {
+        public void runSecondTest() {
             ++secondTotalRuns;
         }
 
-        @AfterClass
-        public static void whenDone()
-        {
+        @AfterAll
+        public static void whenDone() {
             assertThat(firstTotalRuns, is(1));
             assertThat(secondTotalRuns, is(1));
         }
     }
 
-    @RunWith(AlchemyTestRunner.class)
-    public static class RegularTest
-    {
+    @AlchemyTest
+    public static class RegularTest {
 
         private static int totalRuns = 0;
 
@@ -199,21 +160,18 @@ public class AlchemyTestRunnerTest
         private Object object;
 
         @Test
-        public void testRun()
-        {
+        public void testRun() {
             assertThat(object, notNullValue());
             ++totalRuns;
         }
 
-        @AfterClass
-        public static void whenDone()
-        {
+        @AfterAll
+        public static void whenDone() {
             assertThat(totalRuns, is(1));
         }
     }
 
-    private static class SamplePojo
-    {
+    private static class SamplePojo {
         private String name;
         private int number;
     }
