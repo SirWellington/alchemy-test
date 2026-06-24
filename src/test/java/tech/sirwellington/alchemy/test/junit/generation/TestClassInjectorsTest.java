@@ -57,7 +57,9 @@ public class TestClassInjectorsTest {
     public void testPopulateGeneratedFieldsWithBadEnum() throws Exception {
         System.out.println("testPopulateGeneratedFieldsWithBadEnum");
         var instance = new BadEnumTest();
-        TestClassInjectors.populateGeneratedFields(instance);
+        assertThrows(
+            () -> TestClassInjectors.populateGeneratedFields(instance)
+        ).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test

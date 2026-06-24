@@ -36,7 +36,7 @@ public class AlchemyDataExtension implements BeforeEachCallback {
         static <A extends Annotation> List<Field> getFieldsAnnotatedWith(Class<A> annotation, Object target) {
                 checkNotNull(target);
                 var clazz = target.getClass();
-                return Arrays.stream(clazz.getFields())
+                return Arrays.stream(clazz.getDeclaredFields())
                     .filter(f -> f.isAnnotationPresent(annotation))
                     .toList();
         }
@@ -187,7 +187,7 @@ public class AlchemyDataExtension implements BeforeEachCallback {
                 value = timestampGenerator.get();
             }
             else if (field.getType() == java.sql.Date.class) {
-                var sqlGenerator = DateGenerators.toSqlTimestampGenerator(generator);
+                var sqlGenerator = DateGenerators.toSqlDateGenerator(generator);
                 value = sqlGenerator.get();
             }
             else {
