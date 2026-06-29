@@ -115,8 +115,7 @@ public class AlchemyDataExtension implements BeforeEachCallback {
             }
         }
 
-        private static void inflateString(Field field, Object target) throws IllegalArgumentException,
-                                                                                      IllegalAccessException {
+        private static void inflateString(Field field, Object target) throws IllegalArgumentException, IllegalAccessException {
             var annotation = field.getAnnotation(GenerateString.class);
             checkNotNull(annotation, "missing annotation");
 
@@ -125,8 +124,7 @@ public class AlchemyDataExtension implements BeforeEachCallback {
             inflate(field, target, value);
         }
 
-        private static void inflateBoolean(Field field, Object target) throws IllegalArgumentException,
-                                                                                       IllegalAccessException {
+        private static void inflateBoolean(Field field, Object target) throws IllegalArgumentException, IllegalAccessException {
             var annotation = field.getAnnotation(GenerateBoolean.class);
             checkNotNull(annotation, "missing annotation: @GenerateBoolean");
 
@@ -135,8 +133,7 @@ public class AlchemyDataExtension implements BeforeEachCallback {
             inflate(field, target, value);
         }
 
-        private static void inflateInteger(Field field, Object target) throws IllegalArgumentException,
-                                                                                       IllegalAccessException {
+        private static void inflateInteger(Field field, Object target) throws IllegalArgumentException, IllegalAccessException {
             var annotation = field.getAnnotation(GenerateInteger.class);
             checkNotNull(annotation, "missing annotation");
 
@@ -173,8 +170,7 @@ public class AlchemyDataExtension implements BeforeEachCallback {
             inflate(field, target, value);
         }
 
-        private static void inflateDate(Field field, Object target) throws IllegalArgumentException,
-                                                                                    IllegalAccessException {
+        private static void inflateDate(Field field, Object target) throws IllegalArgumentException, IllegalAccessException {
             var annotation = field.getAnnotation(GenerateDate.class);
             checkNotNull(annotation, "missing annotation");
 
@@ -206,8 +202,7 @@ public class AlchemyDataExtension implements BeforeEachCallback {
             inflate(field, target, value);
         }
 
-        private static void inflatePojo(Field field, Object target) throws IllegalArgumentException,
-                                                                                    IllegalAccessException {
+        private static void inflatePojo(Field field, Object target) throws IllegalArgumentException, IllegalAccessException {
             var typeOfPojo = field.getType();
             var annotation = field.getAnnotation(GeneratePojo.class);
             var generator = GeneratePojo.Values.createGeneratorFor(annotation, typeOfPojo);
@@ -215,8 +210,7 @@ public class AlchemyDataExtension implements BeforeEachCallback {
             inflate(field, target, value);
         }
 
-        private static void inflateEnum(Field field, Object target) throws IllegalArgumentException,
-                                                                                    IllegalAccessException {
+        private static void inflateEnum(Field field, Object target) throws IllegalArgumentException, IllegalAccessException {
             var typeOfField = field.getType();
             checkThat(typeOfField.isEnum(), "@GenerateEnum can only be used on Enum Types");
             var typeOfEnum = (Class<? extends Enum>) typeOfField;
@@ -226,8 +220,7 @@ public class AlchemyDataExtension implements BeforeEachCallback {
             inflate(field, target, value);
         }
 
-        private static void inflateList(Field field, Object target) throws IllegalArgumentException,
-                                                                                    IllegalAccessException {
+        private static void inflateList(Field field, Object target) throws IllegalArgumentException, IllegalAccessException {
             var typeOfField = field.getType();
             checkThat(List.class.isAssignableFrom(typeOfField), "@GenerateList can only be used on List Types");
 
@@ -237,8 +230,7 @@ public class AlchemyDataExtension implements BeforeEachCallback {
             inflate(field, target, value);
         }
 
-        private static void inflateCustom(Field field, Object target) throws IllegalArgumentException,
-                                                                                      IllegalAccessException {
+        private static void inflateCustom(Field field, Object target) throws IllegalArgumentException, IllegalAccessException {
             var annotation = field.getAnnotation(GenerateCustom.class);
             var generator = GenerateCustom.Values.createGeneratorFor(annotation);
             var value = generator.get();
@@ -257,4 +249,3 @@ public class AlchemyDataExtension implements BeforeEachCallback {
     }
 
 }
-

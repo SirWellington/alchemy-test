@@ -88,11 +88,11 @@ public @interface GenerateDate {
             checkNotNull(annotation, "missing annotation");
 
             return switch (annotation.value()) {
-                case PAST -> DateGenerators.pastDates();
+                case PAST    -> DateGenerators.pastDates();
                 case PRESENT -> DateGenerators.presentDates();
-                case FUTURE -> DateGenerators.futureDates();
+                case FUTURE  -> DateGenerators.futureDates();
                 case ANYTIME -> DateGenerators.anyTime();
-                case RANGE -> datesInRange(annotation.startDate(), annotation.endDate());
+                case RANGE   -> datesInRange(annotation.startDate(), annotation.endDate());
             };
         }
 
