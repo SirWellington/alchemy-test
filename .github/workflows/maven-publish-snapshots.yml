@@ -24,7 +24,7 @@ jobs:
           gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
       
       - name: Cache Maven packages
-        uses: actions/cache@v3
+        uses: actions/cache@v6
         with:
           path: ~/.m2/repository
           key: maven-${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
