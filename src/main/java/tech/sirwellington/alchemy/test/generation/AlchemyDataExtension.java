@@ -97,7 +97,6 @@ public class AlchemyDataExtension implements BeforeEachCallback {
             var generator = GenerateInteger.Values.createGeneratorFor(annotation);
             var value = generator.get();
             inflate(field, target, value);
-
         }
 
         private static void inflateLong(Field field, Object target) throws IllegalAccessException {
