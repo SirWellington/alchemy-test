@@ -10,6 +10,8 @@ import tech.sirwellington.alchemy.generator.DateGenerators;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 
@@ -42,76 +44,26 @@ public class AlchemyDataExtension implements BeforeEachCallback {
         }
         
         static void populateGeneratedFields(Object target) throws IllegalArgumentException, IllegalAccessException {
-            //@GenerateString
-            var stringGeneratedFields = getFieldsAnnotatedWith(GenerateString.class, target);
-            for (Field field : stringGeneratedFields) {
-                inflateString(field, target);
-            }
+            var fields = target.getClass().getDeclaredFields();
 
-            //@GenerateBoolean
-            var booleanGeneratedFields =  getFieldsAnnotatedWith(GenerateBoolean.class, target);
-            for (Field field : booleanGeneratedFields) {
-                inflateBoolean(field, target);
-            }
-
-            //@GenerateInteger
-            var integerGeneratedFields = getFieldsAnnotatedWith(GenerateInteger.class, target);
-            for (Field field : integerGeneratedFields) {
-                inflateInteger(field, target);
-            }
-
-            //@GenerateLong
-            var longGeneratedFields = getFieldsAnnotatedWith(GenerateLong.class, target);
-            for (Field field : longGeneratedFields) {
-                inflateLong(field, target);
-            }
-
-            //@GenerateFloat
-            var floatGeneratedFields = getFieldsAnnotatedWith(GenerateFloat.class, target);
-            for (Field field : floatGeneratedFields) {
-                inflateFloat(field, target);
-            }
-
-            //@GenerateDouble
-            var doubleGeneratedFields = getFieldsAnnotatedWith(GenerateDouble.class, target);
-            for (Field field : doubleGeneratedFields) {
-                inflateDouble(field, target);
-            }
-
-            //@GenerateDate
-            var dateGeneratedFields = getFieldsAnnotatedWith(GenerateDate.class, target);
-            for (Field field : dateGeneratedFields) {
-                inflateDate(field, target);
-            }
-
-            //@GenerateURL
-            var urlGeneratedFields = getFieldsAnnotatedWith(GenerateURL.class, target);
-            for (Field field : urlGeneratedFields) {
-                inflateUrl(field, target);
-            }
-
-            //@GeneratePojo
-            var pojoGeneratedFields = getFieldsAnnotatedWith(GeneratePojo.class, target);
-            for (Field field : pojoGeneratedFields) {
-                inflatePojo(field, target);
-            }
-
-            //@GenerateEnum
-            var enumGeneratedFields = getFieldsAnnotatedWith(GenerateEnum.class, target);
-            for (Field field : enumGeneratedFields) {
-                inflateEnum(field, target);
-            }
-
-            //@GenerateList
-            var listGeneratedFields = getFieldsAnnotatedWith(GenerateList.class, target);
-            for (Field field : listGeneratedFields) {
-                inflateList(field, target);
-            }
-
-            //@GenerateCustom
-            var customGeneratedFields = getFieldsAnnotatedWith(GenerateCustom.class, target);
-            for (Field field : customGeneratedFields) {
-                inflateCustom(field, target);
+            for (var field : fields) {
+                var annotations = field.getDeclaredAnnotations();
+                for (var annotation : annotations) {
+                    switch (annotation) {
+                        case GenerateBoolean _  -> inflateBoolean(field, target);
+                        case GenerateCustom _   -> inflateCustom(field, target);
+                        case GenerateDate _     -> inflateDate(field, target);
+                        case GenerateEnum _     -> inflateEnum(field, target);
+                        case GenerateFloat _    -> inflateFloat(field, target);
+                        case GenerateInteger _  -> inflateInteger(field, target);
+                        case GenerateList _     -> inflateList(field, target);
+                        case GenerateLong _     -> inflateLong(field, target);
+                        case GeneratePojo _     -> inflatePojo(field, target);
+                        case GenerateString _   -> inflateString(field, target);
+                        case GenerateURL _      -> inflateUrl(field, target);
+                        default                 -> { break; }
+                    }
+                }
             }
         }
 
@@ -178,11 +130,11 @@ public class AlchemyDataExtension implements BeforeEachCallback {
 
             Object value;
 
-            if (field.getType() == java.sql.Timestamp.class) {
+            if (field.getType() == Timestamp.class) {
                 var  timestampGenerator = DateGenerators.toSqlTimestampGenerator(generator);
                 value = timestampGenerator.get();
             }
-            else if (field.getType() == java.sql.Date.class) {
+            else if (field.getType() == Date.class) {
                 var sqlGenerator = DateGenerators.toSqlDateGenerator(generator);
                 value = sqlGenerator.get();
             }
