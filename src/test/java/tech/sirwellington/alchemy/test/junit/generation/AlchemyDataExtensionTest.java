@@ -34,7 +34,7 @@ import static org.mockito.Mockito.when;
 /**
  * @author SirWellington
  */
-public class AlchemyTestRunnerTest {
+public class AlchemyDataExtensionTest {
     @AlchemyTest
     public static class MockTest {
 
@@ -63,7 +63,7 @@ public class AlchemyTestRunnerTest {
         private AlchemyGenerator<?> object;
 
         @Test
-        void testGenenerators() {
+        void testGenerators() {
             MockitoAnnotations.openMocks(this);
             assertThat(object, notNullValue());
             assertThat(string, not(isEmptyOrNullString()));
@@ -138,9 +138,5 @@ public class AlchemyTestRunnerTest {
         }
     }
 
-    private static class SamplePojo {
-        private String name;
-        private int number;
-    }
-
+    private record SamplePojo(String name, int number) { }
 }
