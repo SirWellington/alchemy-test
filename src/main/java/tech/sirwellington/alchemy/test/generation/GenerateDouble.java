@@ -37,7 +37,7 @@ import static tech.sirwellington.alchemy.test.generation.GenerateDouble.Type.RAN
  * <p>
  * Example:
  * {@snippet :
- * import tech.sirwellington.alchemy.test.AlchemyTest;@AlchemyTest
+ * @AlchemyTest
  * public class ExampleTest {
  *   @GenerateDouble(POSITIVE)
  *   private double percentage;

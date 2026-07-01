@@ -37,7 +37,7 @@ import static tech.sirwellington.alchemy.test.generation.GenerateInteger.Type.RA
  * <p>
  * Example:
  * {@snippet :
- * import tech.sirwellington.alchemy.test.AlchemyTest;@AlchemyTest
+ * @AlchemyTest
  * public class ExampleTest {
  *   @GenerateInteger(POSITIVE)
  *   private int size;

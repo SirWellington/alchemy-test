@@ -35,7 +35,7 @@ import static tech.sirwellington.alchemy.test.internal.Checks.checkThat;
  * Generated {@linkplain Date Dates} using {@link DateGenerators} from the {@link AlchemyGenerator} library.
  * Example:
  * {@snippet :
- * @RunWith(AlchemyTestRunner.class)
+ * @AlchemyTest
  * public class ExampleTest {
  *   @GenerateDate(ANYTIME)
  *   private Date dateOfOrder;

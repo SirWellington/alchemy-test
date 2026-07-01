@@ -34,7 +34,7 @@ import static tech.sirwellington.alchemy.test.internal.Checks.checkNotNull;
  * <p>
  * Example:
  * {@snippet :
- * import tech.sirwellington.alchemy.test.AlchemyTest;@AlchemyTest
+ * @AlchemyTest
  * public class ExampleTest {
  *   @GenerateCustom(type=Book.class, generator=BookGenerator.class)
  *   private Book book;
@@ -48,7 +48,7 @@ import static tech.sirwellington.alchemy.test.internal.Checks.checkNotNull;
  *   }
  * }
  *}
- *
+ * @see GeneratePojo
  * @author SirWellington
  */
 @Target(FIELD)

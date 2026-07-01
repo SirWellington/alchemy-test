@@ -18,6 +18,11 @@ import java.util.List;
 import static tech.sirwellington.alchemy.test.internal.Checks.checkNotNull;
 import static tech.sirwellington.alchemy.test.internal.Checks.checkThat;
 
+/**
+ * This JUnit 5 extension helps generate data used in test cases.
+ * 
+ * @author SirWellington
+ */
 public class AlchemyDataExtension implements BeforeEachCallback {
     @Override
     public void beforeEach(ExtensionContext context) {

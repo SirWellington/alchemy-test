@@ -42,7 +42,7 @@ import static tech.sirwellington.alchemy.test.internal.Checks.checkThat;
  * <p>
  * Example:
  * {@snippet :
- *  import tech.sirwellington.alchemy.test.AlchemyTest;@AlchemyTest
+ *  @AlchemyTest
  *  public class ExampleTest {
  *    @GenerateList(String.class)
  *    private List<String> ids;

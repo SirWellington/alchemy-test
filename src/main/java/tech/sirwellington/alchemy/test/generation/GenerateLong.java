@@ -38,7 +38,7 @@ import static tech.sirwellington.alchemy.test.generation.GenerateLong.Type.RANGE
  * <p>
  * Example:
  * {@snippet :
- * import tech.sirwellington.alchemy.test.AlchemyTest;@AlchemyTest
+ * @AlchemyTest
  * public class ExampleTest {
  *   @GenerateLongs(POSITIVE)
  *   private long hits;

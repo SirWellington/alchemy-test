@@ -34,7 +34,7 @@ import static tech.sirwellington.alchemy.test.internal.Checks.checkNotNull;
  * <p>
  * Example:
  * {@snippet :
- *  import tech.sirwellington.alchemy.test.AlchemyTest;@AlchemyTest
+ *  @AlchemyTest
  *  public class ExampleTest {
  *   enum Role {
  *    DEVELOPER,
