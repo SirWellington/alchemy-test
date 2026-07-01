@@ -3,7 +3,7 @@ package tech.sirwellington.alchemy.test;
 import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
-public class AlchemyLoggingExtension implements BeforeTestExecutionCallback {
+class AlchemyLoggingExtension implements BeforeTestExecutionCallback {
     @Override
     public void beforeTestExecution(ExtensionContext context) throws Exception {
         String testName = context.getDisplayName();
