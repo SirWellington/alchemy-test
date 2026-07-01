@@ -17,9 +17,8 @@ package tech.sirwellington.alchemy.test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import tech.sirwellington.alchemy.test.internal.Checks;
-import tech.sirwellington.alchemy.test.junit.AlchemyTest;
 
-import static tech.sirwellington.alchemy.test.junit.ThrowableAssertion.assertThrows;
+import static tech.sirwellington.alchemy.test.ThrowableAssertion.assertThrows;
 
 /**
  * @author SirWellington

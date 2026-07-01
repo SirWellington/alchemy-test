@@ -1,0 +1,87 @@
+/*
+ * Copyright © 2026. Sir Wellington.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ * You may obtain a copy of the License at
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package tech.sirwellington.alchemy.test.generation;
+
+
+import tech.sirwellington.alchemy.annotations.access.Internal;
+import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
+import tech.sirwellington.alchemy.generator.AlchemyGenerator;
+import tech.sirwellington.alchemy.test.AlchemyTest;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import static tech.sirwellington.alchemy.test.internal.Checks.checkNotNull;
+
+/**
+ * Used in conjunction with the {@link AlchemyTest}, this Annotation allows the
+ * Runtime Injection of Custom Objects using the {@link AlchemyGenerator} library.
+ * <p>
+ * Example:
+ * {@snippet :
+ * import tech.sirwellington.alchemy.test.AlchemyTest;@AlchemyTest
+ * public class ExampleTest {
+ *   @GenerateCustom(type=Book.class, generator=BookGenerator.class)
+ *   private Book book;
+ * }
+ *
+ * class BookGenerator implements AlchemyGenerator<Book> {
+ *   public Book get() {
+ *     return new Book(
+ *     //...
+ *     );
+ *   }
+ * }
+ *}
+ *
+ * @author SirWellington
+ */
+@Target(FIELD)
+@Retention(RUNTIME)
+public @interface GenerateCustom {
+
+    /**
+     * Specify the Java Class to use to generate values. This class must
+     * be an {@link AlchemyGenerator}.
+     */
+    Class<? extends AlchemyGenerator<?>> value();
+
+    @Internal
+    @NonInstantiable
+    class Values {
+
+        private Values() throws IllegalAccessException {
+            throw new IllegalAccessException("cannot instantiate");
+        }
+
+        static AlchemyGenerator<?> createGeneratorFor(GenerateCustom annotation) throws IllegalArgumentException {
+            checkNotNull(annotation, "missing annotation");
+            var generatorClass = annotation.value();
+            return tryToInstantiate(generatorClass);
+        }
+
+        private static AlchemyGenerator<?> tryToInstantiate(Class<? extends AlchemyGenerator<?>> generatorClass) {
+            try {
+                return generatorClass.getDeclaredConstructor().newInstance();
+            } catch (Throwable ex) {
+                throw new IllegalArgumentException("Cannot instantiate Alchemy Generator | " + generatorClass, ex);
+            }
+        }
+
+    }
+}
