@@ -31,24 +31,16 @@ import static tech.sirwellington.alchemy.test.internal.Checks.checkNotNull;
 import static tech.sirwellington.alchemy.test.internal.Checks.checkThat;
 
 /**
- * Used in conjunction with the {@link AlchemyTest}, this Annotations allows the Runtime Injection of
+ * Used in conjunction with the {@link AlchemyTest}, this Annotation allows the Runtime Injection of
  * Generated {@linkplain Date Dates} using {@link DateGenerators} from the {@link AlchemyGenerator} library.
- * <p>
  * Example:
- * <pre>
- * {@code
- * `@RunWith(AlchemyTestRunner.class)
- * public class ExampleTest
- * {
- *   `@GenerateDate(ANYTIME)
- *    private Date dateOfOrder;
- *
- *    ...
+ * {@snippet :
+ * @RunWith(AlchemyTestRunner.class)
+ * public class ExampleTest {
+ *   @GenerateDate(ANYTIME)
+ *   private Date dateOfOrder;
  * }
  * }
- * </pre>
- * Note, ticks (`) used to escape Javadocs.
- *
  * @author SirWellington
  * @see GenerateString
  */

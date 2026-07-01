@@ -30,23 +30,17 @@ import static tech.sirwellington.alchemy.test.internal.Checks.checkNotNull;
 import static tech.sirwellington.alchemy.test.internal.Checks.checkThat;
 
 /**
- * Used with the {@link AlchemyTest}, this Annotations allows the
+ * Used with the {@link AlchemyTest}, this Annotation allows the
  * Runtime Injection of Generated Doubles from the {@link AlchemyGenerator} library.
  * <p>
  * Example:
- * <pre>
- * {@code
- * `@RunWith(AlchemyTestRunner.class)
- * public class ExampleTest
- * {
- *   `@GenerateDouble(POSITIVE)
- *    private double percentage;
- *
- *    ...
+ * {@snippet :
+ * @AlchemyTest
+ * public class ExampleTest {
+ *   @GenerateDouble(POSITIVE)
+ *   private double percentage;
  * }
  * }
- * </pre>
- * Note, ticks (`) used to escape Javadocs.
  *
  * @author SirWellington
  * @see GenerateInteger

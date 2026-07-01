@@ -29,23 +29,25 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static tech.sirwellington.alchemy.test.internal.Checks.checkNotNull;
 
 /**
- * Used in conjunction with the {@link AlchemyTest}, this Annotations allows the
+ * Used in conjunction with the {@link AlchemyTest}, this Annotation allows the
  * Runtime Injection of Custom Objects using the {@link AlchemyGenerator} library.
  * <p>
  * Example:
- * <pre>
- * {@code
- * `@RunWith(AlchemyTestRunner.class)
- * public class ExampleTest
- * {
- *   `@GenerateCustom(type=Book.class, generator=BookGenerator.class)
+ * {@snippet :
+ * @AlchemyTest
+ * public class ExampleTest {
+ *   @GenerateCustom(type=Book.class, generator=BookGenerator.class)
  *   private Book book;
+ * }
  *
+ * class BookGenerator implements AlchemyGenerator<Book> {
+ *   public Book get() {
+ *     return new Book(
+ *     //...
+ *     );
+ *   }
  * }
  * }
- * </pre>
- * <p>
- * Note, '`' (ticks) used to escape Javadocs.
  *
  * @author SirWellington
  */

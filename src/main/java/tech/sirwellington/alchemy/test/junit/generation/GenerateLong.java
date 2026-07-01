@@ -33,23 +33,17 @@ import static tech.sirwellington.alchemy.test.junit.generation.GenerateLong.Type
 import static tech.sirwellington.alchemy.test.junit.generation.GenerateLong.Type.RANGE;
 
 /**
- * Used in conjunction with the {@link AlchemyTest}, this Annotations allows the
+ * Used in conjunction with the {@link AlchemyTest}, this Annotation allows the
  * Runtime Injection of Generated Longs from the {@link AlchemyGenerator} library.
  * <p>
  * Example:
- * <pre>
- * {@code
- * `@RunWith(AlchemyTestRunner.class)
- * public class ExampleTest
- * {
- *   `@GenerateLongs(POSITIVE)
- *    private long hits;
- *
- *    ...
+ * {@snippet :
+ * @AlchemyTest
+ * public class ExampleTest {
+ *   @GenerateLongs(POSITIVE)
+ *   private long hits;
  * }
  * }
- * </pre>
- * Note, ticks (`) used to escape Javadocs.
  *
  * @author SirWellington
  * @see GenerateInteger

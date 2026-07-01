@@ -37,23 +37,17 @@ import static tech.sirwellington.alchemy.test.internal.Checks.checkThat;
 
 /**
  * Used in conjunction with the {@link AlchemyTest},
- * this Annotations allows the Runtime Injection of {@link List} values, using
+ * this Annotation allows the Runtime Injection of {@link List} values, using
  * {@link CollectionGenerators} from the {@link AlchemyGenerator} library.
  * <p>
  * Example:
- * <pre>
- * {@code
- * `@RunWith(AlchemyTestRunner.class)
- *  public class ExampleTest
- *  {
- *
- *    `@GenerateList(String.class)
- *     private List<String> ids;
- *
- *    ...
+ * {@snippet :
+ *  @AlchemyTest
+ *  public class ExampleTest {
+ *    @GenerateList(String.class)
+ *    private List<String> ids;
  *  }
  * }
- * </pre> Note, ticks (`) used to escape Javadocs.
  *
  * @author SirWellington
  * @see GenerateEnum

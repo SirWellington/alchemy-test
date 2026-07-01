@@ -20,6 +20,7 @@ import tech.sirwellington.alchemy.annotations.access.Internal;
 import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 import tech.sirwellington.alchemy.generator.ObjectGenerators;
+import tech.sirwellington.alchemy.test.junit.AlchemyTest;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -30,7 +31,27 @@ import static tech.sirwellington.alchemy.test.internal.Checks.checkNotNull;
 
 
 /**
+ * Used in conjunction with the {@link AlchemyTest}, this Annotation allows the
+ * Runtime Injection of Pojos using the {@link ObjectGenerators}.
+ * <p>
+ * Example:
+ * {@snippet :
+ * @AlchemyTest
+ * public record Book(
+ *   String title,
+ *   String author,
+ *   int yearReleased,
+ *   String isbn
+ * ) {}
+ *
+ * public class ExampleTest {
+ *   @GeneratePojo
+ *   private Book book;
+ * }
+ * }
+ *
  * @author SirWellington
+ * @see GenerateCustom
  */
 @Target(FIELD)
 @Retention(RUNTIME)

@@ -31,23 +31,17 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static tech.sirwellington.alchemy.test.internal.Checks.checkNotNull;
 
 /**
- * Used in conjunction with the {@link AlchemyTest}, this Annotations allows the
+ * Used in conjunction with the {@link AlchemyTest}, this Annotation allows the
  * Runtime Injection of Generated Booleans from the {@link AlchemyGenerator} library.
  * <p>
  * Example:
- * <pre>
- * {@code
- * `@RunWith(AlchemyTestRunner.class)
- * public class ExampleTest
- * {
- *   `@GenerateBoolean
+ * {@snippet :
+ * @AlchemyTest
+ * public class ExampleTest {
+ *   @GenerateBoolean
  *   private Boolean openNow;
- *
  * }
  * }
- * </pre>
- * <p>
- * Note, '`' (ticks) used to escape Javadocs.
  *
  * @author SirWellington
  * @see GenerateInteger

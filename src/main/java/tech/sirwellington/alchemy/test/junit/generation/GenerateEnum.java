@@ -29,30 +29,24 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static tech.sirwellington.alchemy.test.internal.Checks.checkNotNull;
 
 /**
- * Used in conjunction with the {@link AlchemyTest}, this Annotations allows the Runtime Injection of Enum values, using
+ * Used in conjunction with the {@link AlchemyTest}, this Annotation allows the Runtime Injection of Enum values, using
  * {@link EnumGenerators} from the {@link AlchemyGenerator} library.
  * <p>
  * Example:
- * <pre>
- * {@code
- * `@RunWith(AlchemyTestRunner.class)
- *  public class ExampleTest
- *  {
- *   enum Role
- *   {
+ * {@snippet :
+ *  @AlchemyTest
+ *  public class ExampleTest {
+ *   enum Role {
  *    DEVELOPER,
  *    OWNER,
  *    MANGER,
  *    OTHER
  *   }
  *
- *    `@GenerateEnum
- *     private Role role;
- *
- *    ...
+ *   @GenerateEnum
+ *   private Role role;
  *  }
  * }
- * </pre> Note, ticks (`) used to escape Javadocs.
  *
  * @author SirWellington
  * @see GenerateString

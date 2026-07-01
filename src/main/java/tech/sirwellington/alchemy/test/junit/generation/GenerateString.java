@@ -30,40 +30,18 @@ import static tech.sirwellington.alchemy.generator.StringGenerators.*;
 import static tech.sirwellington.alchemy.test.internal.Checks.checkNotNull;
 import static tech.sirwellington.alchemy.test.internal.Checks.checkThat;
 
-/*
- * <pre>
- *
- * {@code
- * `@RunWith(AlchemyTestRunner.class)
- * public class ExampleTest
- * {
- *   `@GenerateString(HEXADECIMAL)
- *   private String username;
- *
- *  ...
- * }
- *
- * </pre>
- */
-
 /**
- * Used in conjunction with the {@link AlchemyTest}, this Annotations allows the
+ * Used in conjunction with the {@link AlchemyTest}, this Annotation allows the
  * Runtime Injection of Generated Strings from the {@link AlchemyGenerator} library.
  * <p>
  * Example:
- * <pre>
- * {@code
- * `@RunWith(AlchemyTestRunner.class)
- * public class ExampleTest
- * {
- *   `@GenerateString(HEXADECIMAL)
+ * {@snippet :
+ * @AlchemyTest
+ * public class ExampleTest {
+ *   @GenerateString(HEXADECIMAL)
  *   private String username;
- *
  * }
  * }
- * </pre>
- * <p>
- * Note, '`' (ticks) used to escape Javadocs.
  *
  * @author SirWellington
  * @see GenerateInteger

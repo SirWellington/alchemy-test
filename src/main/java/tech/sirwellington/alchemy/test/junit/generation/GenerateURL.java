@@ -47,23 +47,17 @@ import static tech.sirwellington.alchemy.test.internal.Checks.checkThat;
  */
 
 /**
- * Used in with the {@link AlchemyTest}, this Annotations allows the
+ * Used in with the {@link AlchemyTest}, this Annotation allows the
  * Runtime Injection of Generated Strings from the {@link AlchemyGenerator} library.
  * <p>
  * Example:
- * <pre>
- * {@code
- * `@RunWith(AlchemyTestRunner.class)
- * public class ExampleTest
- * {
- *   `@GenerateURL
+ * {@snippet :
+ * @AlchemyTest
+ * public class ExampleTest {
+ *   @GenerateURL
  *   private URL weblink;
- *
  * }
  * }
- * </pre>
- * <p>
- * Note, '`' (ticks) used to escape Javadocs.
  *
  * @author SirWellington
  * @see GenerateString
