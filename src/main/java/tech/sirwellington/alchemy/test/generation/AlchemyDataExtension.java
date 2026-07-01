@@ -131,7 +131,6 @@ public class AlchemyDataExtension implements BeforeEachCallback {
             checkNotNull(annotation, "missing annotation");
 
             var generator = GenerateDate.Values.createGeneratorFor(annotation);
-
             Object value;
 
             if (field.getType() == Timestamp.class) {
