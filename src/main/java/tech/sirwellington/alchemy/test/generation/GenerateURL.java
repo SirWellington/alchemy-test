@@ -1,0 +1,90 @@
+/*
+ * Copyright © 2026. Sir Wellington.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ * You may obtain a copy of the License at
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package tech.sirwellington.alchemy.test.generation;
+
+import tech.sirwellington.alchemy.annotations.access.Internal;
+import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
+import tech.sirwellington.alchemy.generator.AlchemyGenerator;
+import tech.sirwellington.alchemy.generator.NetworkGenerators;
+import tech.sirwellington.alchemy.test.AlchemyTest;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+import java.net.URL;
+
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import static tech.sirwellington.alchemy.test.internal.Checks.checkNotNull;
+import static tech.sirwellington.alchemy.test.internal.Checks.checkThat;
+
+/*
+ * <pre>
+ *
+ * {@code
+ * `@RunWith(AlchemyTestRunner.class)
+ * public class ExampleTest
+ * {
+ *   `@GenerateURL(HEXADECIMAL)
+ *   private String username;
+ *
+ *  ...
+ * }
+ *
+ * </pre>
+ */
+
+/**
+ * Used in with the {@link AlchemyTest}, this Annotation allows the
+ * Runtime Injection of Generated Strings from the {@link AlchemyGenerator} library.
+ * <p>
+ * Example:
+ * {@snippet :
+ * @AlchemyTest
+ * public class ExampleTest {
+ *   @GenerateURL
+ *   private URL weblink;
+ * }
+ *}
+ *
+ * @author SirWellington
+ * @see GenerateString
+ */
+@Target(FIELD)
+@Retention(RUNTIME)
+public @interface GenerateURL {
+
+    String protocol() default "http";
+
+    @Internal
+    @NonInstantiable
+    class Values {
+
+        private Values() throws IllegalAccessException {
+            throw new IllegalAccessException("cannot instantiate");
+        }
+
+        static AlchemyGenerator<URL> createGeneratorFor(GenerateURL annotation) {
+            checkNotNull(annotation, "annotation is missing");
+
+            var protocol = annotation.protocol();
+            checkNotNull(protocol, "protocol cannot be null");
+            checkThat(!protocol.isEmpty(), "protocol is empty");
+
+            return NetworkGenerators.urlsWithProtocol(protocol);
+        }
+    }
+
+}

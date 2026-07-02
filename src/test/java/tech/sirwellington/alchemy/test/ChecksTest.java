@@ -14,88 +14,66 @@
  */
 package tech.sirwellington.alchemy.test;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import tech.sirwellington.alchemy.test.internal.Checks;
+
+import static tech.sirwellington.alchemy.test.ThrowableAssertion.assertThrows;
 
 /**
  * @author SirWellington
  */
-@RunWith(MockitoJUnitRunner.class)
-public class ChecksTest
-{
+@AlchemyTest
+public class ChecksTest {
 
     private String message;
 
-    @Before
-    public void setUp()
-    {
+    @BeforeEach
+    public void setUp() {
         message = "some message";
     }
 
-    @Test(expected = IllegalAccessException.class)
-    public void testCannotInstantiate() throws InstantiationException, IllegalAccessException
-    {
-        System.out.println("testCannotInstantiate");
-        Checks.class.newInstance();
-    }
-
-    @Test(expected = IllegalAccessException.class)
-    public void testCannotInstantiateInnerClass() throws InstantiationException, IllegalAccessException
-    {
-        System.out.println("testCannotInstantiateInnerClass");
-        Checks.Internal.class.newInstance();
+    @Test
+    public void testCannotInstantiate() {
+        assertThrows(() -> Checks.class.getDeclaredConstructor().newInstance())
+            .isInstanceOf(IllegalAccessException.class);
     }
 
     @Test
-    public void testCheckNotNull()
-    {
-        System.out.println("testCheckNotNull");
-
+    public void testCheckNotNull() {
         Object object = new Object();
-        Checks.Internal.checkNotNull(object);
-        Checks.Internal.checkNotNull(object, message);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testCheckNotNullExpecting()
-    {
-        System.out.println("testCheckNotNullExpecting");
-
-        Checks.Internal.checkNotNull(null);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testCheckNotNullExpectingWithMessage()
-    {
-        System.out.println("testCheckNotNullExpectingWithMessage");
-
-        Checks.Internal.checkNotNull(null, message);
+        Checks.checkNotNull(object);
+        Checks.checkNotNull(object, message);
     }
 
     @Test
-    public void testCheckThat()
-    {
-        System.out.println("testCheckThat");
-
-        Checks.Internal.checkThat(true);
-        Checks.Internal.checkThat(true, message);
+    public void testCheckNotNullExpecting() {
+        assertThrows(() -> Checks.checkNotNull(null))
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testCheckThatExpecting()
-    {
-        System.out.println("testCheckThatExpecting");
-
-        Checks.Internal.checkThat(false);
+    @Test
+    public void testCheckNotNullExpectingWithMessage() {
+        assertThrows(() -> Checks.checkNotNull(null, message))
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testCheckThatExpectingWithMessage()
-    {
-        System.out.println("testCheckThatExpectingWithMessage");
+    @Test
+    public void testCheckThat() {
+        Checks.checkThat(true);
+        Checks.checkThat(true, message);
+    }
 
-        Checks.Internal.checkThat(false, message);
+    @Test
+    public void testCheckThatExpecting() {
+
+        assertThrows(() -> Checks.checkThat(false))
+            .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    public void testCheckThatExpectingWithMessage() {
+        assertThrows(() -> Checks.checkThat(false, message))
+            .isInstanceOf(IllegalArgumentException.class);
     }
 }
