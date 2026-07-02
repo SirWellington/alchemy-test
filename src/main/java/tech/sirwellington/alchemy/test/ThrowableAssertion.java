@@ -87,6 +87,13 @@ public final class ThrowableAssertion {
     }
 
     /**
+     * Check that the Exception thrown is a {@link IllegalArgumentException}.
+     */
+    public ThrowableAssertion isIllegalArgumentException() {
+        return isInstanceOf(IllegalArgumentException.class);
+    }
+
+    /**
      * Checks to make sure the exception contains a certain message.
      *
      * @param expectedMessage The exact message expected
@@ -146,4 +153,5 @@ public final class ThrowableAssertion {
         assertInstanceOf(exceptionClass, cause, errorMessage);
         return this;
     }
+
 }

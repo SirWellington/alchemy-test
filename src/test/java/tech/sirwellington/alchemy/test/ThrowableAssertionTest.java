@@ -14,7 +14,9 @@
  */
 package tech.sirwellington.alchemy.test;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
 
 import java.io.IOException;
 import java.util.function.Function;
@@ -71,6 +73,23 @@ public class ThrowableAssertionTest {
     }
 
     @Test
+    public void testIsIllegalArgumentException() {
+        ExceptionOperation op = () -> {
+            throw new IllegalArgumentException();
+        };
+
+        assertThrows(op).isIllegalArgumentException();
+
+        op = () -> {
+            throw new IOException();
+        };
+        try {
+            assertThrows(op).isIllegalArgumentException();
+            fail("Expected exception here");
+        } catch(AssertionFailedError _) { }
+    }
+
+    @Test
     public void testHasMessage() {
         final String message = "some message";
 
@@ -83,10 +102,9 @@ public class ThrowableAssertionTest {
             .hasMessage(message);
     }
 
+    @DisplayName("testHasNoCause")
     @Test
     public void testHasNoCause() {
-        System.out.println("testHasNoCause");
-
         ExceptionOperation op = () -> {
             throw new IllegalArgumentException();
         };
@@ -95,10 +113,9 @@ public class ThrowableAssertionTest {
                         .hasNoCause();
     }
 
+    @DisplayName("testHasCauseInstanceOf")
     @Test
     public void testHasCauseInstanceOf() {
-        System.out.println("testHasCauseInstanceOf");
-
         ExceptionOperation op = () -> {
             throw new IllegalArgumentException(new IOException());
         };
