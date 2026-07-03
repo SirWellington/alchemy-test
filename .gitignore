@@ -8,3 +8,4 @@ nb-configuration.xml
 .idea/
 alchemy-test.iml
 target/
+.ai/mcp/mcp.json
