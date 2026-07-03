@@ -52,6 +52,24 @@ public final class ThrowableAssertion {
      * @throws ExceptionNotThrownException If no exception is thrown.
      */
     public static ThrowableAssertion assertThrows(
+        @Required Class<? extends Throwable> expectedExceptionType,
+        @Required ExceptionOperation operation
+    ) throws ExceptionNotThrownException {
+        checkNotNull(operation, "missing operation");
+        checkNotNull(expectedExceptionType, "expectedExceptionType missing");
+
+        return new ThrowableAssertion(operation)
+            .isInstanceOf(expectedExceptionType)
+            .execute();
+    }
+
+    /**
+     * Assert that a function throws an exception.
+     *
+     * @param operation The Lambda function that encapsulates code you expect to throw an exception.
+     * @throws ExceptionNotThrownException If no exception is thrown.
+     */
+    public static ThrowableAssertion assertThrows(
         @Required ExceptionOperation operation
     ) throws ExceptionNotThrownException {
         checkNotNull(operation, "missing operation");
