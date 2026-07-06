@@ -59,8 +59,8 @@ public final class ThrowableAssertion {
         checkNotNull(expectedExceptionType, "expectedExceptionType missing");
 
         return new ThrowableAssertion(operation)
-            .isInstanceOf(expectedExceptionType)
-            .execute();
+            .execute()
+            .isInstanceOf(expectedExceptionType);
     }
 
     /**
