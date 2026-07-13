@@ -89,6 +89,8 @@ public @interface GenerateMap {
                 case Class<?> cls when cls == Instant.class -> TimeGenerators.anyTime();
                 case Class<?> cls when cls == Boolean.class -> BooleanGenerators.booleans();
                 case Class<?> cls when cls == ByteBuffer.class -> BinaryGenerators.byteBuffers(1024);
+                case Class<?> cls when cls == Date.class -> DateGenerators.anyTime();
+                case Class<?> cls when cls == Instant.class -> TimeGenerators.anyTime();
                 default -> ObjectGenerators.pojos(type);
             };
         }

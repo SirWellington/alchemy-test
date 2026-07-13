@@ -17,6 +17,7 @@ package tech.sirwellington.alchemy.test.generation;
 import java.net.URL;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.AfterAll;
@@ -59,6 +60,12 @@ public class AlchemyDataExtensionTest {
         @GenerateList(Date.class)
         private List<Date> dates;
 
+        @GenerateMap(keyType= String.class, valueType = String.class)
+        private Map<String, String> mapOfStrings;
+
+        @GenerateMap(keyType= URL.class, valueType = SamplePojo.class)
+        private Map<String, String> urlToUser;
+
         @GenerateURL
         private URL url;
 
@@ -69,17 +76,21 @@ public class AlchemyDataExtensionTest {
         void testGenerators() {
             MockitoAnnotations.openMocks(this);
             assertThat(object, notNullValue());
-            assertThat(string, not(isEmptyOrNullString()));
+            assertThat(string, not(emptyOrNullString()));
             assertThat(integer, greaterThan(0));
             assertThat(futureDate, notNullValue());
             assertThat(futureDate.after(new Date()), is(true));
             assertThat(pojo, notNullValue());
-            assertThat(pojo.name, not(isEmptyOrNullString()));
+            assertThat(pojo.name, not(emptyOrNullString()));
             assertThat(pojo.number, greaterThan(0));
             assertThat(timeUnit, notNullValue());
             assertThat(dates, notNullValue());
             assertThat(dates, not(empty()));
             assertThat(url, notNullValue());
+            assertThat(mapOfStrings, notNullValue());
+            assertThat(mapOfStrings, not(anEmptyMap()));
+            assertThat(urlToUser, notNullValue());
+            assertThat(urlToUser, not(anEmptyMap()));
 
             when(object.get()).thenReturn(null);
             assertThat(object.get(), nullValue());
