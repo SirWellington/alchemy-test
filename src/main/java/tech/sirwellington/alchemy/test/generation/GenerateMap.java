@@ -83,6 +83,7 @@ public @interface GenerateMap {
                 case Class<?> cls when cls == String.class -> StringGenerators.alphabeticStrings();
                 case Class<?> cls when cls == Integer.class -> NumberGenerators.smallPositiveIntegers();
                 case Class<?> cls when cls == Long.class -> NumberGenerators.positiveLongs();
+                case Class<?> cls when cls == Float.class -> NumberGenerators.positiveFloats();
                 case Class<?> cls when cls == Double.class -> NumberGenerators.positiveDoubles();
                 case Class<?> cls when cls == Date.class -> DateGenerators.anyTime();
                 case Class<?> cls when cls == Instant.class -> TimeGenerators.anyTime();
