@@ -15,13 +15,13 @@
 
 package tech.sirwellington.alchemy.test.generation;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
 import tech.sirwellington.alchemy.annotations.access.Internal;
 import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
 import tech.sirwellington.alchemy.generator.AlchemyGenerator;
 import tech.sirwellington.alchemy.test.AlchemyTest;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;

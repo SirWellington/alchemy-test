@@ -14,11 +14,11 @@
  */
 package tech.sirwellington.alchemy.test;
 
-import tech.sirwellington.alchemy.annotations.arguments.Required;
-import tech.sirwellington.alchemy.annotations.designs.FluidAPIDesign;
-
 import java.text.MessageFormat;
 import java.util.Objects;
+
+import tech.sirwellington.alchemy.annotations.arguments.Required;
+import tech.sirwellington.alchemy.annotations.designs.FluidAPIDesign;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static tech.sirwellington.alchemy.test.internal.Checks.checkNotNull;
@@ -44,6 +44,24 @@ public final class ThrowableAssertion {
 
     private Throwable caught;
     private final ExceptionOperation operation;
+
+    /**
+     * Assert that a function throws an exception.
+     *
+     * @param operation The Lambda function that encapsulates code you expect to throw an exception.
+     * @throws ExceptionNotThrownException If no exception is thrown.
+     */
+    public static ThrowableAssertion assertThrows(
+        @Required Class<? extends Throwable> expectedExceptionType,
+        @Required ExceptionOperation operation
+    ) throws ExceptionNotThrownException {
+        checkNotNull(operation, "missing operation");
+        checkNotNull(expectedExceptionType, "expectedExceptionType missing");
+
+        return new ThrowableAssertion(operation)
+            .execute()
+            .isInstanceOf(expectedExceptionType);
+    }
 
     /**
      * Assert that a function throws an exception.
@@ -118,7 +136,7 @@ public final class ThrowableAssertion {
         assertNotNull(message, "No exception message was found");
         var errorMessage = MessageFormat.format(
             "Exception message does not contain [{0}]. Full message: [{1}]",
-            message,
+            messageString,
             message
         );
         assertTrue(message.contains(messageString), errorMessage);

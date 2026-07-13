@@ -1,10 +1,8 @@
-
-target/*
-
-
-nbactions.xml
-nb-configuration.xml
-/nbproject/
-.idea/
 alchemy-test.iml
+nb-configuration.xml
+nbactions.xml
+
+.ai/
+.idea/
+/nbproject/
 target/

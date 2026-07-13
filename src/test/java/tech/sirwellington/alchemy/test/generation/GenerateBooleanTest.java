@@ -17,11 +17,10 @@
 package tech.sirwellington.alchemy.test.generation;
 
 
+import java.lang.annotation.Annotation;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import tech.sirwellington.alchemy.test.generation.GenerateBoolean;
-
-import java.lang.annotation.Annotation;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;

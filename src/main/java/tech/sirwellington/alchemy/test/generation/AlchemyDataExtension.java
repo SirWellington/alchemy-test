@@ -1,5 +1,11 @@
 package tech.sirwellington.alchemy.test.generation;
 
+import java.lang.reflect.Field;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.slf4j.Logger;
@@ -7,13 +13,6 @@ import org.slf4j.LoggerFactory;
 import tech.sirwellington.alchemy.annotations.access.Internal;
 import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
 import tech.sirwellington.alchemy.generator.DateGenerators;
-
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.Arrays;
-import java.util.List;
 
 import static tech.sirwellington.alchemy.test.internal.Checks.checkNotNull;
 import static tech.sirwellington.alchemy.test.internal.Checks.checkThat;
@@ -40,14 +39,6 @@ public class AlchemyDataExtension implements BeforeEachCallback {
 
         private final static Logger LOG = LoggerFactory.getLogger(TestClassInjectors.class);
 
-        static <A extends Annotation> List<Field> getFieldsAnnotatedWith(Class<A> annotation, Object target) {
-                checkNotNull(target);
-                var clazz = target.getClass();
-                return Arrays.stream(clazz.getDeclaredFields())
-                    .filter(f -> f.isAnnotationPresent(annotation))
-                    .toList();
-        }
-        
         static void populateGeneratedFields(Object target) throws IllegalArgumentException, IllegalAccessException {
             var fields = target.getClass().getDeclaredFields();
 
@@ -58,15 +49,17 @@ public class AlchemyDataExtension implements BeforeEachCallback {
                         case GenerateBoolean _  -> inflateBoolean(field, target);
                         case GenerateCustom _   -> inflateCustom(field, target);
                         case GenerateDate _     -> inflateDate(field, target);
+                        case GenerateDouble _   -> inflateDouble(field, target);
                         case GenerateEnum _     -> inflateEnum(field, target);
                         case GenerateFloat _    -> inflateFloat(field, target);
                         case GenerateInteger _  -> inflateInteger(field, target);
                         case GenerateList _     -> inflateList(field, target);
                         case GenerateLong _     -> inflateLong(field, target);
+                        case GenerateMap _      -> inflateMap(field, target);
                         case GeneratePojo _     -> inflatePojo(field, target);
                         case GenerateString _   -> inflateString(field, target);
                         case GenerateURL _      -> inflateUrl(field, target);
-                        default                 -> { break; }
+                        default                 -> {}
                     }
                 }
             }
@@ -181,6 +174,18 @@ public class AlchemyDataExtension implements BeforeEachCallback {
 
             var annotation = field.getAnnotation(GenerateList.class);
             var generator = GenerateList.Values.createGeneratorFor(annotation);
+            var value = generator.get();
+            inflate(field, target, value);
+        }
+
+        private static void inflateMap(Field field, Object target) throws IllegalArgumentException, IllegalAccessException {
+            var typeOfField = field.getType();
+            checkThat(
+                Map.class.isAssignableFrom(typeOfField),
+                "@GenerateMap can only be used with a java.util.Map type"
+            );
+            var annotation = field.getAnnotation(GenerateMap.class);
+            var generator = GenerateMap.Values.createGeneratorFor(annotation);
             var value = generator.get();
             inflate(field, target, value);
         }

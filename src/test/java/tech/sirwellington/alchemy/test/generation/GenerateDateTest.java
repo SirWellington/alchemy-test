@@ -15,18 +15,17 @@
 
 package tech.sirwellington.alchemy.test.generation;
 
+import java.lang.annotation.Annotation;
+import java.util.Date;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import tech.sirwellington.alchemy.generator.DateGenerators;
 import tech.sirwellington.alchemy.generator.EnumGenerators;
-import tech.sirwellington.alchemy.test.generation.GenerateDate;
-
-import java.lang.annotation.Annotation;
-import java.util.Date;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static tech.sirwellington.alchemy.generator.AlchemyGenerator.Get.one;
+import static tech.sirwellington.alchemy.generator.AlchemyGenerator.one;
 import static tech.sirwellington.alchemy.test.ThrowableAssertion.assertThrows;
 import static tech.sirwellington.alchemy.test.generation.GenerateDate.Type.RANGE;
 
