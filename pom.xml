@@ -130,6 +130,17 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>
+                        --add-opens org.junit.platform.commons/org.junit.platform.commons.util=ALL-UNNAMED
+                        --add-opens org.junit.jupiter.engine/org.junit.jupiter.engine.descriptor=ALL-UNNAMED
+                        --add-opens org.junit.jupiter.engine/org.junit.jupiter.engine.support=ALL-UNNAMED
+                    </argLine>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
