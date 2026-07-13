@@ -1,12 +1,12 @@
 package tech.sirwellington.alchemy.test;
 
-import org.junit.jupiter.api.extension.ExtendWith;
-import tech.sirwellington.alchemy.test.generation.AlchemyDataExtension;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
+import org.junit.jupiter.api.extension.ExtendWith;
+import tech.sirwellington.alchemy.test.generation.AlchemyDataExtension;
 
 /**
  * Apply this annotation to a JUnit 5+ test class to allow you to use

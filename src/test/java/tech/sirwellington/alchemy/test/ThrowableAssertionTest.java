@@ -14,12 +14,12 @@
  */
 package tech.sirwellington.alchemy.test;
 
+import java.io.IOException;
+import java.util.function.Function;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
-
-import java.io.IOException;
-import java.util.function.Function;
 
 import static org.junit.jupiter.api.Assertions.fail;
 import static tech.sirwellington.alchemy.test.ThrowableAssertion.assertThrows;

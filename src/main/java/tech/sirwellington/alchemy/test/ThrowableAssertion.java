@@ -14,11 +14,11 @@
  */
 package tech.sirwellington.alchemy.test;
 
-import tech.sirwellington.alchemy.annotations.arguments.Required;
-import tech.sirwellington.alchemy.annotations.designs.FluidAPIDesign;
-
 import java.text.MessageFormat;
 import java.util.Objects;
+
+import tech.sirwellington.alchemy.annotations.arguments.Required;
+import tech.sirwellington.alchemy.annotations.designs.FluidAPIDesign;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static tech.sirwellington.alchemy.test.internal.Checks.checkNotNull;
