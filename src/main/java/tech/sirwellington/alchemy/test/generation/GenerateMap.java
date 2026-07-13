@@ -3,11 +3,8 @@ package tech.sirwellington.alchemy.test.generation;
 import tech.sirwellington.alchemy.annotations.access.Internal;
 import tech.sirwellington.alchemy.annotations.access.NonInstantiable;
 import tech.sirwellington.alchemy.generator.*;
-import tech.sirwellington.alchemy.test.internal.Checks;
 
-import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.nio.ByteBuffer;
 import java.time.Instant;
@@ -73,7 +70,7 @@ public @interface GenerateMap {
 
             var keyGenerator = determineGeneratorForType(keyType);
             var valueGenerator = determineGeneratorForType(valueType);
-            return CollectionGenerators.mapGenerator(
+            return CollectionGenerators.mapGeneratorOf(
                 keyGenerator,
                 valueGenerator,
                 size

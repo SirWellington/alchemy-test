@@ -136,7 +136,7 @@ public final class ThrowableAssertion {
         assertNotNull(message, "No exception message was found");
         var errorMessage = MessageFormat.format(
             "Exception message does not contain [{0}]. Full message: [{1}]",
-            message,
+            messageString,
             message
         );
         assertTrue(message.contains(messageString), errorMessage);
