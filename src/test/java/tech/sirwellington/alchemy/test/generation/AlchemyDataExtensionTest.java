@@ -70,6 +70,9 @@ public class AlchemyDataExtensionTest {
         private URL url;
 
         @Mock
+        private Object mockitoMock;
+
+        @Mock
         private AlchemyGenerator<?> object;
 
         @Test
@@ -91,6 +94,7 @@ public class AlchemyDataExtensionTest {
             assertThat(mapOfStrings, not(anEmptyMap()));
             assertThat(urlToUser, notNullValue());
             assertThat(urlToUser, not(anEmptyMap()));
+            assertThat(mockitoMock, not(nullValue()));
 
             when(object.get()).thenReturn(null);
             assertThat(object.get(), nullValue());
