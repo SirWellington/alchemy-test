@@ -6,6 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import tech.sirwellington.alchemy.test.generation.AlchemyDataExtension;
 
 /**
@@ -21,6 +22,7 @@ import tech.sirwellington.alchemy.test.generation.AlchemyDataExtension;
 @Retention(RetentionPolicy.RUNTIME)
 @ExtendWith({
     AlchemyDataExtension.class,      // Handles @GenerateString, @GenerateInteger, etc.
-    AlchemyLoggingExtension.class    // Prints test name to console
+    AlchemyLoggingExtension.class,   // Prints test name to console,
+    MockitoExtension.class           // Automatically initializes Mockito mocks.
 })
 public @interface AlchemyTest {}
