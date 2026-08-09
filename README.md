@@ -5,7 +5,7 @@ Alchemy Test
 
 ## "Testing your code should be as fun and simple as writing it."
 
-[![Build Status](http://jenkins.redroma.tech/job/Alchemy%20Test/badge/icon)](http://jenkins.redroma.tech/job/Alchemy%20Test/)
+![Maven Build](https://github.com/SirWellington/alchemy-test/actions/workflows/maven-build.yml/badge.svg)
 ![Maven Central Version](http://img.shields.io/maven-central/v/tech.sirwellington.alchemy/alchemy-test.svg)
 
 # Purpose
@@ -56,13 +56,11 @@ In conjunction with JUnit, Throwable assertions make it really easy to write _Ex
 Instead of writing all this crap:
 
 ``` java
-try
-{
+try {
 	instance.call("badArg");
 	fail("Expected exception");
 }
-catch(IllegalArgumentException ex)
-{
+catch(IllegalArgumentException ex) {
 	//This means the test passed
 }
 ```
@@ -84,8 +82,7 @@ assertThrows(() -> instance.call("badArg"))
 So often in tests we do this:
 ```java
 @Test
-public void testSomeMethod()
-{
+public void testSomeMethod() {
 	//Print out the test name at the beginning
 	System.out.println("testSomeMethod");
 
@@ -100,11 +97,9 @@ you have to remember to update the print statement as well.
 
 ```java
 @RunWith(AlchemyTestRunner.class)
-public class HttpTests
-{
+public class HttpTests {
 	@Test
-	public void testReponse()
-	{
+	public void testReponse() {
 		//Automatic
 		//System.out.println("testResponse()");
 		//FOR FREE
@@ -131,8 +126,7 @@ Alchemy Unit Tests can now easily generate any Data they use
 
 ```java
 @RunWith(AlchemyTestRunnner.class)
-public class ExampleTest
-{
+public class ExampleTest {
 	@GenerateString
 	private String name;
 
@@ -173,21 +167,18 @@ Used in conjunction with `Automatic Data Generation`, Repeat Tests can dramatica
 ```java
 @Repeat(1000)
 @RunWith(AlchemyTestRunner.class)
-public class StringEncryptorTests
-{
+public class StringEncryptorTests {
 	private String text;
 	private StringEncryptor instance;
 
 	@Before
-	public void setup()
-	{
+	public void setup()	{
 		text = one(hexadecimalStrings(10));
 		instance = new StringEncryptor();
 	}
 
 	@Test
-	public void testDecrypt()
-	{
+	public void testDecrypt() {
 		String result = instance.decrypt(text);
 		//Blah checks
 	}
@@ -199,14 +190,12 @@ You can also set the number of repeats on a case by case basis
 ```java
 @Repeat(100)
 @RunWith(AlchemyTestRunner.class)
-public class StringEncryptorTests
-{
+public class StringEncryptorTests {
 	private String text;
 	private StringEncryptor instance;
 
 	@Before
-	public void setup()
-	{
+	public void setup()	{
 		text = one(alphabeticStrings(10));
 		instance = new StringEncryptor();
 	}
@@ -214,8 +203,7 @@ public class StringEncryptorTests
 	//Repeat less often
 	@Repeat(10)
 	@Test
-	public void testEncrypt()
-	{
+	public void testEncrypt() {
 		String result = instance.encrypt(text);
 		//Blah checks
 	}
@@ -226,8 +214,7 @@ You can also use the `@DontRepeat` annotation to prevent a testCase from being r
 ```java
 @DontRepeat
 @Test
-public void testExecute()
-{
+public void testExecute() {
 	//Will run only once
 }
 ```
@@ -238,8 +225,7 @@ By default, we also init your Mockito Mocks for free
 
 ```java
 @RunWith(AlchemyTestRunner.class)
-public class MyTest
-{
+public class MyTest {
 	@Mock
 	private AlchemyHttp http;
 
@@ -247,8 +233,7 @@ public class MyTest
 	private HttpResponse response;
 
 	@Before
-	private void setup()
-	{
+	private void setup() {
 		//Mocks are already instantiated
 
 		when(http.get())
