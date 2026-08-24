@@ -77,7 +77,7 @@ public @interface GenerateLong {
         static AlchemyGenerator<Long> createGeneratorFor(GenerateLong annotation) {
             checkNotNull(annotation, "missing annotation");
 
-            Type type = annotation.value();
+            var type = annotation.value();
             checkNotNull(type, "@GenerateLong missing value");
 
             if (type == RANGE) {

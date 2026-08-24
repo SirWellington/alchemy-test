@@ -15,13 +15,22 @@
 package tech.sirwellington.alchemy.test;
 
 import java.io.IOException;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.aggregator.ArgumentAccessException;
+import org.mockito.ArgumentCaptor;
 import org.opentest4j.AssertionFailedError;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static tech.sirwellington.alchemy.generator.AlchemyGenerator.one;
+import static tech.sirwellington.alchemy.generator.StringGenerators.strings;
 import static tech.sirwellington.alchemy.test.ThrowableAssertion.assertThrows;
 
 /**
@@ -122,6 +131,32 @@ public class ThrowableAssertionTest {
 
         assertThrows(op).isInstanceOf(IllegalArgumentException.class)
                         .hasCauseInstanceOf(IOException.class);
+    }
+
+    @DisplayName("testAssertThrowsLambda")
+    @Test
+    public void testAssertThrowsLambda() {
+        // Given
+        var message = one(strings());
+        ExceptionOperation op = () -> {
+            throw new IllegalArgumentException(message);
+        };
+        // When
+        ThrowableAssertion.assertThrows(op)
+            // Then
+            .assertThatException(ex -> {
+                assertEquals(ex.getMessage(), message);
+            });
+
+        // Given
+        Consumer<Throwable> consumer = mock();
+        var captor = ArgumentCaptor.forClass(Throwable.class);
+        ThrowableAssertion.assertThrows(op)
+                          .assertThatException(consumer);
+
+        verify(consumer).accept(captor.capture());
+        var ex = captor.getValue();
+        assertEquals(ex.getMessage(), message);
     }
 
 }

@@ -16,6 +16,7 @@ package tech.sirwellington.alchemy.test;
 
 import java.text.MessageFormat;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 import tech.sirwellington.alchemy.annotations.arguments.Required;
 import tech.sirwellington.alchemy.annotations.designs.FluidAPIDesign;
@@ -169,6 +170,14 @@ public final class ThrowableAssertion {
             cause
         );
         assertInstanceOf(exceptionClass, cause, errorMessage);
+        return this;
+    }
+
+    /**
+     * Run your own custom assertions over the caught Exception.
+     */
+    public ThrowableAssertion assertThatException(@Required  Consumer<Throwable> assertions) {
+        assertions.accept(caught);
         return this;
     }
 
